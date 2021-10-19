@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -11,125 +11,144 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default class Resgister extends Component {
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      name:'',
-      nameValdate:'',
-      email: '',
-      emailValdate: true,
-      password: '',
-      passwordValdate: true
-    }
-  }
-  valiDate(text: any, type: any) {
-    const nameRegex = ''
+
+export default function Resgister() {
+  const [name, setName] = useState('')
+  const [nameValdate, setNameValdate] = useState(true)
+  const [email, setEmail] = useState('')
+  const [emailValdate, setEmailValdate] = useState(true)
+
+  const [password, setPassword] = useState('')
+  const [passwordValdate, setPasswordValdate] = useState(true)
+  const [confirmPassword, setconfirmPassword] = useState('')
+  const [confirmPasswordValdate, setconfirmPasswordValdate] = useState(true)
+
+
+  const valiDate = (text: any, type: any) => {
+    const nameRegex = /^[A-z]*$|^[A-z]+\s[A-z]*$/
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-    if (type == 'email') {
-      if (emailRegex.test(text)) {
-        this.setState({
-          emailValdate: true,
-        })
-        console.warn('Email hợp lệ')
+    if (type == 'name') {
+      if (nameRegex.test(text)) {
+        setName(text)
+        setNameValdate(true)
       }
-      else {        
-        this.setState({
-          emailValdate: false
-        })
+      else {
+        setName('')
+        setNameValdate(false)
+        console.warn('FullName chưa hợp lệ , cần ghi đủ họ tên')
+      }
+    }
+    else if (type == 'email') {
+      if (emailRegex.test(text)) {
+        setEmail(text)
+        setEmailValdate(true)
+      }
+      else {
+       setEmail('')
+       setEmailValdate(false)
         console.warn('Email chưa hợp lệ example@gmail.com')
       }
     }
-     else if (type == 'password') {
+    else if (type == 'password'){
       if (passwordRegex.test(text)) {
-        this.setState({
-          passwordValdate: true,
-        })
-        console.warn('Password hợp lệ')
+        setPassword(text)
+        setPasswordValdate(true); 
       }
-      else {        
-        this.setState({
-          passwordValdate: false
-        })
-        console.warn('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
+      else {
+        setPassword('')
+        setPasswordValdate(false)
+        console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
       }
     }
-  } 
-  render() {
-    const Divider = (props:any) => {
-      return <View {...props}>
-        <View style={styles.line}></View>
-        <Text style={styles.textOR}>OR</Text>
-        <View style={styles.line}></View>
-      </View>
-    }   
-    return (
-      //Donot dismis Keyboard when click outside of TextInput
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>                
-          <View style={styles.up}>
-            <Ionicons
-              name="ios-speedometer"
-              size={100}
-              color={'rgb(221, 97, 97)'}>
-            </Ionicons>
-            <Text style={styles.title}>
-              Create an account
+    else if (type == 'confirmpassword'){
+      if (password === text) {
+        setconfirmPassword(text)
+        setconfirmPasswordValdate(true);
+      }
+      else {
+        setconfirmPassword('')
+        setconfirmPasswordValdate(false); 
+        console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
+      }
+    }
+    
+  }
+
+  const Divider = (props: any) => {
+    return <View {...props}>
+      <View style={styles.line}></View>
+      <Text style={styles.textOR}>OR</Text>
+      <View style={styles.line}></View>
+    </View>
+  }
+  return (
+    //Donot dismis Keyboard when click outside of TextInput
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <View style={styles.up}>
+          <Ionicons
+            name="ios-speedometer"
+            size={100}
+            color={'rgb(221, 97, 97)'}>
+          </Ionicons>
+          <Text style={styles.title}>
+            Create an account
           </Text>
-          </View>
-          <View style={styles.down}>
-        
+        </View>
+        <View style={styles.down}>
+
           <View style={styles.textInputContainer}>
-              <TextInput
-                style={styles.textInput}
-                textContentType='nickname'
-                autoCapitalize="sentences"
-                returnKeyType="next"
-                placeholder="Enter your name"
-                maxLength={20}
-              >
-              </TextInput>              
-            </View>
-            
-            <View style={styles.textInputContainer}>
-              <TextInput
-                style={[styles.textInput, !this.state.emailValdate? styles.error:null]}
-                textContentType='emailAddress'
-                keyboardType='email-address'
-                placeholder="Enter your email"
-                onChangeText = {(text) => this.valiDate(text, 'email')}
-              >
-              </TextInput>              
-            </View>
+            <TextInput
+              style={[styles.textInput, !nameValdate ? styles.error : null]}
+              textContentType='nickname'
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              placeholder="Enter your name"
+              maxLength={50}
+              onChangeText={(text) => valiDate(text, 'name')}
+            >
+            </TextInput>
+          </View>
 
-            <View style={styles.textInputContainer}>
-              <TextInput
-                style={[styles.textInput, !this.state.passwordValdate? styles.error:null]}
-                placeholder="Enter your password"
-                secureTextEntry={true}
-                onChangeText = {(text) => this.valiDate(text, 'password')}
-              >
-              </TextInput>
-            </View>
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={[styles.textInput, !emailValdate ? styles.error : null]}
+              textContentType='emailAddress'
+              keyboardType='email-address'
+              placeholder="Enter your email"
+              onChangeText={(text) => valiDate(text, 'email')}
+            >
+            </TextInput>
+          </View>
 
-            <View style={styles.textInputContainer}>
-              <TextInput
-                style={[styles.textInput, !this.state.passwordValdate? styles.error:null]}
-                placeholder="Confirm password"
-                secureTextEntry={true}
-                onChangeText = {(text) => this.valiDate(text, 'password')}
-              >
-              </TextInput>
-            </View>
-            
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={[styles.textInput, !passwordValdate ? styles.error : null]}
+              placeholder="Enter your password"
+              secureTextEntry={true}
+              onChangeText={(text) => valiDate(text, 'password')}
+            >
+            </TextInput>
+          </View>
 
-            <TouchableOpacity style={styles.registerButton}>
-              <Text style={styles.registerButtonTitle}>Sign Up</Text>
-            </TouchableOpacity>
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={[styles.textInput, !confirmPasswordValdate ? styles.error : null]}
+              placeholder="Confirm password"
+              secureTextEntry={true}
+              onChangeText={(text) => valiDate(text, 'confirmpassword')}
+            >
+            </TextInput>
+          </View>
 
-            <Divider style={styles.divider}></Divider>
-            <View style={{marginBottom: 10}}>
+
+          <TouchableOpacity style={styles.registerButton}>
+            <Text style={styles.registerButtonTitle}>Sign Up</Text>
+          </TouchableOpacity>
+
+          <Divider style={styles.divider}></Divider>
+          <View style={{ marginBottom: 10 }}>
             <FontAwesome.Button
               style={styles.facebookButton}
               name="facebook"
@@ -137,29 +156,29 @@ export default class Resgister extends Component {
             >
               <Text style={styles.loginButtonTitle}>Sign up with Facebook</Text>
             </FontAwesome.Button>
-            </View>
-            <View>
+          </View>
+          <View>
             <FontAwesome.Button
               style={styles.googleButton}
               name="google"
               backgroundColor="#E54646"
             >
               <Text style={styles.loginButtonTitle}>Sign up with Google</Text>
-            </FontAwesome.Button>         
+            </FontAwesome.Button>
 
-            </View>
-            <TouchableOpacity style={styles.forgotButton}>
-              <Text style={styles.navButtonText}>
-                Have an account? Sign In
-              </Text>
-            </TouchableOpacity>
           </View>
+          <TouchableOpacity style={styles.forgotButton}>
+            <Text style={styles.navButtonText}>
+              Have an account? Sign In
+            </Text>
+          </TouchableOpacity>
         </View>
-      </TouchableWithoutFeedback>
+      </View>
+    </TouchableWithoutFeedback>
 
-    )
-  }
+  )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -167,8 +186,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: '#33FF99'        
-  }, 
+    backgroundColor: '#33FF99'
+  },
   up: {
     flex: 3,
     flexDirection: 'column',
@@ -197,7 +216,7 @@ const styles = StyleSheet.create({
     width: 280,
     height: 45
   },
-  
+
   loginButtonTitle: {
     fontSize: 18,
     color: 'white'
@@ -208,7 +227,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:10,
+    marginTop: 10,
     backgroundColor: 'rgb(221, 97, 97)'
   },
   registerButtonTitle: {
@@ -220,15 +239,15 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 6,
     justifyContent: 'center',
-    
+
   },
-  googleButton:{
+  googleButton: {
     width: 300,
     height: 45,
     borderRadius: 6,
     justifyContent: 'center',
-      
-    
+
+
   },
   line: {
     height: 1,
@@ -246,14 +265,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  forgotButton:{
+  forgotButton: {
 
   },
-  navButtonText:{
-    marginTop:10,
-    textAlign:'center',
+  navButtonText: {
+    marginTop: 10,
+    textAlign: 'center',
     fontSize: 15,
-    color:'#3b5998'
+    color: '#3b5998'
 
   },
   error: {
