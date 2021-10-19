@@ -20,10 +20,7 @@ export default function Lauding(){
 
 
     useEffect(()=>{
-
         if(message != ''){
-            console.log(message);
-
             navigate('homeStack')
         }
     },[accessState]);
@@ -32,7 +29,7 @@ export default function Lauding(){
         <View style={styles.container}>
             <View style={{flexDirection:'column'}}>
                 <Text style={{fontWeight:'bold',fontSize:30}}>Welcome to</Text>
-                <Text style={{fontWeight:'bold',fontSize:45,color:COLORS.primary}}>CANSA SHOP</Text>
+                <Text style={{fontWeight:'bold',fontSize:45,color:COLORS.primary}}>CANSA DEALER</Text>
             </View>         
         </View>
     )

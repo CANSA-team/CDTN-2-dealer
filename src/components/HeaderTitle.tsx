@@ -12,17 +12,16 @@ export default function HeaderTitle(props:any) {
 }
 const styles = StyleSheet.create({
     container:{
-        paddingTop:35,
-        paddingBottom:15,
+        paddingTop:40,
+        paddingBottom:20,
         backgroundColor:COLORS.primary
-
     },
     txtTitleTop:{
         textAlign:'center',
-        fontSize:30,
+        fontSize:25,
         fontWeight:'bold',
         color:'white',
-        letterSpacing:5
+        letterSpacing:2
     },
 
 });
