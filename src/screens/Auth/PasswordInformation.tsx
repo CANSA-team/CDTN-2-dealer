@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import {
     StyleSheet,
     Text,
@@ -11,104 +11,109 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default class PasswordInformation extends Component {
+export default function PasswordInformation() {
 
-    constructor(props: any) {
-        super(props)
-        this.state = {
-            password: '',
-            passwordValdate: true
-        }
-    }
-    valiDate(text: any, type: any) {
+    const [password, setPassword] = useState('')
+    const [passwordValdate, setPasswordValdate] = useState(true)
+    const [confirmPassword, setconfirmPassword] = useState('')
+    const [confirmPasswordValdate, setconfirmPasswordValdate] = useState(true)
+
+    const valiDate = (text: any, type: any) => {
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
         if (type == 'password') {
             if (passwordRegex.test(text)) {
-                this.setState({
-                    passwordValdate: true,
-                })
-                console.warn('Password hợp lệ')
+                setPassword(text)
+                setPasswordValdate(true);
             }
             else {
-                this.setState({
-                    passwordValdate: false
-                })
-                console.warn('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
+                setPassword('')
+                setPasswordValdate(false)
+                console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
             }
         }
+        else if (type == 'confirmpassword'){
+            if (password === text) {
+              setconfirmPassword(text)
+              setconfirmPasswordValdate(true);
+            }
+            else {
+              setconfirmPassword('')
+              setconfirmPasswordValdate(false); 
+              console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
+            }
+          }
     }
 
-    render() {
-        const Divider = (props: any) => {
-            return <View {...props}>
-                <View style={styles.line}></View>
-                <Text style={styles.textOR}>OR</Text>
-                <View style={styles.line}></View>
-            </View>
-        }
-        return (
-            //Donot dismis Keyboard when click outside of TextInput
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <View style={styles.up}>
-                        <Ionicons
-                            name="ios-speedometer"
-                            size={100}
-                            color={'rgb(221, 97, 97)'}>
-                        </Ionicons>
-                        <Text style={styles.title}>
-                            Change Password Information
-                        </Text>
-                    </View>
-                    <View style={styles.down}>
-                        <View style={styles.textInputContainer}>
-                            <TextInput                            
-                               style={[styles.textInput, !this.state.passwordValdate? styles.error:null]}
-                               onChangeText = {(text) => this.valiDate(text, 'password')}
-                                placeholder="Current password"
-                                secureTextEntry={true}
-                            >
-                            </TextInput>
-                        </View>
 
-                        <View style={styles.textInputContainer}>
-                            <TextInput
-                                style={[styles.textInput, !this.state.passwordValdate? styles.error:null]}
-                                onChangeText = {(text) => this.valiDate(text, 'password')}
-                                placeholder="Import password new"
-                                secureTextEntry={true}
-                            >
-                            </TextInput>
-                        </View>
-                        <View style={styles.textInputContainer}>
-                            <TextInput
-                                style={[styles.textInput, !this.state.passwordValdate? styles.error:null]}
-                                onChangeText = {(text) => this.valiDate(text, 'password')}
-                                placeholder="Confirm password new"
-                                secureTextEntry={true}
-                            >
-                            </TextInput>
-                        </View>
-
-                        <TouchableOpacity style={styles.retrievalButton}>
-                            <Text style={styles.retrievalButtonTitle}>Recuperate</Text>
-                        </TouchableOpacity>
-
-                        <Divider style={styles.divider}></Divider>
-
-                        <TouchableOpacity style={styles.forgotButton}>
-                            <Text style={styles.navButtonText}>
-                                Have an account? Sign In
-                            </Text>
-                        </TouchableOpacity>
-
-                    </View>
+    const Divider = (props: any) => {
+        return <View {...props}>
+            <View style={styles.line}></View>
+            <Text style={styles.textOR}>OR</Text>
+            <View style={styles.line}></View>
+        </View>
+    }
+    return (
+        //Donot dismis Keyboard when click outside of TextInput
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <View style={styles.up}>
+                    <Ionicons
+                        name="ios-speedometer"
+                        size={100}
+                        color={'rgb(221, 97, 97)'}>
+                    </Ionicons>
+                    <Text style={styles.title}>
+                        Change Password Information
+                    </Text>
                 </View>
-            </TouchableWithoutFeedback>
+                <View style={styles.down}>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Current password"
+                            secureTextEntry={true}
+                        >
+                        </TextInput>
+                    </View>
 
-        )
-    }
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            style={[styles.textInput, !passwordValdate ? styles.error : null]}
+                            onChangeText={(text) => valiDate(text, 'Password')}
+                            placeholder="Import password new"
+                            secureTextEntry={true}
+                        >
+                        </TextInput>
+                    </View>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            style={[styles.textInput, !confirmPasswordValdate ? styles.error : null]}
+                            onChangeText={(text) => valiDate(text, 'confirmpassword')}
+                            placeholder="Confirm password new"
+                            secureTextEntry={true}
+                        >
+                        </TextInput>
+                    </View>
+
+                    <TouchableOpacity style={styles.retrievalButton}>
+                        <Text style={styles.retrievalButtonTitle}>Continue</Text>
+                    </TouchableOpacity>
+
+                    <Divider style={styles.divider}></Divider>
+
+                    <TouchableOpacity style={styles.forgotButton}>
+                        <Text style={styles.navButtonText}>
+                            Have an account? Sign In
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
+
+    )
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -190,5 +195,5 @@ const styles = StyleSheet.create({
     error: {
         borderColor: 'red',
         borderWidth: 1
-      }
+    }
 })

@@ -6,15 +6,15 @@ import { store } from './src/redux/store';
 import Login from './src/screens/Auth/Login';
 import Resgister from './src/screens/Auth/Register';
 import OTPscreen from './src/screens/Auth/OTPscreen';
+import PasswordInformation from './src/screens/Auth/PasswordInformation';
 
 export default function App() {
 
 
   return (
-    // <Provider store={store}>
-    //   <SwitchNavigation />
-    // </Provider>
-    <OTPscreen/>
+    <Provider store={store}>
+      <PasswordInformation />
+    </Provider>
   );
 }
 
