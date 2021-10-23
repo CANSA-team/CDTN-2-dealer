@@ -1,19 +1,139 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Divider, List, ListItem } from '@ui-kitten/components'
+import { Text, ScrollView, StyleSheet, View, Image, Button, TouchableOpacity } from 'react-native'
+import { flexDirection, marginRight } from 'styled-system'
+import HeaderTitle from '../components/HeaderTitle'
+import { SlugStr, SlugStrTitle } from '../consts/Selector'
 
 export default function Notification() {
 
-    const renderItem = ({ item, index }) => (
-        <ListItem
-          title={`${item.title} ${index + 1}`}
-          description={`${item.description} ${index + 1}`}
-        />
-      );
-
     return (
-        <>
-            
-        </>
+        <View style={{ backgroundColor: '#fff', flex: 1 }}>
+            <HeaderTitle title="Thông báo của bạn"></HeaderTitle>
+            <ScrollView>
+                {/* hiển thị thông báo */}
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                {/*  */}
+
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <View style={styles.container}>
+                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <View style={styles.textView}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quam maiores, veniam exercitationem rem, at esse, nostrum consequatur facere dolorum non. Incidunt quaerat cum molestias odio perferendis odit ea ducimus!", 40)} </Text>
+                            </View>
+                            <View style={{ marginRight: 20 }}>
+                                <Text>{SlugStr("adsad as dasd asdasdasd asdasdasdasd asdasdasdsa dsadsadsadasdasdasdsa dasd asd saas dsadsadas dsa dsa dasdasd asdsadsadasdsaa", 70)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, fontSize: 10 }}>20/10/2021</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+            </ScrollView >
+        </View >
+
+
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight: 10,
+    },
+
+    textView: {
+        marginHorizontal: 10,
+    },
+})
