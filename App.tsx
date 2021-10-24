@@ -7,13 +7,15 @@ import Login from './src/screens/Auth/Login';
 import Resgister from './src/screens/Auth/Register';
 import OTPscreen from './src/screens/Auth/OTPscreen';
 import PasswordInformation from './src/screens/Auth/PasswordInformation';
+import Account from './src/screens/Account';
+import Categories from './src/screens/Account'
 
 export default function App() {
 
 
   return (
     <Provider store={store}>
-      <PasswordInformation />
+      <Categories />
     </Provider>
   );
 }

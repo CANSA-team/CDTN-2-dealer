@@ -142,7 +142,6 @@ export default function Resgister() {
             </TextInput>
           </View>
 
-
           <TouchableOpacity style={styles.registerButton}>
             <Text style={styles.registerButtonTitle}>Sign Up</Text>
           </TouchableOpacity>

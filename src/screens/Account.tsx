@@ -95,7 +95,7 @@ export default function Account() {
 
                 <View style={styles.viewAction}>
                     <TouchableOpacity onPress={onTapOrdered} style={styles.actionTouch}>
-                        <Text style={styles.actionTitle}>Đơn hàng của tôi</Text>
+                        <Text style={styles.actionTitle}>Đơn mua hàng</Text>
                         <SimpleLineIcons name="arrow-right" size={20} color="#333" />
                     </TouchableOpacity>
                 </View>
