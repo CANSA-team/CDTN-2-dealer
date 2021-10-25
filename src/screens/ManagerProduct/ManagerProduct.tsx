@@ -1,16 +1,12 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, TouchableHighlight, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import  MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-
-const rightButtons = [
-    <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
-    <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
-  ];
-  
+import Product from '../../components/Product';
+ 
 export default function ManagerProduct(props:any) {
     const { navigation} = props;
+
     return (
         <View>
             <HeaderTitle title="Quản lí sản phẩm"/>
@@ -18,8 +14,10 @@ export default function ManagerProduct(props:any) {
                 <TouchableOpacity>
                     <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                 </TouchableOpacity>
-               
             </View>
+            <Product />
+            <Product />
+            <Product />
         </View>
     )
 }
