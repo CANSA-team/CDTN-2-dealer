@@ -4,6 +4,13 @@
  */
 export function SlugStr(str: string, maxlimit: number): string {
     if (str.length >= maxlimit) {
+        return str.substring(0, maxlimit - 3) + " ...";
+    }
+    return str
+}
+
+export function SlugStrTitle(str: string, maxlimit: number): string {
+    if (str.length >= maxlimit) {
         return str.substring(0, maxlimit - 3);
     }
     return str

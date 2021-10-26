@@ -5,17 +5,18 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Landing from '../screens/Landing';
 import Home from './../screens/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Account from './../screens/Account';
-import Categories from '../screens/Categories';
 import COLORS from '../consts/Colors';
-import ProductDetail from './../screens/ProductDetail';
-import Search from './../screens/Search';
 import Profile from './../screens/User/Profile';
 import Login from '../screens/Auth/Login';
 import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
+import Chat from '../screens/Chat';
+import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
+import OrderList from '../screens/OrderList';
 
 const DIMENS = {
     iconSize : 30,
@@ -62,8 +63,8 @@ const switchNavigator = createSwitchNavigator({
         home: {
             screen: createStackNavigator({
                 Home: Home,
-                ProductDetail: ProductDetail,
-                Search: Search,
+                ManagerProduct:ManagerProduct,
+                OrderList:OrderList
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -72,17 +73,16 @@ const switchNavigator = createSwitchNavigator({
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <Ionicons name="home" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="home-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <MaterialCommunityIcons name="storefront" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="storefront-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
                     return icon;
                 },
-                tabBarLabel: "Home"
+                tabBarLabel: "Cửa hàng"
             },
             
         },
-        category: {
+        chat: {
             screen: createStackNavigator({
-                Categories: Categories,
-                Search: Search,
+                Chat: Chat,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -90,10 +90,10 @@ const switchNavigator = createSwitchNavigator({
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <Ionicons name="ios-grid-sharp" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="ios-grid-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <MaterialCommunityIcons name="chat" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="chat-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
                     return icon;
                 },
-                tabBarLabel: "Categories"
+                tabBarLabel: "Chat"
             },
             
         },
@@ -113,10 +113,10 @@ const switchNavigator = createSwitchNavigator({
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ?<Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
                     return icon;
                 },
-                tabBarLabel: "Account"
+                tabBarLabel: "Tài khoản"
             },
             
         },

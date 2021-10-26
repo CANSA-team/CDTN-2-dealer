@@ -9,13 +9,14 @@ import OTPscreen from './src/screens/Auth/OTPscreen';
 import PasswordInformation from './src/screens/Auth/PasswordInformation';
 import Account from './src/screens/Account';
 import Categories from './src/screens/Account'
+import ProductDetail from './src/screens/ProductDetail';
 
 export default function App() {
 
 
   return (
     <Provider store={store}>
-      <Categories />
+      <ProductDetail />
     </Provider>
   );
 }

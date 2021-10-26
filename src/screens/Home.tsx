@@ -1,160 +1,95 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Dimensions, Image, SafeAreaView, ScrollView, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { get } from 'styled-system';
-import Category from '../components/Category';
+import React from 'react'
+import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
-import { State, getProductsHot, getProductsNew, getProductsCategory, getSlider } from '../redux';
-import { getCategory } from '../redux/actions/categoryActions';
-import { getUserInfo } from '../redux/actions/userActions';
-import Carousel from './../components/Carousel';
-import Product from './../components/Product';
-import { useNavigation } from './../utils/useNavigation';
+import Menu from '../components/Menu';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { SlugStr } from '../consts/Selector';
+import COLORS from '../consts/Colors';
+import { useNavigation } from '../utils/useNavigation';
 
-const WIDTH = Dimensions.get('window').width;
 
 export default function Home() {
-    const [catergoryIndex, setCategoryIndex] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isLoadingCategory, setIsLoadingCategory] = useState<boolean>(true);
-    const productState = useSelector((state: State) => state.productReducer);
-    const sliderState = useSelector((state: State) => state.sliderReducer);
-    const categoryState = useSelector((state: State) => state.categoryReducer);
-    const { categories } = categoryState;
-    const { productHot, productNew, productCategory } = productState;
-    const { slider } = sliderState;
-    const [_slider, _setSlider] = useState<string[]>([]);
-    const dispatch = useDispatch();
     const { navigate } = useNavigation();
 
-    useEffect(() => {
-        dispatch(getProductsNew());
-        dispatch(getProductsHot());
-        dispatch(getCategory());
-        dispatch(getSlider());
-    }, []);
-
-    useEffect(() => {
- 
-        if (productHot && productNew && productCategory && slider && isLoadingCategory) {
-            let tempArr: any[] = [];
-            for (const iterator of slider!) {
-                tempArr.push(iterator.slider_image)
-            }
-            _setSlider(tempArr);
-            setIsLoading(true);
-        }
-        if (!isLoadingCategory) {
-            setIsLoadingCategory(true);
-        }
-    }, [productState, sliderState])
-
-    useEffect(() => {
-        if (categories && !productCategory) {
-            dispatch(getProductsCategory(categories![0].category_id!));
-        }
-    }, [categoryState])
-
-    //Chuyen man hinh
-    const onTapDetail = (id: number) => {
-        navigate('ProductDetail', { id })
-    }
-
-    const searchProduct = (data: any) => {
-        navigate('Search', { data: data, title: 'Tìm kiếm' })
-    }
-
     return (
-        <SafeAreaView style={styles.container}>
-            {/* Header */}
-            <View style={{ marginTop: 40,marginBottom:20 }}>
-                <HeaderBar onSearch={searchProduct} />
-            </View>
-            {
-                !isLoading ?
-                    (<View style={styles.container}>
-                        <ActivityIndicator size="large" color="#00ff00" />
-                    </View>) : (
-                        <ScrollView showsVerticalScrollIndicator={false} >
-                            {/* Slider */}
-                            <View >
-                                {_slider && <Carousel images={_slider} auto={true} />}
-                            </View>
-                            {/* Category */}
-                            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                                {
+        <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <HeaderBar />
 
-                                    categories && categories.map((item, index) =>
-                                        <View key={index} style={{ marginLeft: 20 }}>
-                                            <Category item={item} index={index} catergoryIndex={catergoryIndex} onTap={() => {
-                                                setIsLoadingCategory(false);
-                                                const id: number = Number(item.category_id);
-                                                dispatch(getProductsCategory(id));
-                                                setCategoryIndex(index);
-                                            }} />
-                                        </View>
-                                    )
-                                }
+                <View style={styles.viewShop}>
+                    <View>
+                        <Image style={styles.imgShop} source={{ uri: 'https://free.vector6.com/wp-content/uploads/2020/09/Free-vector-000274-mat-tien-cua-hang-phang-voi-mai-hien.jpg' }} />
+                    </View>
+                    <View style={styles.shopContainer}>
+                        <View style={styles.contactContainer}>
+                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{SlugStr('Shop điện tử', 23)}</Text>
+                        </View>
+                        <View style={styles.contactContainer}>
+                            <MaterialCommunityIcons name="email-outline" color="#222" size={20} />
+                            <Text style={styles.txtContact}>{SlugStr('cansashoasasasaspteam@gmail.com', 22)}</Text>
+                        </View>
+                        <View style={styles.contactContainer}>
+                            <MaterialCommunityIcons name="phone-classic" color="#222" size={20} />
+                            <Text style={styles.txtContact}>+123 456 789</Text>
+                        </View>
+                    </View>
+                </View>
 
-                            </View>
-                            <View style={styles.productList}>
-                                {
-                                    !isLoadingCategory ?
-                                        (<View style={styles.container}>
-                                            <ActivityIndicator size="large" color="#00ff00" />
-                                        </View>) :
-                                        productCategory && productCategory.map((product, index) => <Product onTap={onTapDetail} key={index} product={product} type="NEW" />)
+                <Text style={styles.txtAction}>Actions :</Text>
+                <View style={styles.menuList}>
+                    <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
+                    <Menu onTab={() => navigate('OrderList')} icon="switcher" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
+                    <Menu onTab={() => navigate('ManagerProduct')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
+                </View>
 
-                                }
-                            </View>
-                            {/* San pham moi nhat */}
-                            <View style={styles.productContainer}>
-                                <Image style={{ height: 70, width: WIDTH }} source={require('../images/sanpnew.png')} />
-                            </View>
-                            <View style={styles.productList}>
-                                {
-                                    productNew && productNew.map((product, index) => <Product onTap={onTapDetail} key={index} product={product} type="HOT" />)
-                                }
-                            </View>
-
-                            {/* San pham moi nhat */}
-                            <View style={styles.productContainer}>
-                                <Image style={{ height: 70, width: WIDTH }} source={require('../images/sanpnoibat.png')} />
-                            </View>
-                            <View style={styles.productList}>
-                                {
-                                    productHot && productHot.map((product, index) => <Product onTap={onTapDetail} key={index} product={product} type="NEW" />)
-                                }
-                            </View>
-
-                        </ScrollView>)
-            }
-        </SafeAreaView>
+            </ScrollView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 30,
         flex: 1,
-        backgroundColor: '#E5E5E5',
+        backgroundColor: '#fff',
     },
-    productContainer: {
+    menuList: {
         flex: 1,
-        marginBottom: 20,
-        marginTop: 10
+        marginHorizontal: 15,
+        marginBottom: 15
     },
-    productsTitle: {
-        textAlign: 'center',
-        padding: 10,
-        color: '#fff7f7',
-        fontWeight: 'bold',
-        fontSize: 20,
-        backgroundColor: '#FF00FF'
+    shopContainer: {
+        marginLeft: 10,
+        justifyContent: 'center',
     },
-    productList: {
-        display: 'flex',
+    viewShop: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around'
+        marginTop: 20,
+        backgroundColor: '#E5E5E5',
+        paddingHorizontal: 10,
+        paddingVertical: 10
+    },
+    contactContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    imgShop: {
+        width: 120,
+        height: 120,
+        borderRadius: 50,
+        resizeMode: 'cover'
+    },
+    txtContact: {
+        fontSize: 20,
+        color: "#222",
+        marginLeft: 5,
+        flexWrap: 'wrap'
+    },
+    txtAction: {
+        color: COLORS.primary,
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginVertical: 15,
+        marginLeft: 10,
     }
 });
