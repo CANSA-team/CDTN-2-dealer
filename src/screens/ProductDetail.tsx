@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-navigation'
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Carousel from './../components/Carousel';
 import COLORS from '../consts/Colors';
-import RatingComment from '../components/RatingComment';
 import Comment from '../components/Comment';
 import { useNavigation } from './../utils/useNavigation';
 import { Rating } from 'react-native-elements';
-import { CommentModel, getProduct, ProductModel, State } from '../redux';
+import { CommentModel, getProduct, State } from '../redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { addComment, getComments } from '../redux/actions/commentActions';
+import { getComments } from '../redux/actions/commentActions';
 import { getUserInfo } from '../redux/actions/userActions';
 import { vnd } from '../consts/Selector';
 export default function ProductDetail(props: any) {
@@ -26,8 +25,6 @@ export default function ProductDetail(props: any) {
     const { product } = productState;
     const { comment } = commentState;
     const dispatch = useDispatch();
-    const userState = useSelector((state: State) => state.userReducer);
-    const { userInfor } = userState;
 
     useEffect(() => {
         dispatch(getProduct(id));
@@ -46,22 +43,6 @@ export default function ProductDetail(props: any) {
             setIsLoadingComment(true);
         }
     }, [commentState])
-
-
-
-    const onTap = (comment_content: string, comment_rating: number) => {
-        if (userInfor) {
-            dispatch(addComment(id, userInfor.user_id, comment_content, comment_rating));
-        } else {
-            Alert.alert(
-                "Thông báo!",
-                "Chưa đăng nhập!",
-                [
-                    { text: "OK" }
-                ]
-            );
-        }
-    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -123,14 +104,6 @@ export default function ProductDetail(props: any) {
                                 product && product.product_description
                             }
                         </Text>
-
-                        <Text style={styles.headerTitle}>Đánh giá & nhận xét :</Text>
-
-                        {
-                            isLoadingComment &&
-                            <RatingComment onTap={onTap} />
-                        }
-
                         <View>
                             {
                                 comment && comment.map((comment: CommentModel, index: number) =>

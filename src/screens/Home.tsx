@@ -26,7 +26,7 @@ export default function Home() {
                     </View>
                     <View style={styles.contactContainer}>
                         <MaterialCommunityIcons name="email-outline" color="#222" size={20}/>
-                        <Text style={styles.txtContact}>{SlugStr('cansashoasasasaspteam@gmail.com',22) }</Text>
+                        <Text style={styles.txtContact}>{SlugStr('hoanganh34k@gmail.com',22) }</Text>
                     </View>
                     <View style={styles.contactContainer}>
                         <MaterialCommunityIcons name="phone-classic" color="#222" size={20}/>

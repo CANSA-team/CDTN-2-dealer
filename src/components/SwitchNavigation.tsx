@@ -16,6 +16,7 @@ import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
 import Chat from '../screens/Chat';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
+import AddProduct from '../screens/ManagerProduct/AddProduct';
 
 const DIMENS = {
     iconSize : 30,
@@ -62,7 +63,8 @@ const switchNavigator = createSwitchNavigator({
         home: {
             screen: createStackNavigator({
                 Home: Home,
-                ManagerProduct:ManagerProduct
+                ManagerProduct:ManagerProduct,
+                AddProduct:AddProduct
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -91,7 +93,7 @@ const switchNavigator = createSwitchNavigator({
                     let icon = focused ? <MaterialCommunityIcons name="chat" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="chat-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
                     return icon;
                 },
-                tabBarLabel: "Chat"
+                tabBarLabel: "Tin nhắn"
             },
             
         },
@@ -111,7 +113,7 @@ const switchNavigator = createSwitchNavigator({
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ?<Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
                     return icon;
                 },
                 tabBarLabel: "Tài khoản"
