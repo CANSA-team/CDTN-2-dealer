@@ -17,68 +17,99 @@ import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
 import * as Facebook from 'expo-facebook';
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from '../../redux'
-import { checkLogin } from '../../redux/actions/userActions'
-import  MaterialIcons  from 'react-native-vector-icons/MaterialIcons';
+import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
+import { checkLogin, login, logout, getUserInfo } from '../../redux/actions/userActions'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { getShopOwner } from '../../redux/actions/shopActions'
 
 
 
-export default function Login(props:any) {
+export default function Login(props: any) {
   const { navigate } = useNavigation();
   const [email, setEmail] = useState('')
   const [emailValdate, setEmailValdate] = useState(true)
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
-  const [isLoading, setisLoading] = useState(false)
-  const userState = useSelector((state: State) => state.userReducer);
-  const { check } = userState;
+  const [isLoading, setisLoading] = useState(true)
+  const userState: UserStage = useSelector((state: State) => state.userReducer);
+  const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+  const { info }: { info: ShopModel } = shopSate;
+  const { check, status, userInfor }: { check: boolean, status: string, userInfor: UserModel } = userState;
   const dispatch = useDispatch();
+
   useEffect(() => {
-   
     dispatch(checkLogin());
-  }, [isLoading])
+  }, [status])
 
   useEffect(() => {
-    if (!check) {
-      setisLoading(true)
-    } else {
-      navigate('homeStack');
+    if (check) {
+      dispatch(getUserInfo())
     }
-  }, [userState])
+  }, [check])
 
-  const logInFB = async () => {
-    try {
-      await Facebook.initializeAsync({
-        appId: '994248931143640',
-      });
-      const {
-        type,
-        token,
-        expirationDate,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ['public_profile', 'email'],
-      });
-      if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`);
-        //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-        var infomation = await response.json();
-        console.log(infomation)
-        axios.get(`${cansa[1]}/api/user/login/facebook/1/${token}/${infomation.email}/${infomation.id}/${infomation.name}/e4611a028c71342a5b083d2cbf59c494`)
-          .then(res => {
-            setisLoading(true)
-            navigate('homeStack');
-          })
-          .catch(error => console.log(error));
+  useEffect(() => {
+    if (userInfor) {
+      dispatch(getShopOwner(userInfor.user_id));
+    }
+  }, [userInfor])
+
+  useEffect(() => {
+    if (check) {
+      if (info) {
+        navigate('homeStack');
       } else {
-        // type === 'cancel'
+        //chuyển đến màn hình đăng ký shop
+        //------------------------------------------------------------------------------
+        Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
+          { text: "OK", onPress: () => dispatch(logout())}
+        ])
+        //------------------------------------------------------------------------------
       }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+    }
+  }, [info])
+
+  const loginBtn = () => {
+    if (email != '' && password != '') {
+      dispatch(login(email, password));
+    } else {
+      Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
     }
   }
+
+  // const logInFB = async () => {
+  //   try {
+  //     await Facebook.initializeAsync({
+  //       appId: '994248931143640',
+  //     });
+  //     const {
+  //       type,
+  //       token,
+  //       expirationDate,
+  //       permissions,
+  //       declinedPermissions,
+  //     } = await Facebook.logInWithReadPermissionsAsync({
+  //       permissions: ['public_profile', 'email'],
+  //     });
+  //     if (type === 'success') {
+  //       // Get the user's name using Facebook's Graph API
+  //       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`);
+  //       //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+  //       var infomation = await response.json();
+  //       console.log(infomation)
+  //       axios.get(`${cansa[1]}/api/user/login/facebook/1/${token}/${infomation.email}/${infomation.id}/${infomation.name}/e4611a028c71342a5b083d2cbf59c494`)
+  //         .then(res => {
+  //           setisLoading(true)
+  //           navigate('homeStack');
+  //         })
+  //         .catch(error => console.log(error));
+  //     } else {
+  //       // type === 'cancel'
+  //     }
+  //   } catch ({ message }) {
+  //     alert(`Facebook Login Error: ${message}`);
+  //   }
+  // }
+  
   const valiDate = (text: any, type: any) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
@@ -90,7 +121,6 @@ export default function Login(props:any) {
       else {
         setEmail('')
         setEmailValdate(false)
-        console.log('Email chưa hợp lệ example@gmail.com')
       }
     }
     else if (type == 'password') {
@@ -101,27 +131,7 @@ export default function Login(props:any) {
       else {
         setPassword('')
         setPasswordValdate(false)
-        console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
       }
-    }
-  }
-  const loginBtn = () => {
-    if (email != '' && password != '') {
-      axios.get(`${cansa[1]}/api/user/login/${email}/${password}/123`)
-        .then(res => {
-          console.log(res.data.status)
-          //Trạng thái khi đăng nhập thành công
-          if (res.data.status != 'Faild') {
-            navigate('homeStack');
-            Alert.alert('Thông báo', res.data.message);
-          } else {
-            Alert.alert('Thông báo', res.data.message);
-          }
-
-        })
-        .catch(error => console.log(error));
-    } else {
-      Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
     }
   }
 
@@ -133,16 +143,10 @@ export default function Login(props:any) {
     </View>
   }
 
-  return isLoading ? (
-
+  return (
     //Donot dismis Keyboard when click outside of TextInput
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <View style={styles.header}>
-            <TouchableOpacity>
-                <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white" onPress={() => navigate('homeStack')} />
-            </TouchableOpacity>
-        </View>
         <View style={styles.up}>
           <Ionicons
             name="ios-speedometer"
@@ -201,7 +205,8 @@ export default function Login(props:any) {
               backgroundColor="#3b5998"
             >
               <Text style={styles.loginButtonTitle}
-                onPress={() => logInFB()}
+                // onPress={() => logInFB()}
+                onPress={() => { return }}
               >Login with Facebook</Text>
             </FontAwesome.Button>
           </View>
@@ -221,11 +226,7 @@ export default function Login(props:any) {
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableWithoutFeedback>
-  ) :
-    (<View style={[styles.container, styles.horizontal]}>
-      <ActivityIndicator size="large" color="#FF6F61" />
-    </View>)
+    </TouchableWithoutFeedback>)
 }
 
 
