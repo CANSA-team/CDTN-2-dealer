@@ -17,6 +17,8 @@ import EditProfile from '../screens/User/EditProfile';
 import Chat from '../screens/Chat';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 import AddProduct from '../screens/ManagerProduct/AddProduct';
+import OrderList from '../screens/OrderList';
+
 
 const DIMENS = {
     iconSize : 30,
@@ -64,7 +66,9 @@ const switchNavigator = createSwitchNavigator({
             screen: createStackNavigator({
                 Home: Home,
                 ManagerProduct:ManagerProduct,
-                AddProduct:AddProduct
+                AddProduct:AddProduct,
+                OrderList:OrderList
+
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

@@ -33,7 +33,8 @@ export enum CommentActionType{
 
 export enum ShopActionType{
     GET_SHOP_INFO = 'GET_SHOP_INFO',
-    ON_SHOP_ERROR = 'ON_SHOP_ERROR'
+    ON_SHOP_ERROR = 'ON_SHOP_ERROR',
+    GET_SHOP_OWNER = 'GET_SHOP_OWNER',
 }
 
 export enum AccessActionType{
@@ -42,6 +43,8 @@ export enum AccessActionType{
 }
 
 export enum UserActionType{
+    LOGIN = 'LOGIN',
+    LOGOUT = 'LOGOUT',
     CHECK_LOGIN = 'CHECK_LOGIN',
     GET_UER_INFO = 'GET_UER_INFO',
     ON_LOGIN_ERROR = 'ON_LOGIN_ERROR'
