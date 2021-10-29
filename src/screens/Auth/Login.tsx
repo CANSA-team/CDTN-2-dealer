@@ -40,7 +40,6 @@ export default function Login(props: any) {
   useEffect(() => {
     dispatch(checkLogin());
   }, [status])
-
   useEffect(() => {
     if (check) {
       dispatch(getUserInfo())
@@ -61,12 +60,12 @@ export default function Login(props: any) {
         //chuyển đến màn hình đăng ký shop
         //------------------------------------------------------------------------------
         Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
-          { text: "OK", onPress: () => dispatch(logout())}
+          { text: "OK", onPress: () => navigate('registerShopStack')}
         ])
         //------------------------------------------------------------------------------
       }
     }
-  }, [info])
+  }, [info, userInfor])
 
   const loginBtn = () => {
     if (email != '' && password != '') {
