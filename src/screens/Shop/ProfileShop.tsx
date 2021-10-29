@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Platform, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { Accessory, Avatar, Button } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
-
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -45,7 +44,7 @@ export default function ProfileShop(props: any) {
                 </View>) : (
                     <View>
                         <View>
-                            <HeaderTitle title={'PROFILE'} />
+                            <HeaderTitle title={'PROFILE SHOP'} />
                             <View style={styles.header}>
                                 <TouchableOpacity>
                                     <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => {return;}} />
@@ -55,35 +54,25 @@ export default function ProfileShop(props: any) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-
+                        
                         <View style={styles.viewAvatar}>
                             <Avatar
                                 containerStyle={{ marginBottom: 20 }}
                                 rounded
-                                size={200}
+                                size={150}
                                 source={{
                                     uri: image,
                                 }} >
                             </Avatar>
                         </View>
-
                         <View style={styles.viewTxt}>
                             <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>User full name: </Text>
+                                <Text style={styles.txtTitle}>Tên Shop: </Text>
                             </View>
 
                             <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>User nick name:</Text>
+                                <Text style={styles.txtTitle}>Mô tả:</Text>
                             </View>
-
-                            <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>User phone: </Text>
-                            </View>
-
-                            <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>User birthday: </Text>
-                            </View>
-
                             <View style={styles.resetPassContainer}>
                                 {
                                     isLoadingChangePassword &&

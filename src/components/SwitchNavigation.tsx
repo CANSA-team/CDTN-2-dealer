@@ -9,12 +9,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Account from './../screens/Account';
 import COLORS from '../consts/Colors';
 import Profile from './../screens/User/Profile';
+import ProfileShop from './../screens/Shop/ProfileShop';
+import EditProfileShop from './../screens/Shop/EditProfileShop';
 import Login from '../screens/Auth/Login';
 import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
 import Chat from '../screens/Chat';
+import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 
 const DIMENS = {
@@ -45,6 +48,27 @@ const switchNavigator = createSwitchNavigator({
             }
         })
     },
+    registerShopStack: {
+        screen: createStackNavigator({
+            RegisterShop ,
+        }, {
+            defaultNavigationOptions: {
+                headerShown: false
+            }
+        }),
+
+    },
+    ProfileShop: {
+        screen: createStackNavigator({
+            ProfileShop , EditProfileShop
+        }, {
+            defaultNavigationOptions: {
+                headerShown: false
+            }
+        }),
+
+    },
+    
 
 
     // shopStack:{

@@ -25,7 +25,7 @@ let user_temp = {
 export default function EditProfileShop(props: any) {
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
-    const [name, setName] = useState('Ten Sop');
+    const [name, setName] = useState('Ten Shop');
     const [description, setDescription] = useState('Mo ta');
     const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
 
@@ -47,7 +47,7 @@ export default function EditProfileShop(props: any) {
         <View style={styles.container}>
             <View>
                 <View>
-                    <HeaderTitle title={'EDIT PROFILE'} />
+                    <HeaderTitle title={'EDIT PROFILE SHOP'} />
                     <View style={styles.header}>
                         <TouchableOpacity>
                             <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => {return;}} />
@@ -76,13 +76,13 @@ export default function EditProfileShop(props: any) {
                 <View style={styles.viewTxt}>
                     <Input
                         value={name}
-                        label="Họ và Tên"
+                        label="Tên Shop"
                         onChangeText={setName}
                     />
 
                     <Input
                         value={description}
-                        label="Nick Name"
+                        label="Mô tả"
                         onChangeText={setDescription}
                     />
 
