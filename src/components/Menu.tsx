@@ -25,7 +25,7 @@ export default function Menu(props:any) {
 const styles = StyleSheet.create({
     container:{
        marginVertical:15,
-       borderRadius:10,
+       borderRadius:20,
        padding:20,
        backgroundColor:'#f5f5f5',
        flexDirection:'row',

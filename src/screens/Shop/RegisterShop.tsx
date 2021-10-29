@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
@@ -12,10 +12,35 @@ import {
     shopNameValidator,
     shopDescriptionValidator,
 } from '../../core/utils';
+import { State, UserStage, checkLogin, logout, login } from '../../redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '../../utils/useNavigation';
+
 export default function RegisterShop() {
     const [shop_name, setShop_name] = useState({ value: '', error: '' });
     const [shop_description, setShop_description] = useState({ value: '', error: '' });
     const [image, setImage] = useState('../../../assets/arrow_back.png');
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { check, status }: { check: boolean, status: string} = userState;
+    const { navigate } = useNavigation();
+    const dispatch = useDispatch();
+
+
+    useEffect(()=>{
+        dispatch(checkLogin());
+    },[status])
+
+
+    useEffect(() => {
+        if (!check) {
+            navigate('loginStack')
+        }
+    }, [check])
+
+    const _logout = () => {
+        dispatch(logout());
+    }
+
 
     const _onSignUpPressed = () => {
         const shop_nameError = shopNameValidator(shop_name.value);
@@ -41,9 +66,12 @@ export default function RegisterShop() {
     };
     return (
         <Background>
-            <TouchableOpacity style={styles.container}>
+
+            <TouchableOpacity style={styles.container} onPress= {()=>_logout()}>
                 <Image source={require('../../../assets/arrow_back.png')} />
             </TouchableOpacity>
+
+
             <Header>Tạo Tài Khoản Bán Hàng</Header>
             <Avatar
                 containerStyle={{ marginBottom: 20 }}

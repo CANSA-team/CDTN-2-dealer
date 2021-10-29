@@ -10,11 +10,10 @@ import ProfileShop from './src/screens/Shop/ProfileShop';
 import EditProfileShop from './src/screens/Shop/EditProfileShop';
 
 export default function App() {
-
   return (
     <Provider store={store}>
-      {/* <SwitchNavigation /> */}
-      <RegisterShop/>
+      <SwitchNavigation />
+      {/* <RegisterShop/> */}
     </Provider>
   );
 }
