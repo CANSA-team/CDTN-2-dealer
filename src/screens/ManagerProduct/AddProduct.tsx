@@ -1,48 +1,50 @@
-import React,{useState} from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import React,{useState, useRef, useEffect} from 'react';
+import { LogBox  ,View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
-import { Avatar } from 'react-native-elements';
-import SelectCat from '../../components/SelectCat';
+import { Avatar, Button } from 'react-native-elements';
+import MultiSelect from 'react-native-multiple-select';
+import COLORS from '../../consts/Colors';
+import { Controller, useForm } from "react-hook-form";
+import { getCategories, handleCats } from '../../consts/Selector';
+import { useDispatch, useSelector } from 'react-redux';
+import { CategoryModel, CategoryState, getCategory, State } from '../../redux';
 
+interface CategoriesProps {
+    label:string,
+    value:string
+}
 export default function AddProduct(props: any) {
+    const { control, handleSubmit, formState: { errors } } = useForm();
     const { navigation } = props;
-    const [avatar, setAvatar] = useState('http://103.207.38.200:3002/api/image/photo/7251633320683170/e4611a028c71342a5b083d2cbf59c494');
+    const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494');
     const [images,setImages] = useState<any>([])
-    const [selectCat,setSelectCat] = useState<any>([SelectCat]); 
-    const [catId,setcatId] = useState<number[][]>([[0,0]]);
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+    const [catError, setCatError] = useState<boolean>(false);
+    const [avatarError, setAvatarError] = useState<boolean>(false);
+    const [categoriesRender, setCategoriesRender] = useState<CategoriesProps[]>([] as CategoriesProps[]);
+    const multiSelect = useRef<any>()
+    const categoryState:CategoryState = useSelector((state: State) => state.categoryReducer);
+    const dispatch = useDispatch();
+    const { categories } : {categories:CategoryModel[]} = categoryState;
+   
 
-    const addSelectCat = () =>{
-        let data:any = [...catId,[0,0]]
-        setcatId(data)
-        let data2 = [...selectCat,SelectCat];
-        setSelectCat(data2);
-    } 
+    useEffect(() => {
+        const catRenders = getCategories(categories);
+        setCategoriesRender(catRenders)
+    }, [categories])
 
-    const delSelectCat = (index:number) =>{
-        let data = [...selectCat];
-        data.splice(index,1);
-        setSelectCat(data);
-    }
-     
-    const getValueSelect = (value:number[],index:number)=>{
-       
-        if (catId.length>index) {
-            let data:any = [...catId];
-            data[index] = value
-            setcatId(data)
-            console.log(data)
-        }
-       
-        // if (!data.includes(value[0])) {
-        //     data = [...data,...value]
-        // }
-        // else if(!data.includes(value[1])){
-        //     data = [...data,value[1]]
-        // }
-        
-    }
+    useEffect(() => {
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+        dispatch(getCategory());
+    }, [])
+
+
+    const onSelectedItemsChange = (selectedItems:any) => {
+        setCatError(false)
+        setSelectedItems(selectedItems);
+    };
 
     let getImg = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -75,6 +77,32 @@ export default function AddProduct(props: any) {
             setImages(data);
         }
     }
+
+    // {
+    //     uri: image,
+    //     name: 'userProfile.jpg',
+    //     type: 'image/jpg'
+    // }
+
+    const onSubmit = (data:any) =>{
+        if (selectedItems.length !== 0) {
+            if (avatar !== 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
+                let cats = handleCats(selectedItems);
+                data = {
+                    ...data,
+                    product_categories:cats
+                }
+                setCatError(false)
+                setAvatarError(false)
+            }else{
+                setAvatarError(true)
+            }
+            
+        }
+        else{
+            setCatError(true)
+        }
+    } 
    
     return (
         <View style={styles.container}>
@@ -86,50 +114,84 @@ export default function AddProduct(props: any) {
             </View>
             
             <KeyboardAvoidingView style={{flex:1}}  behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}>
-                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 20}}>
+                <ScrollView nestedScrollEnabled={false} showsVerticalScrollIndicator={false} style={{ marginBottom: 20}}>
                     <View style={styles.viewTotal}>
                         <Text style={styles.txtTitle}>Tên :</Text>
                         <View style={styles.textAreaContainer} >
-                            <TextInput
-                                style={styles.textArea}
-                                underlineColorAndroid="transparent"
-                                placeholder="Tên sản phẩm . . ."
-                                placeholderTextColor="#888"
-                                numberOfLines={10}
-                                maxLength={255}
-                                multiline={true}
-                                onChangeText={(text) => {
-                                    console.log(text)
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                    maxLength:255
                                 }}
-                            />
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    style={styles.textArea}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    underlineColorAndroid="transparent"
+                                    placeholder="Tên sản phẩm . . ."
+                                    placeholderTextColor="#888"
+                                    numberOfLines={10}
+                                    multiline={true}
+                                    value={value}
+                                    maxLength={255}
+                                />
+                                )}
+                                name="product_title"
+                                defaultValue=""
+                            /> 
                         </View>
+                        {errors.product_title && <Text style={styles.txtError}>Tên sản phẩm phải có</Text>}
                     </View>
-
                     <View style={styles.viewTotal}>
-                        <Text style={styles.txtTitle}>Giá :</Text>
-                        <View style={styles.viewPrice} >
-                            <TextInput
-                                style={styles.textPrice}
-                                placeholder="Nhập giá tiền"
-                                keyboardType="numeric"
-                            />
-                        </View>
-                    </View>
+                        <Text style={styles.txtTitle}>Danh mục :</Text>
+                            <View style={{marginBottom:10}}>
+                                { multiSelect.current && multiSelect.current.getSelectedItemsExt(selectedItems)}
+                            </View>
+                            {
+                                categoriesRender && 
+                                <MultiSelect
+                                    styleListContainer={{height: 256}}
+                                    hideTags
+                                    items={categoriesRender}
+                                    ref={multiSelect}
+                                    uniqueKey="value"
+                                    onSelectedItemsChange={onSelectedItemsChange}
+                                    selectedItems={selectedItems}
+                                    selectText="Danh mục"
+                                    searchInputPlaceholderText="Chọn danh mục..."
+                                    tagRemoveIconColor="#fc6161"
+                                    tagBorderColor={COLORS.primary}
+                                    tagTextColor="#222"
+                                    selectedItemTextColor="#666464"
+                                    selectedItemIconColor={COLORS.primary}
+                                    itemTextColor="#222"
+                                    displayKey="label"
+                                    fontSize={16}
+                                    searchInputStyle={{ color: '#222',fontSize:16,padding:10 }}
+                                    hideSubmitButton
+                                />
+                            }
+                    {catError && <Text style={styles.txtError}>Phải chọn ít nhất 1 danh mục</Text>}
+                    </View> 
 
                     <View style={styles.viewTotal}>
                         <Text style={styles.txtTitle}>Hình ảnh chính :</Text>
                         <View style={styles.textAreaContainer} >
                             <Avatar
-                            size="xlarge"
-                            title="CR"
-                            onPress={getImg}
-                            activeOpacity={0.7}
-                            source={{uri:avatar}}    
-                            containerStyle={{flex: 5, marginRight: 60}}   
+                                size="xlarge"
+                                title="CR"
+                                onPress={getImg}
+                                activeOpacity={0.7}
+                                source={{uri:avatar}}    
+                                containerStyle={{flex: 5, marginRight: 60}}   
                             />
                         </View>
+                        {avatarError && <Text style={styles.txtError}>Bạn chưa chọn ảnh đại diện sản phẩm</Text>}
+                        
                     </View>
-
+                  
                     <View style={styles.viewTotal}>
                         <TouchableOpacity onPress={getGallerys} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.txtTitle}>Thêm hình ảnh phụ </Text>
@@ -141,39 +203,103 @@ export default function AddProduct(props: any) {
                     </View>
 
                     <View style={styles.viewTotal}>
-                        <Text style={styles.txtTitle}>Danh mục :</Text>
-                        <View style={styles.viewPicker}>
-                            {
-                                selectCat.map((Select:any,index:number)=> <Select selected={[0,0]} getValueSelect={getValueSelect} key={index} onDel={delSelectCat} index={index}/>)
-                            }
+                        <Text style={styles.txtTitle}>Giá :</Text>
+                        <View style={styles.viewPrice} >
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                    min:1000,
+                                    pattern: /[0-9]/g 
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.textPrice}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        underlineColorAndroid="transparent"
+                                        placeholder="Nhập giá tiền . . ."
+                                        placeholderTextColor="#888"
+                                        keyboardType="numeric"
+                                        multiline={true}
+                                        value={value}
+                                    />
+                                )}
+                                name="product_price"
+                                defaultValue=""
+                            /> 
                         </View>
-                        <TouchableOpacity onPress={addSelectCat} style={{marginTop:20,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text style={styles.txtTitle}>Thêm danh mục </Text>
-                            <MaterialIcons name="add-chart" style={{fontSize:20,fontWeight:'bold'}}/>
-                        </TouchableOpacity>
+                        {errors.product_price && <Text style={styles.txtError}>Giá là số và phải lớn hơn 1.000đ</Text>}
                     </View>
-
+                    <View style={styles.viewTotal}>
+                        <Text style={styles.txtTitle}>Phần trăm giảm giá :</Text>
+                        <View style={styles.viewPrice} >
+                        <Controller
+                                control={control}
+                                rules={{
+                                    required: false,
+                                    min:1,
+                                    max:99,
+                                    pattern: /[0-9]/g 
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.textPrice}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        underlineColorAndroid="transparent"
+                                        placeholder="Nhập phần trăm giảm nếu có ( 1 - 99 )"
+                                        placeholderTextColor="#888"
+                                        keyboardType="numeric"
+                                        multiline={true}
+                                        value={value}
+                                    />
+                                )}
+                                name="product_sale"
+                                defaultValue=""
+                            /> 
+                        </View>
+                            {errors.product_sale && <Text style={styles.txtError}>Nhập phần trăm giảm nhập số (1 - 99) </Text>}
+                    </View>
                     <View style={styles.viewTotal}>
                         <Text style={styles.txtTitle}>Mô tả :</Text>
                         <View style={styles.textAreaContainer} >
-                            <TextInput
-                                style={styles.textAreaDesc}
-                                underlineColorAndroid="transparent"
-                                placeholder="Mô tả sản phẩm . . ."
-                                placeholderTextColor="#888"
-                                numberOfLines={10}
-                                maxLength={255}
-                                multiline={true}
-                                onChangeText={(text) => {
-                                    console.log(text)
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                    maxLength:1000
                                 }}
-                            />
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    style={styles.textAreaDesc}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    underlineColorAndroid="transparent"
+                                    placeholder="Mô tả sản phẩm . . ."
+                                    placeholderTextColor="#888"
+                                    numberOfLines={10}
+                                    multiline={true}
+                                    value={value}
+                                />
+                                )}
+                                name="product_description"
+                                defaultValue=""
+                            /> 
                         </View>
+                        {errors.product_description && <Text style={styles.txtError}>Mô tả phải có và ít hơn 1000 ký tự</Text>}
+                    </View>
+                    <View style={styles.viewTotal}>
+                        <Button    
+                            onPress={handleSubmit(onSubmit)}                       
+                            title="Thêm sản phẩm"
+                            buttonStyle={styles.btnContinute}
+                        />
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>
-)
+    )
 }
 const styles = StyleSheet.create({
     container: {
@@ -190,6 +316,9 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 2
     },
+    txtError:{
+        color:'#f86161'
+    },
     viewPrice:{
         borderBottomWidth:1,
         borderBottomColor:'gray'
@@ -203,6 +332,12 @@ const styles = StyleSheet.create({
     viewTotal: {
         marginHorizontal: 15,
         margin: 10,
+    },
+    btnContinute: {
+        marginTop: 20,
+        backgroundColor: COLORS.primary,
+        borderRadius: 10,
+        padding: 10
     },
     textPrice:{
         fontSize:18,
@@ -231,7 +366,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     textAreaDesc:{
-        height: 90,
+        height: 150,
         justifyContent: "flex-start",
         alignItems: 'flex-start',
         lineHeight: 30,

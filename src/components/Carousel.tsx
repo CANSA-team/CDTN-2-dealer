@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         height: 10,
         borderRadius:50,
         margin: 5,
-        backgroundColor: 'white'    
+        backgroundColor: '#ccc'    
     },
     dot:{
         width: 10,

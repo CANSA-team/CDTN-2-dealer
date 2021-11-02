@@ -11,30 +11,30 @@ export class SliderModel {
 /**
  * Product
  */
-export class ProductModel {
-    product_id?: number;
-    product_date?: Date;
-    shop_id?: number;
-    product_avatar?: string;
-    product_quantity?: number;
-    product_view?: number;
-    product_price?: number;
-    product_sale?: number;
-    product_title?: string;
-    product_image?: [string];
-    product_description?: string;
-    product_rating?: number;
-    last_update?: number;
-    status?: number;
+export interface ProductModel {
+    product_id: number;
+    product_date: Date;
+    shop_id: number;
+    product_avatar: string;
+    product_quantity: number;
+    product_view: number;
+    product_price: number;
+    product_sale: number;
+    product_title: string;
+    product_image: string[];
+    product_description: string;
+    product_rating: number;
+    last_update: number;
+    status: number;
 }
 //Product State
 export interface ProductState{
-    productNew?: [ProductModel];
-    productHot?: [ProductModel];
-    productCategory?: [ProductModel];
-    productSearch?: [ProductModel];
-    productShop?: [ProductModel];
-    product?: ProductModel;
+    productNew: ProductModel[];
+    productHot: ProductModel[];
+    productCategory: ProductModel[];
+    productSearch: ProductModel[];
+    productShop: ProductModel[];
+    product: ProductModel[];
     error: string | undefined;
 }
 
@@ -53,39 +53,39 @@ export interface UserModel {
 /**
  * Comment
  */
-export class CommentModel {
-    comment_id?: number;
-    comment_rating?: number;
-    comment_date?: Date;
-    comment_content?: string;
-    product_id?: number;
-    user?: UserModel;
+export interface CommentModel {
+    comment_id: number;
+    comment_rating: number;
+    comment_date: Date;
+    comment_content: string;
+    product_id: number;
+    user: UserModel;
 }
 
 /**
  * Category
  */
-export class CategoryModel {
-    category_id?: number;
-    category_image?: string;
-    category_view?: number;
-    category_name?: string;
-    last_update?: number;
-    status?: number;
-    categories?: [CategoryModel];
+export interface CategoryModel {
+    category_id: number;
+    category_image: string;
+    category_view: number;
+    category_name: string;
+    last_update: number;
+    status: number;
+    categories: CategoryModel[];
 }
 
 /**
  * Shop
  */
-export class ShopModel {
-    shop_id?: number;
-    shop_name?: string;
-    shop_description?: string;
-    shop_owner?: number;
-    shop_avatar?: string;
-    last_update?: number;
-    status?: number;
+export interface ShopModel {
+    shop_id: number;
+    shop_name: string;
+    shop_description: string;
+    shop_owner: number;
+    shop_avatar: string;
+    last_update: number;
+    status: number;
 }
 
 /**
@@ -143,7 +143,7 @@ export interface OderState{
 }
 
 export interface CategoryState{
-    categories?: [CategoryModel];
+    categories: CategoryModel[];
     error: string | undefined;
 }
 
@@ -153,7 +153,7 @@ export interface SliderState{
 }
 
 export interface CommentState{
-    comment?: [CommentModel];
+    comment: CommentModel[];
     error: string | undefined;
 }
 
@@ -192,4 +192,8 @@ export interface ImageStage{
     status?: string;
     image?: string;
     error: string | undefined;
+}
+
+export interface ImageId{
+    id: number;
 }

@@ -4,12 +4,12 @@ import { ProductModel, ProductState } from "../models";
 
 
 const initialState: ProductState = {
-    productNew: undefined,
-    productHot: undefined,
-    productCategory: undefined,
-    productSearch: undefined,
-    productShop: undefined,
-    product: undefined,
+    productNew: [] as ProductModel[],
+    productHot: [] as ProductModel[],
+    productCategory: [] as ProductModel[],
+    productSearch: [] as ProductModel[],
+    productShop: [] as ProductModel[],
+    product: [] as ProductModel[],
     error: undefined
 }
 
