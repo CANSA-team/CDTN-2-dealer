@@ -6,35 +6,39 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { SlugStr } from '../consts/Selector';
 import COLORS from '../consts/Colors';
 import { useNavigation } from '../utils/useNavigation';
+import { ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
+import { useSelector } from 'react-redux';
 
 
 export default function Home() {
     const { navigate } = useNavigation();
-
+    const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { info }: { info: ShopModel } = shopSate;
+    const { userInfor }: { userInfor: UserModel } = userState;
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <HeaderBar />
-
                 <View style={styles.viewShop}>
                     <View>
-                        <Image style={styles.imgShop} source={{ uri: 'https://free.vector6.com/wp-content/uploads/2020/09/Free-vector-000274-mat-tien-cua-hang-phang-voi-mai-hien.jpg' }} />
+                        <Image style={styles.imgShop} source={{ uri: info.shop_avatar }} />
                     </View>
                     <View style={styles.shopContainer}>
                         <View style={styles.contactContainer}>
-                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{SlugStr('Shop điện tử', 23)}</Text>
+                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{SlugStr(info.shop_name, 23)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="email-outline" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{SlugStr('cansashoasasasaspteam@gmail.com', 22)}</Text>
+                            <Text style={styles.txtContact}>{SlugStr(userInfor.user_name, 22)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="phone-classic" color="#222" size={20} />
-                            <Text style={styles.txtContact}>+123 456 789</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_name}</Text>
                         </View>
                     </View>
-                </View>
 
+                </View>
                 <Text style={styles.txtAction}>Actions :</Text>
                 <View style={styles.menuList}>
                     <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     imgShop: {
         width: 120,
         height: 120,
-        borderRadius: 50,
+        borderRadius: 100,
         resizeMode: 'cover'
     },
     txtContact: {

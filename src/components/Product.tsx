@@ -1,121 +1,59 @@
-import React from 'react'
-import { View, StyleSheet, Dimensions, Image, Text, TouchableOpacity } from 'react-native';
-import { SlugStr, vnd } from '../consts/Selector';
-import COLORS from './../consts/Colors';
-import { Rating } from 'react-native-elements';
-import { ProductModel } from '../redux';
-const WIDTH = Dimensions.get('window').width / 2 - 30;
+import React,{useRef} from 'react'
+import { View, StyleSheet, Dimensions, Image, Text, TouchableOpacity, Animated } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { SlugStrTitle } from '../consts/Selector';
+const WIDTH = Dimensions.get('window').width;
 
-export default function Product(props: any) {
-    const { type, onTap } = props;
-    const product: ProductModel = props.product;
-    let Top;
-    switch (type) {
-        case 'NEW':
-            Top = (
-                <View style={[styles.topTitle, { backgroundColor: '#00DD00' }]}>
-                    <Text style={{ color: 'white' }}>NEW</Text>
-                </View>
-            )
-            break;
-        case 'HOT':
-            Top = (
-                <View style={[styles.topTitle, { backgroundColor: '#EB2A3E' }]}>
-                    <Text style={{ color: 'white' }}>HOT</Text>
-                </View>
-            )
-            break;
-        default:
-            Top = (
-                <View style={{ display: 'none' }}>
-                    <Text style={{ color: 'white' }}>NEW</Text>
-                </View>
-            )
-            break;
+export default function Product() {
+    const swipeableRef = useRef<any>(null);
+    const closeSwipeable = () => {
+        swipeableRef.current.close();
+    }
+    
+    const boxRenderRight = ()=>{
+        return (
+            <>
+                <TouchableOpacity style={{width:75,height:110,backgroundColor:'#f53a4c',justifyContent:'center',alignItems:'center'}}>
+                    <AntDesign name="delete" style={{fontSize:22,color:'#fff'}}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={closeSwipeable} style={{width:80,height:110,backgroundColor:'#007bff',justifyContent:'center',alignItems:'center'}}>
+                    <Animated.Text style={{color:'#fff',fontSize:18}}>Sửa</Animated.Text>
+                </TouchableOpacity> 
+            </>
+        )
+    }
+    const boxRenderLeft = ()=>{
+        return (
+            <>
+                <TouchableOpacity onPress={closeSwipeable} style={{width:75,height:110,backgroundColor:'#ffc106',justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{color:'#fff',fontSize:18,textAlign:'center'}}>Thông tin</Text>   
+                </TouchableOpacity>
+            </>
+        )
     }
 
-
     return (
-        <TouchableOpacity onPress={() => onTap(product.product_id)} style={styles.container}>
-            {Top}
-            <View style={styles.imgContainer}>
-                <Image style={styles.img} source={{ uri: product.product_avatar }} />
+        <Swipeable ref={swipeableRef} friction={2} overshootLeft={false} overshootRight={false} renderLeftActions={boxRenderLeft} renderRightActions={boxRenderRight}>    
+            <View style={styles.container}>     
+                <View style={{justifyContent:'center',alignItems:'center'}}>
+                    <Image style={{height:100,width:100}} source={{uri:'https://product.hstatic.net/1000300544/product/iphone-13-pink-select-2021_d3ad549275cd49f4aef49722410002e5.png'}}></Image>
+                </View>
+                <View style={{flex:1,justifyContent:'flex-start'}}>
+                    <Text style={{fontSize:16 }}>{SlugStrTitle('iPhone 13 128GB Chính Hãng (VN/A) s asas asas',115)} </Text>
+                </View>
             </View>
-            <Text style={styles.txtTitle}>{SlugStr(product.product_title!, 30)}</Text>
-            <View style={{ alignItems: 'center', flexDirection: 'row', }}>
-
-                <Rating ratingColor="gold" readonly imageSize={18} fractions="{1}" startingValue={product.product_rating} />
-                <Text style={{ marginLeft: 18, color: '#444', fontSize: 18 }}>{product.product_rating?.toFixed(1)}</Text>
-
-            </View>
-            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start', marginTop: 6 }}>
-                {product && product.product_sale! != 0 && <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 18 }}>{vnd(product.product_price!)}đ</Text>}
-                <Text style={{ marginBottom: 10, color: '#bd3e3e', fontSize: 21 }}>{vnd(product.product_price! * (100 - product.product_sale!) / 100)}đ</Text>
-            </View>
-        </TouchableOpacity>
+        </Swipeable>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        height: 255,
+        height: 110,
         backgroundColor: 'white',
         width: WIDTH,
-        borderRadius: 10,
-        marginBottom: 20,
-        padding: 15
-    },
-    topTitle: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        zIndex: 2,
-        paddingLeft: 8,
-        paddingRight: 8,
-        paddingTop: 5,
-        paddingBottom: 5,
-        borderTopRightRadius: 15
-    },
-    imgContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    img: {
-        height: 100,
-        width: 150,
-        borderRadius: 5
-    },
-    txtTitle: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        marginTop: 10,
-        color: COLORS.primary
-    },
-    priceContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 5,
-        marginBottom: 5
-    },
-    txtPrice: {
-        fontSize: 19,
-        fontWeight: 'bold'
-    },
-    btnAddContainer: {
-        position: 'absolute',
-        height: 35,
-        bottom: 10,
-        left: 10,
-        right: 10,
-        backgroundColor: COLORS.primary,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    btnAddTitle: {
-        fontSize: 14,
-        color: 'white',
-        fontWeight: 'bold'
-    }
+        padding: 10,
+        flexDirection:'row',
+        marginBottom:5,
+        alignItems:'center'
+    }, 
 });
