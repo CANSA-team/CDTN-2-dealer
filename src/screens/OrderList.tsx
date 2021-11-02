@@ -1,12 +1,19 @@
 import React from 'react'
-import { View, StyleSheet, ScrollView, Text, Image } from 'react-native'
+import { View, StyleSheet, ScrollView, Text, Image, TouchableOpacity } from 'react-native'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderTitle from '../components/HeaderTitle'
 import { SlugStrTitle } from '../consts/Selector'
 
-export default function OrderList() {
+export default function OrderList(props: any) {
+    const { navigation } = props;
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Danh sách đơn hàng"></HeaderTitle>
+            <View style={styles.header}>
+                <TouchableOpacity>
+                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                </TouchableOpacity>
+            </View>
 
             <ScrollView>
                 {/* hiển thị các đơn hàng */}
@@ -126,5 +133,15 @@ const styles = StyleSheet.create({
     textView: {
         marginHorizontal: 10,
         flex: 1
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2
     },
 })

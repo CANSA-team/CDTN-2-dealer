@@ -15,7 +15,7 @@ export interface UserErrorAction {
 }
 
 export interface GetUserInfor {
-    readonly type: UserActionType.GET_UER_INFO,
+    readonly type: UserActionType.GET_USER_INFO,
     payload?: UserModel
 }
 
@@ -70,7 +70,7 @@ export const getUserInfo = () => {
             } else {
                 // save our location in local storage
                 dispatch({
-                    type: UserActionType.GET_UER_INFO,
+                    type: UserActionType.GET_USER_INFO,
                     payload: response.data.data
                 })
             }
@@ -125,7 +125,7 @@ export const logout = () => {
                 })
             } else {
                 let status = 'success'
-                if(response.data.status == 'success') {
+                if (response.data.status == 'success') {
                     status = 'fail';
                 }
                 // save our location in local storage
