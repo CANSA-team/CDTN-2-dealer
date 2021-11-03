@@ -50,6 +50,11 @@ const productReducer = (state: ProductState = initialState, action: ProductActio
                 ...state,
                 productShop: action.payload
             }
+        case ProductActionType.INSERT_PRODUCT:
+            return {
+                ...state,
+                productShop: action.payload
+            }
         default:
             return state;
 
