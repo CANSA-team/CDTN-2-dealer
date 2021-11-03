@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     image:{
         width: WIDTH,
         height: HEIGHT / 2.8,
+       
     },
     itemTitle:{
         color: 'white',
