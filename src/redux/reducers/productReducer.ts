@@ -46,18 +46,15 @@ const productReducer = (state: ProductState = initialState, action: ProductActio
                 productSearch: action.payload
             }
         case ProductActionType.GET_PRODUCT_SHOP:
-            return {
-                ...state,
-                productShop: action.payload
-            }
         case ProductActionType.INSERT_PRODUCT:
+        case ProductActionType.DELETE_PRODUCT:
+        case ProductActionType.UPDATE_PRODUCT:
             return {
                 ...state,
                 productShop: action.payload
             }
         default:
             return state;
-
     }
 }
 

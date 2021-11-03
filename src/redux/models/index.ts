@@ -27,8 +27,14 @@ export interface ProductModel {
     last_update: number;
     product_image_id: number[];
     product_avatar_id: number;
+    product_categories: ProductCat[];
     status: number;
 }
+export interface ProductCat{
+    label:string;
+    value:string;
+}
+
 //Product State
 export interface ProductState {
     productNew: ProductModel[];

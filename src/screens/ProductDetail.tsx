@@ -4,23 +4,21 @@ import { View, StyleSheet, Text, TouchableOpacity, ScrollView, ActivityIndicator
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Carousel from './../components/Carousel';
 import COLORS from '../consts/Colors';
-import { useNavigation } from './../utils/useNavigation';
 import { Rating } from 'react-native-elements';
 import {  CommentModel, getComments, ProductModel, State } from '../redux';
 import { vnd } from '../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
 import Comment from '../components/Comment';
 export default function ProductDetail(props: any) {
-    const { navigate } = useNavigation();
-    const { navigation, route } = props;
-    const { getParam, goBack } = navigation;
+    const { navigation } = props;
+    const { getParam } = navigation;
     const product:ProductModel = getParam('product');
     const dispatch = useDispatch();
     const commentState = useSelector((state: State) => state.commentReducer);
     const { comment } : { comment: CommentModel[]} = commentState;
 
     useEffect(() => {
-        dispatch(getComments(product.shop_id));
+        dispatch(getComments(product.product_id));
     }, [])
    
 
@@ -43,8 +41,7 @@ export default function ProductDetail(props: any) {
                         </View>
                         :
                         <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 10 }}>
-                            <Rating readonly imageSize={28} fractions="{1}" startingValue={0} />
-                            <Text style={{ marginLeft: 20, color: '#444', fontSize: 22 }}>{0}</Text>
+                            <Text style={{color: 'gray', fontSize: 20 }}>Chưa đánh giá</Text>
                         </View>
                     }
                     {product && <Text style={styles.title}>{product.product_title}</Text>}

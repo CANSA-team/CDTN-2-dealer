@@ -8,11 +8,14 @@ const WIDTH = Dimensions.get('window').width;
 
 interface ProductProps{
     productInfo:ProductModel;
-    onDetail:Function
+    onDetail:Function,
+    onTapEidt:Function,
+    onDelete:Function
 }
 export default function Product(props:ProductProps) {
-    const { productInfo, onDetail } :{ productInfo:ProductModel,onDetail:Function } = props;
+    const { productInfo, onDetail, onTapEidt, onDelete }:ProductProps = props;
     const swipeableRef = useRef<any>(null);
+
     const closeSwipeable = () => {
         swipeableRef.current.close();
     }
@@ -22,13 +25,18 @@ export default function Product(props:ProductProps) {
         onDetail()
     }
 
+    const swEdit = () =>{
+        closeSwipeable();
+        onTapEidt()
+    }
+    
     const boxRenderRight = ()=>{
         return (
             <>
-                <TouchableOpacity style={{width:75,height:110,backgroundColor:'#f53a4c',justifyContent:'center',alignItems:'center'}}>
+                <TouchableOpacity onPress={()=>onDelete()} style={{width:75,height:110,backgroundColor:'#f53a4c',justifyContent:'center',alignItems:'center'}}>
                     <AntDesign name="delete" style={{fontSize:22,color:'#fff'}}/>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={closeSwipeable} style={{width:80,height:110,backgroundColor:'#007bff',justifyContent:'center',alignItems:'center'}}>
+                <TouchableOpacity onPress={swEdit} style={{width:80,height:110,backgroundColor:'#007bff',justifyContent:'center',alignItems:'center'}}>
                     <Text style={{color:'#fff',fontSize:18}}>Sửa</Text>
                 </TouchableOpacity> 
             </>

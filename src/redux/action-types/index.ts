@@ -7,6 +7,8 @@ export enum ProductActionType{
     GET_PRODUCT_SHOP = 'GET_PRODUCT_SHOP',
     ON_PRODUCT_ERROR = 'ON_PRODUCT_ERROR',
     INSERT_PRODUCT = 'INSERT_PRODUCT',
+    UPDATE_PRODUCT = 'UPDATE_PRODUCT',
+    DELETE_PRODUCT = 'DELETE_PRODUCT',
 }
 
 export enum CartActionType{

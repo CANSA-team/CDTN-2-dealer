@@ -13,7 +13,14 @@ export interface InsertProduct {
     readonly type: ProductActionType.INSERT_PRODUCT,
     payload?: any
 }
-
+export interface UpdateProduct {
+    readonly type: ProductActionType.UPDATE_PRODUCT,
+    payload?: any
+}
+export interface DeleteProduct {
+    readonly type: ProductActionType.DELETE_PRODUCT,
+    payload?: any
+}
 export interface GetProductCategory {
     readonly type: ProductActionType.GET_PRODUCT_CATEGORY,
     payload?: [ProductModel]
@@ -43,7 +50,7 @@ export interface GetProductShop {
     payload?: [ProductModel]
 }
 
-export type ProductActions = InsertProduct | GetProductNew | ProductErrorAction | GetProductHot | GetProductCategory | GetProduct | GetProductSearch | GetProductShop;
+export type ProductActions = InsertProduct | GetProductNew | DeleteProduct | UpdateProduct | ProductErrorAction | GetProductHot | GetProductCategory | GetProduct | GetProductSearch | GetProductShop;
 
 export const getProductsNew = (option: number = 0) => {
     return async (dispatch: Dispatch<ProductActions>) => {
@@ -211,7 +218,6 @@ export const insertProduct = (data: any, shop_id: number) => {
     return async (dispatch: Dispatch<ProductActions>) => {
         try {
             const response = await axios.post<any>(`${cansa[1]}/api/product/insert/${shop_id}/e4611a028c71342a5b083d2cbf59c494`, data)
-            console.log(data, response);
             if (!response) {
                 dispatch({
                     type: ProductActionType.ON_PRODUCT_ERROR,
@@ -221,6 +227,61 @@ export const insertProduct = (data: any, shop_id: number) => {
                 // save our location in local storage
                 dispatch({
                     type: ProductActionType.INSERT_PRODUCT,
+                    payload: response.data.data
+                })
+            }
+
+        } catch (error) {
+            dispatch({
+                type: ProductActionType.ON_PRODUCT_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
+
+export const updateProduct = (data: any, shop_id: number) => {
+    return async (dispatch: Dispatch<ProductActions>) => {
+        try {
+            const response = await axios.post<any>(`${cansa[1]}/api/product/update/${shop_id}/e4611a028c71342a5b083d2cbf59c494`, data)
+            if (!response) {
+                dispatch({
+                    type: ProductActionType.ON_PRODUCT_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                // save our location in local storage
+                dispatch({
+                    type: ProductActionType.UPDATE_PRODUCT,
+                    payload: response.data.data
+                })
+            }
+
+        } catch (error) {
+            dispatch({
+                type: ProductActionType.ON_PRODUCT_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
+
+export const deleteProduct = (product_id: number, shop_id: number) => {
+    return async (dispatch: Dispatch<ProductActions>) => {
+        try {
+            const data = { product_id : product_id }
+            const response = await axios.post<any>(`${cansa[1]}/api/product/delete/${shop_id}/e4611a028c71342a5b083d2cbf59c494`, data)
+            if (!response) {
+                dispatch({
+                    type: ProductActionType.ON_PRODUCT_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                // save our location in local storage
+                dispatch({
+                    type: ProductActionType.DELETE_PRODUCT,
                     payload: response.data.data
                 })
             }
