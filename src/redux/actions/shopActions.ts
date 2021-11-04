@@ -18,8 +18,13 @@ export interface ShopErrorAction {
     readonly type: ShopActionType.ON_SHOP_ERROR,
     payload: any
 }
+export interface RegisterShopAction {
+    readonly type: ShopActionType.REGISTER_SHOP,
+    payload: any
+}
 
-export type ShopActions = GetShopInfo | ShopErrorAction | GetShopOwner;
+export type ShopActions = GetShopInfo | ShopErrorAction | GetShopOwner | RegisterShopAction;
+
 
 export const getShopInfo = (shop_id: number, option: number = 0) => {
     return async (dispatch: Dispatch<ShopActions>) => {
@@ -62,6 +67,41 @@ export const getShopOwner = (user_id: number, option: number = 0) => {
                 dispatch({
                     type: ShopActionType.GET_SHOP_OWNER,
                     payload: response.data.data
+                })
+            }
+
+        } catch (error) {
+            dispatch({
+                type: ShopActionType.ON_SHOP_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
+
+export const registerShop = (shop_name: string, shop_description: string, shop_owner: number, shop_avatar: number) => {
+    return async (dispatch: Dispatch<ShopActions>) => {
+        const data = {
+            shop_name: shop_name,
+            shop_description: shop_description,
+            shop_owner: shop_owner,
+            shop_avatar: shop_avatar
+        }
+        try {
+            const response = await axios.post<any>(`${cansa[1]}/api/shop/add/e4611a028c71342a5b083d2cbf59c494`, data)
+            
+            if (!response) {
+                dispatch({
+                    type: ShopActionType.ON_SHOP_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                // save our location in local storage
+                dispatch({
+                    type: ShopActionType.REGISTER_SHOP,
+
+                    payload: response.data
                 })
             }
 

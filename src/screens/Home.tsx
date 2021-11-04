@@ -16,15 +16,16 @@ export default function Home() {
     const userState: UserStage = useSelector((state: State) => state.userReducer);
     const { info }: { info: ShopModel } = shopSate;
     const { userInfor }: { userInfor: UserModel } = userState;
+    console.log(info);
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <HeaderBar />
-                <View style={styles.viewShop}> 
+                <View style={styles.viewShop}>
                     <View>
-                        <Image style={styles.imgShop} source={{uri:info.shop_avatar}} />
+                        <Image style={styles.imgShop} source={{ uri: info.shop_avatar }} />
                     </View>
-                     <View style={styles.shopContainer}>
+                    <View style={styles.shopContainer}>
                         <View style={styles.contactContainer}>
                             <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{SlugStr(info.shop_name, 23)}</Text>
                         </View>
@@ -35,17 +36,17 @@ export default function Home() {
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="phone-classic" color="#222" size={20} />
                             <Text style={styles.txtContact}>{userInfor.user_name}</Text>
-                        </View> 
+                        </View>
                     </View>
 
-                    </View> 
-                    <Text style={styles.txtAction}>Actions :</Text>
-                    <View style={styles.menuList}>
-                        <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
-                        <Menu onTab={() => navigate('OrderList')} icon="switcher" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
-                        <Menu onTab={() => navigate('ManagerProduct')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
-                    </View>
-                
+                </View>
+                <Text style={styles.txtAction}>Actions :</Text>
+                <View style={styles.menuList}>
+                    <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
+                    <Menu onTab={() => navigate('OrderList')} icon="switcher" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
+                    <Menu onTab={() => navigate('ManagerProduct')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
+                </View>
+
             </ScrollView>
         </View>
     )

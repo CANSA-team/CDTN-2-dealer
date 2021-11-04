@@ -21,6 +21,8 @@ import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 import AddProduct from '../screens/ManagerProduct/AddProduct';
 import OrderList from '../screens/OrderList';
+import ProductDetail from '../screens/ProductDetail';
+import EditProduct from '../screens/ManagerProduct/EditProduct';
 
 
 const DIMENS = {
@@ -91,8 +93,9 @@ const switchNavigator = createSwitchNavigator({
                 Home: Home,
                 ManagerProduct:ManagerProduct,
                 AddProduct:AddProduct,
-                OrderList:OrderList
-
+                OrderList:OrderList,
+                ProductDetail:ProductDetail,
+                EditProduct: EditProduct
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

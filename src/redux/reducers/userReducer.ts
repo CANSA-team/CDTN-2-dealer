@@ -18,7 +18,7 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
                 ...state,
                 check: action.payload
             }
-        case UserActionType.GET_UER_INFO:
+        case UserActionType.GET_USER_INFO:
             return {
                 ...state,
                 userInfor: action.payload
