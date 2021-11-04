@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Component, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -7,62 +7,51 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '../../utils/useNavigation'
+import axios from 'axios';
+import { cansa } from '../../consts/Selector'
 
 export default function Resgister() {
+  const { navigate } = useNavigation();
+
   const [name, setName] = useState('')
   const [nameValdate, setNameValdate] = useState(true)
   const [email, setEmail] = useState('')
-  const [emailValdate, setEmailValdate] = useState(true)
-
+  const [emailValdate, setEmailValdate] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
   const [confirmPassword, setconfirmPassword] = useState('')
   const [confirmPasswordValdate, setconfirmPasswordValdate] = useState(true)
 
-
   const valiDate = (text: any, type: any) => {
-    const nameRegex = /^[A-z]*$|^[A-z]+\s[A-z]*$/
+    const nameRegex = ''
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-    if (type == 'name') {
-      if (nameRegex.test(text)) {
-        setName(text)
-        setNameValdate(true)
-      }
-      else {
-        setName('')
-        setNameValdate(false)
-        console.warn('FullName chưa hợp lệ , cần ghi đủ họ tên')
-      }
-    }
-    else if (type == 'email') {
+    if (type == 'email') {
       if (emailRegex.test(text)) {
         setEmail(text)
         setEmailValdate(true)
       }
       else {
-       setEmail('')
-       setEmailValdate(false)
-        console.warn('Email chưa hợp lệ example@gmail.com')
+        setEmailValdate(false)
       }
     }
-    else if (type == 'password'){
+    else if (type == 'password') {
       if (passwordRegex.test(text)) {
         setPassword(text)
-        setPasswordValdate(true); 
+        setPasswordValdate(true)
       }
       else {
-        setPassword('')
         setPasswordValdate(false)
-        console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
       }
     }
     else if (type == 'confirmpassword'){
-      if (password === text) {
+      if (text(text) != password) {
         setconfirmPassword(text)
         setconfirmPasswordValdate(true);
       }
@@ -71,10 +60,35 @@ export default function Resgister() {
         setconfirmPasswordValdate(false); 
         console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
       }
+    }else if (type == 'nickname') {
+      if (text!=null) {
+        setName(text)
+        setNameValdate(true)
+      }
+      else {
+        setNameValdate(false)
+      }
     }
-    
   }
+  const registerBtn = () => {
+    if (email != '' && password != '') {
+      axios.get(`${cansa[1]}/api/user/create/1/${name}/${password}/${email}/e4611a028c71342a5b083d2cbf59c494`)
+        .then(res => {
+          console.log(res.data.status)
+          //Trạng thái khi đăng nhập thành công
+          if (res.data.status == 'success') {
+            navigate('Login');
+            Alert.alert('Thông báo', res.data.message);
+          } else {
+            Alert.alert('Thông báo', res.data.message);
+          }
 
+        })
+        .catch(error => console.log(error));
+    } else {
+      Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
+    }
+  }
   const Divider = (props: any) => {
     return <View {...props}>
       <View style={styles.line}></View>
@@ -86,6 +100,11 @@ export default function Resgister() {
     //Donot dismis Keyboard when click outside of TextInput
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity>
+            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white" onPress={() => { navigate('Login') }} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.up}>
           <Ionicons
             name="ios-speedometer"
@@ -100,13 +119,13 @@ export default function Resgister() {
 
           <View style={styles.textInputContainer}>
             <TextInput
-              style={[styles.textInput, !nameValdate ? styles.error : null]}
+              style={styles.textInput}
               textContentType='nickname'
               autoCapitalize="sentences"
               returnKeyType="next"
               placeholder="Enter your name"
-              maxLength={50}
-              onChangeText={(text) => valiDate(text, 'name')}
+              maxLength={20}
+              onChangeText={(text) => valiDate(text, 'nickname')}
             >
             </TextInput>
           </View>
@@ -142,8 +161,11 @@ export default function Resgister() {
             </TextInput>
           </View>
 
-          <TouchableOpacity style={styles.registerButton}>
-            <Text style={styles.registerButtonTitle}>Sign Up</Text>
+
+          <TouchableOpacity style={styles.registerButton}
+            onPress={() => { registerBtn() }}
+          >
+            <Text style={styles.registerButtonTitle}>Register</Text>
           </TouchableOpacity>
 
           <Divider style={styles.divider}></Divider>
@@ -166,18 +188,13 @@ export default function Resgister() {
             </FontAwesome.Button>
 
           </View>
-          <TouchableOpacity style={styles.forgotButton}>
-            <Text style={styles.navButtonText}>
-              Have an account? Sign In
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>
 
   )
-}
 
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -186,6 +203,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     backgroundColor: '#33FF99'
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5,
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    right: 0,
+    zIndex: 2
+  },
+  headerIcon: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: 50,
+    padding: 5
   },
   up: {
     flex: 3,

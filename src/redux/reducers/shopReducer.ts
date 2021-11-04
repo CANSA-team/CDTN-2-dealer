@@ -4,13 +4,18 @@ import { CommentState, CommentModel, ShopState, ShopModel } from "../models";
 
 
 const initialState: ShopState = {
-    info: undefined,
+    info: {} as ShopModel,
     error: undefined
 }
 
 const shopReducer = (state: ShopState = initialState, action: ShopActions) => {
     switch (action.type) {
         case ShopActionType.GET_SHOP_INFO:
+            return {
+                ...state,
+                info: action.payload
+            }
+        case ShopActionType.GET_SHOP_OWNER:
             return {
                 ...state,
                 info: action.payload

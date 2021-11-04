@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet,Image } from 'react-native';
-import { State } from '../redux';
+import { checkLogin, State, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 import COLORS from '../consts/Colors';
 
@@ -9,21 +9,26 @@ import { updateAccess } from '../redux/actions/accessActions';
 
 export default function Lauding(){
     const accessState = useSelector((state: State) => state.accessReducer);
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { check }: { check: boolean } = userState;
 
     const { navigate } = useNavigation();
     const { message } = accessState;
     const dispatch = useDispatch();
 
     useEffect(()=>{
+        dispatch(checkLogin());
         dispatch(updateAccess());
     },[])
 
 
     useEffect(()=>{
-        if(message != ''){
+        if(!check && message != ''){
+            navigate('loginStack')
+        }else{
             navigate('homeStack')
         }
-    },[accessState]);
+    },[accessState,userState]);
 
     return (
         <View style={styles.container}>

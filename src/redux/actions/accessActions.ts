@@ -19,7 +19,7 @@ export type AccessActions = UpdateAccess | AccessErrorAction;
 export const updateAccess = () => {
     return async ( dispatch: Dispatch<AccessActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/api/access/update/e4611a028c71342a5b083d2cbf59c494`)
+            const response = await axios.get<any>(`${cansa[1]}/api/access/update/e4611a028c71342a5b083d2cbf59c494`, { withCredentials: true })
             if(!response){
                 dispatch({
                     type: AccessActionType.ON_ACCESS_ERROR,

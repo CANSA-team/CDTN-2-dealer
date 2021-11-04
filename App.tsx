@@ -3,20 +3,16 @@ import { StyleSheet} from 'react-native';
 import SwitchNavigation from './src/components/SwitchNavigation';
 import { Provider} from 'react-redux';
 import { store } from './src/redux/store';
-import Login from './src/screens/Auth/Login';
-import Resgister from './src/screens/Auth/Register';
-import OTPscreen from './src/screens/Auth/OTPscreen';
-import PasswordInformation from './src/screens/Auth/PasswordInformation';
-import Account from './src/screens/Account';
-import Categories from './src/screens/Account'
-import ProductDetail from './src/screens/ProductDetail';
+import RegisterShop from './src/screens/Shop/RegisterShop';
+import EditProfile from './src/screens/User/EditProfile';
+import Profile from './src/screens/User/Profile';
+import ProfileShop from './src/screens/Shop/ProfileShop';
+import EditProfileShop from './src/screens/Shop/EditProfileShop';
 
 export default function App() {
-
-
   return (
     <Provider store={store}>
-      <ProductDetail />
+      <SwitchNavigation />
     </Provider>
   );
 }

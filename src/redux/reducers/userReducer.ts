@@ -1,13 +1,16 @@
 import { CommentActionType, SliderActionType, UserActionType } from "../action-types";
 import { CommentActions } from "../actions/commentActions";
 import { UserActions } from "../actions/userActions";
-import { CommentState, CommentModel, UserStage,UserModel } from "../models";
+import { CommentState, CommentModel, UserStage, UserModel } from "../models";
 
 
 const initialState: UserStage = {
     check: false,
-    userInfor: undefined,
+    checkFogotPassword: false,
+    userInfor: {} as UserModel,
+    status: '',
     error: undefined
+
 }
 
 const userReducer = (state: UserStage = initialState, action: UserActions) => {
@@ -27,6 +30,38 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
                 ...state,
                 error: action.payload
             }
+        case UserActionType.LOGIN:
+            return {
+                ...state,
+                status: action.payload
+            }
+        case UserActionType.LOGOUT:
+            return {
+                ...state,
+                status: action.payload
+            }
+        case UserActionType.REGISTER:
+            return {
+                ...state,
+                status: action.payload
+            }
+        case UserActionType.FORGOTT_PASSWORD:
+            return {
+                ...state,
+                status: action.payload
+            }
+        case UserActionType.FORGOTT_PASSWORD_OTP:
+            return {
+                ...state,
+                check: action.payload
+            }
+        case UserActionType.FORGOTT_PASSWORD_CENTER:
+            return {
+                ...state,
+                checkFogotPassword: action.payload
+            }
+
+
         default:
             return state;
 

@@ -41,13 +41,18 @@ export interface ProductState{
 /**
  * User
  */
-export class UserModel {
-    user_id?: number;
-    user_key?: null;
-    user_name?: string;
-    user_avatar?: string;
-    user_status?: number;
-    user_last_update?: number;
+export interface UserModel {
+    user_id: number;
+    user_phone: string;
+    user_email: string;
+    user_key: null;
+    user_name: string;
+    user_avatar: string;
+    user_status: number;
+    user_last_update: number;
+    user_real_name: string;
+    user_birthday: Date;
+
 }
 
 /**
@@ -158,7 +163,7 @@ export interface CommentState{
 }
 
 export interface ShopState{
-    info?: ShopModel;
+    info: ShopModel;
     error: string | undefined;
 }
 
@@ -174,12 +179,13 @@ export interface userModel{
     user_phone:string,
     user_profile_name:string,
     user_email:string,
-
 }
 
 export interface UserStage{
     check: boolean;
-    userInfor?: UserModel;
+    checkFogotPassword: boolean;
+    userInfor: UserModel;
+    status: string;
     error: string | undefined;
 }
 
@@ -187,7 +193,6 @@ export interface ComplaintStage{
     status?: string;
     error: string | undefined;
 }
-
 
 export interface ImageStage{
     status?: string;

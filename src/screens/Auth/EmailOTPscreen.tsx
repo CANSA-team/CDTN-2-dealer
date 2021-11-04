@@ -54,7 +54,7 @@ export default function EmailOTPscreen() {
                     <Text style={styles.title}>
                         Email OTP Code
                     </Text>
-                    <Text style={{ color: 'rgb(221, 97, 97)', fontSize: 15, marginTop: 10, textAlign:"center" }}>
+                    <Text style={{ color: 'rgb(221, 97, 97)', fontSize: 15, marginTop: 10 }}>
                         We will send 4 digits code to your email for the verifiction
                     </Text>
                 </View>
