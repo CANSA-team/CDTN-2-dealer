@@ -1,13 +1,15 @@
 import React, { memo, useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, Text, StyleSheet, Alert, CheckBox } from 'react-native';
+import { View, TouchableOpacity, Image, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Avatar, Accessory, Input } from 'react-native-elements';
+import { Avatar, Accessory, Input, CheckBox } from 'react-native-elements';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import * as ImagePicker from 'expo-image-picker';
+
 import {
     shopNameValidator,
     shopDescriptionValidator,
     imgValidator,
+    tempValidator,
 } from '../../core/utils';
 import { State, UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop, ShopState, ShopModel, RegisterShopModel, getShopOwner } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,10 +18,13 @@ import { saveImage } from '../../consts/Selector';
 import HeaderTitle from '../../components/HeaderTitle';
 import COLORS from '../../consts/Colors';
 
-
 export default function RegisterShop() {
-    const [isSelected, setSelection] = useState(false);
+    const [checked, setChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [buttonC, setbuttonC] = useState(false);
+
     const [shop_name, setShop_name] = useState('');
+
     const [shop_description, setShop_description] = useState('');
 
     const [image, setImage] = useState('../../../assets/arrow_back.png');
@@ -33,6 +38,7 @@ export default function RegisterShop() {
 
 
     useEffect(() => {
+
         if (register_status.status == 'fail') {
             Alert.alert('Thông báo', register_status.message, [
                 { text: "OK" }
@@ -41,6 +47,7 @@ export default function RegisterShop() {
             Alert.alert('Thông báo', register_status.message, [
                 { text: "OK", onPress: () => dispatch(getShopOwner(userInfor.user_id)) }
             ])
+            setLoading(true);
         }
     }, [register_status])
 
@@ -48,6 +55,7 @@ export default function RegisterShop() {
         if (Object.keys(info).length !== 0) {
             console.log(info)
             navigate('homeStack')
+            setLoading(false);
         }
     }, [info])
 
@@ -68,15 +76,19 @@ export default function RegisterShop() {
 
 
     const onPress = () => {
+
         const shop_nameError = shopNameValidator(shop_name);
         const shop_descriptionError = shopDescriptionValidator(shop_description);
+        const shop_TempError = tempValidator(checked);
 
-        if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png') {
-            console.log(75,shop_nameError, shop_descriptionError );
+        if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png' || shop_TempError) {
 
+            Alert.alert('Thông báo', shop_nameError + shop_descriptionError + shop_TempError + 'Vui lòng bổ sung hình ảnh')
             return;
         } else {
-            console.log(shop_name, shop_description, image);
+            setbuttonC(true);
+            setLoading(true);
+
             let _avatar: ImageId = { id: 0 };
             const avatar_img = {
                 uri: image,
@@ -84,8 +96,10 @@ export default function RegisterShop() {
                 type: 'image/jpg'
             }
             const saveAvt: Promise<void> = saveImage(avatar_img, _avatar);
+
             Promise.all([saveAvt]).then(() => {
                 dispatch(registerShop(shop_name, shop_description, userInfor.user_id, _avatar.id));
+                setLoading(false);
             })
         }
 
@@ -110,7 +124,7 @@ export default function RegisterShop() {
                     <HeaderTitle title={'Đăng Ký Bán Hàng'} />
                     <View style={styles.header}>
                         <TouchableOpacity>
-                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => { return; }} />
+                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => _logout()} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -146,22 +160,23 @@ export default function RegisterShop() {
                         onChangeText={setShop_description}
                     />
 
-                    <View style={styles.containerC}>
-                        <View style={styles.checkboxContainer}>
-                            <CheckBox
-                                value={isSelected}
-                                onValueChange={setSelection}
-                                style={styles.checkbox}
-                            />
-                            <Text style={styles.label}>Đồng Ý Điều Khoản Sử Dụng? {isSelected ? "👍" : "👎"}</Text>
-                        </View>
-                    </View>
-
+                    <CheckBox
+                        center
+                        title='Đồng Ý Điều Khoản Sử Dụng?'
+                        checkedIcon='dot-circle-o'
+                        uncheckedIcon='circle-o'
+                        checked={checked}
+                        onPress={() => setChecked(!checked)}
+                    />
+                    <ActivityIndicator
+                        animating={loading}
+                    />
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 8 }}>
-                        <TouchableOpacity onPress={() => onPress()}>
+                        <TouchableOpacity disabled={buttonC} onPress={() => onPress()}>
                             <Text style={styles.btnBuy}>Lưu</Text>
                         </TouchableOpacity>
                     </View>
+
                 </View>
             </View>
         </View>
@@ -169,25 +184,15 @@ export default function RegisterShop() {
 };
 
 const styles = StyleSheet.create({
-
-    containerC: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-      },
-      checkboxContainer: {
-        flexDirection: "row",
-        marginBottom: 20,
-      },
-      checkbox: {
-        alignSelf: "center",
-      },
-      label: {
+    spinnerTextStyle: {
+        color: '#FFF',
+    },
+    label: {
         margin: 8,
-      },
+    },
 
 
-    
+
     container: {
         flex: 1,
         backgroundColor: '#E5E5E5',
