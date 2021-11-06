@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet,Image } from 'react-native';
-import { checkLogin, State, UserStage } from '../redux';
+import { View, Text, StyleSheet,Image, Alert } from 'react-native';
+import { checkLogin, getShopOwner, getUserInfo, ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 import COLORS from '../consts/Colors';
 
@@ -10,25 +10,54 @@ import { updateAccess } from '../redux/actions/accessActions';
 export default function Lauding(){
     const accessState = useSelector((state: State) => state.accessReducer);
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check }: { check: boolean } = userState;
-
+    const { check, status, userInfor }: { check: boolean, status: string, userInfor: UserModel } = userState;
+    const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+    const { info }: { info: ShopModel } = shopSate;
+    const {message} = accessState;
     const { navigate } = useNavigation();
-    const { message } = accessState;
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        dispatch(checkLogin());
+        
         dispatch(updateAccess());
     },[])
 
-
-    useEffect(()=>{
-        if(!check && message != ''){
-            navigate('loginStack')
-        }else{
-            navigate('homeStack')
+    useEffect(() => {
+        if (check) {
+          if (info) {
+            navigate('homeStack');
+          } else {
+            //chuyển đến màn hình đăng ký shop
+            //------------------------------------------------------------------------------
+            Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
+              { text: "OK", onPress: () => navigate('registerShopStack')}
+            ])
+            //------------------------------------------------------------------------------
+          }
         }
-    },[accessState,userState]);
+      }, [info, userInfor])
+
+    useEffect(() => {
+        if(!check && message){
+            navigate('loginStack')
+        }
+        else if(check && message){
+            dispatch(getUserInfo())
+        }
+    }, [check])
+
+    useEffect(() => {
+        if (message) {
+            
+            dispatch(checkLogin());
+        }
+    }, [accessState])
+
+    useEffect(() => {
+     if (userInfor) {
+        dispatch(getShopOwner(userInfor.user_id));
+        }
+    }, [userInfor])
 
     return (
         <View style={styles.container}>

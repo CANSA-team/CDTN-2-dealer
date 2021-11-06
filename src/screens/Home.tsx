@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import Menu from '../components/Menu';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SlugStr } from '../consts/Selector';
+import { SlugStr, SlugStrTitle } from '../consts/Selector';
 import COLORS from '../consts/Colors';
 import { useNavigation } from '../utils/useNavigation';
 import { ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
@@ -27,15 +27,15 @@ export default function Home() {
                     </View>
                     <View style={styles.shopContainer}>
                         <View style={styles.contactContainer}>
-                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{SlugStr(info.shop_name, 23)}</Text>
+                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{ info.shop_name && SlugStrTitle(info.shop_name, 23)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="email-outline" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{SlugStr(userInfor.user_name, 22)}</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_name && SlugStrTitle(userInfor.user_name, 22)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="phone-classic" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{userInfor.user_name}</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_name && userInfor.user_name}</Text>
                         </View>
                     </View>
 
