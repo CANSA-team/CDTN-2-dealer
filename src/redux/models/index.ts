@@ -94,6 +94,7 @@ export interface ShopModel {
     shop_avatar: string;
     last_update: number;
     status: number;
+    shop_avatar_id: number;
 }
 
 /**

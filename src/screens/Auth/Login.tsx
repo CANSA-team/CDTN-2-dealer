@@ -40,6 +40,7 @@ export default function Login(props: any) {
   useEffect(() => {
     dispatch(checkLogin());
   }, [status])
+  
   useEffect(() => {
     if (check) {
       dispatch(getUserInfo())
@@ -54,9 +55,12 @@ export default function Login(props: any) {
 
   useEffect(() => {
     if (check) {
-      if (info) {
+      
+      if (Object.keys(info).length !== 0) {
+        console.log(info, 60);
         navigate('homeStack');
-      } else {
+        
+      } else{
         //chuyển đến màn hình đăng ký shop
         //------------------------------------------------------------------------------
         Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [

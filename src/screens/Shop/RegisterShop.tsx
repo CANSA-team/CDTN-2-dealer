@@ -45,7 +45,7 @@ export default function RegisterShop() {
     }, [register_status])
 
     useEffect(() => {
-        if (info) {
+        if (Object.keys(info).length !== 0) {
             console.log(info)
             navigate('homeStack')
         }
@@ -72,7 +72,7 @@ export default function RegisterShop() {
         const shop_descriptionError = shopDescriptionValidator(shop_description);
 
         if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png') {
-
+            console.log(75,shop_nameError, shop_descriptionError );
 
             return;
         } else {
@@ -158,9 +158,7 @@ export default function RegisterShop() {
                     </View>
 
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 8 }}>
-                        <TouchableOpacity onPress={() => {
-                            { return; }
-                        }}>
+                        <TouchableOpacity onPress={() => onPress()}>
                             <Text style={styles.btnBuy}>Lưu</Text>
                         </TouchableOpacity>
                     </View>

@@ -243,7 +243,6 @@ export default function AddProduct(props: any) {
                                     activeOpacity={0.7}
                                     source={{ uri: avatar }}
                                     avatarStyle={{borderWidth: 3,borderColor:'gray',borderRadius:10}}
-                                    
                                 />
                             </View>
                             {avatarError && <Text style={styles.txtError}>Bạn chưa chọn ảnh đại diện sản phẩm</Text>}
