@@ -65,14 +65,12 @@ export default function RegisterShop() {
         dispatch(logout());
     }
 
-
     const onPress = () => {
         const shop_nameError = shopNameValidator(shop_name);
         const shop_descriptionError = shopDescriptionValidator(shop_description);
 
         if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png') {
-            console.log(75,shop_nameError, shop_descriptionError );
-
+            Alert.alert('Thông báo', 'Nhập thiếu trường hoặc chưa đủ!!')
             return;
         } else {
             console.log(shop_name, shop_description, image);
@@ -87,7 +85,6 @@ export default function RegisterShop() {
                 dispatch(registerShop(shop_name, shop_description, userInfor.user_id, _avatar.id));
             })
         }
-
     };
 
     let getImg = async () => {
