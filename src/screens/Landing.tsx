@@ -24,7 +24,7 @@ export default function Lauding(){
 
     useEffect(() => {
         if (check) {
-          if (info) {
+          if (Object.keys(info).length === 0) {
             navigate('homeStack');
           } else {
             //chuyển đến màn hình đăng ký shop
@@ -34,6 +34,8 @@ export default function Lauding(){
             ])
             //------------------------------------------------------------------------------
           }
+        }else{
+            navigate('loginStack')
         }
       }, [info, userInfor])
 

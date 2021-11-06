@@ -30,9 +30,9 @@ export interface ProductModel {
     product_categories: ProductCat[];
     status: number;
 }
-export interface ProductCat{
-    label:string;
-    value:string;
+export interface ProductCat {
+    label: string;
+    value: string;
 }
 
 //Product State
@@ -94,6 +94,7 @@ export interface ShopModel {
     shop_avatar: string;
     last_update: number;
     status: number;
+    shop_avatar_id: number;
 }
 
 /**
@@ -168,6 +169,7 @@ export interface CommentState {
 export interface ShopState {
     info: ShopModel;
     error: string | undefined;
+    register_status: RegisterShopModel;
 }
 
 export interface AccessState {
@@ -204,4 +206,9 @@ export interface ImageStage {
 
 export interface ImageId {
     id: number;
+}
+//Dang ky shop
+export interface RegisterShopModel {
+    status: string;
+    message: string;
 }

@@ -38,7 +38,9 @@ export enum ShopActionType {
     GET_SHOP_INFO = 'GET_SHOP_INFO',
     ON_SHOP_ERROR = 'ON_SHOP_ERROR',
     GET_SHOP_OWNER = 'GET_SHOP_OWNER',
+    REGISTER_SHOP = 'REGISTER_SHOP'
 }
+
 
 export enum AccessActionType {
     UPDATE_ACCESS_INFO = 'UPDATE_ACCESS_INFO',

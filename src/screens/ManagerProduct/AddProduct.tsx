@@ -34,6 +34,7 @@ export default function AddProduct(props: any) {
     const productState: ProductState = useSelector((state: State) => state.productReducer);
     const dispatch = useDispatch();
     const { info }: { info: ShopModel } = shopState;
+    
     const { productShop }: { productShop: ProductModel[] } = productState;
     const { categories }: { categories: CategoryModel[] } = categoryState;
 
