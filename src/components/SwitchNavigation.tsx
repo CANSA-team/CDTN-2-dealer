@@ -74,6 +74,7 @@ const switchNavigator = createSwitchNavigator({
 
     },
     
+    
 
 
     // shopStack:{
@@ -131,8 +132,8 @@ const switchNavigator = createSwitchNavigator({
         account: {
             screen: createStackNavigator({         
                 Account: Account,
-                Profile:Profile,
-                EditProfile: EditProfile,
+                ProfileShop:ProfileShop,
+                EditProfileShop: EditProfileShop,
                 EmailOTPscreen,
                 ChangePassword,
                 OTPscreen,

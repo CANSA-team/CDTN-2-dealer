@@ -31,6 +31,11 @@ const shopReducer = (state: ShopState = initialState, action: ShopActions) => {
                 ...state,
                 register_status: action.payload
             }
+        case ShopActionType.EDIT_PROFILE_SHOP:
+            return {
+                ...state,
+                info: action.payload
+            }
         default:
             return state;
 
