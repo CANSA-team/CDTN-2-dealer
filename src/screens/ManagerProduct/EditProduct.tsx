@@ -3,25 +3,27 @@ import { LogBox, View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAv
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
-import { Avatar, Button } from 'react-native-elements';
+import { Avatar,Button } from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
 import COLORS from '../../consts/Colors';
 import { Controller, useForm } from "react-hook-form";
-import { getCategories, handleCats, saveImage } from '../../consts/Selector';
+import { getCategories, handleCats, saveImage, updateImage } from '../../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { CategoryModel, CategoryState, getCategory, ImageId, insertProduct, ProductModel, ProductState, ShopModel, ShopState, State } from '../../redux';
+import { ProductCat,CategoryModel, CategoryState, getCategory, ImageId, insertProduct, ProductModel, ProductState, ShopModel, ShopState, State, updateProduct } from '../../redux';
 import { useNavigation } from '../../utils/useNavigation';
+import { borderWidth } from 'styled-system';
 
 interface CategoriesProps {
     label: string,
     value: string
 }
-
-export default function AddProduct(props: any) {
+export default function EditProduct(props: any) {
+    const { navigation } = props;
+    const { getParam } = navigation;
+    const product:ProductModel = getParam('product');
     const { navigate } = useNavigation();
     const { control, handleSubmit, formState: { errors } } = useForm();
-    const { navigation } = props;
-    const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494');
+    const [avatar, setAvatar] = useState(product.product_avatar);
     const [images, setImages] = useState<any>([])
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [catError, setCatError] = useState<boolean>(false);
@@ -36,23 +38,39 @@ export default function AddProduct(props: any) {
     const { info }: { info: ShopModel } = shopState;
     const { productShop }: { productShop: ProductModel[] } = productState;
     const { categories }: { categories: CategoryModel[] } = categoryState;
+    const [tempImgId, setTempImgId] = useState(product.product_image_id)
+    const [checkAvatar, setcheckAvatar] = useState(false)
 
     useEffect(() => {
         if (productShop && isInsert) {
             setIsInsert(false);
-            
             navigate('ManagerProduct')
         }
     }, [productState])
 
     useEffect(() => {
         const catRenders = getCategories(categories);
-        setCategoriesRender(catRenders);
+        setCategoriesRender(catRenders)
+        const arr = product.product_categories.map((item:ProductCat) => item.value);
+        setSelectedItems(arr);
     }, [categories])
 
     useEffect(() => {
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
         dispatch(getCategory());
+        let arr:any[] = [];
+        product.product_image.forEach((item,index)=>
+            arr.push(
+                <Avatar
+                    key={index}
+                    size="xlarge"
+                    title="CR"
+                    activeOpacity={0.7}
+                    source={{ uri: item }}
+                />
+            )
+        )
+        setImages(arr)
     }, [])
 
 
@@ -71,16 +89,23 @@ export default function AddProduct(props: any) {
 
         if (!result.cancelled) {
             setAvatar(result.uri);
+            setcheckAvatar(true)
         }
     };
 
 
     const deleteImages = (index: number) => {
+        if (tempImgId.length > 0 && tempImgId.length-1 >= index) {
+            let dataTemp = [...tempImgId]
+            dataTemp.splice(index, 1)
+            setTempImgId(dataTemp);
+        }
         let data = [...images]
         data.splice(index, 1);
         setImages(data);
     }
 
+    
     const getGallerys = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -91,7 +116,8 @@ export default function AddProduct(props: any) {
         if (!result.cancelled) {
             let img = (
                 <Avatar
-                    size="xlarge"
+                    avatarStyle={{width:160,height:120}}
+                    size="large"
                     title="CR"
                     activeOpacity={0.7}
                     source={{ uri: result.uri }}
@@ -102,42 +128,66 @@ export default function AddProduct(props: any) {
         }
     }
 
-    const onSubmit = (data: any) => {
+
+    const onSubmit = (data: any) =>{
+        Alert.alert(
+            "Thông báo!",
+            'Xác nhận sửa',
+            [
+                { text: "Xác nhận",onPress:() => accept(data) },
+                { text: "Huỷ" }
+            ]
+        );
+    }
+
+    const accept = (data: any) => {
         setIsInsert(true);
         if (selectedItems.length >= 1 && images.length >= 1) {
             if (avatar !== 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
                 let cats = handleCats(selectedItems);
+                let saveAvt: Promise<void>
                 let _avatar: ImageId = { id: 0 };
-                const avatar_img = {
-                    uri: avatar,
-                    name: 'userProfile.jpg',
-                    type: 'image/jpg'
+                if(checkAvatar){
+                    const avatar_img = {
+                        uri: avatar,
+                        name: 'userProfile.jpg',
+                        type: 'image/jpg'
+                    }
+                    saveAvt = updateImage(avatar_img, product.product_avatar_id,_avatar);
+                }else{
+                    saveAvt = new Promise((resolve,reject)=>resolve())
                 }
-                const saveAvt: Promise<void> = saveImage(avatar_img, _avatar);
 
                 let saveImg: Promise<void>[] = [];
                 let __images: ImageId[] = [] as ImageId[];
 
                 images.map((item: any, index: number) => {
-                    __images.push({ id: 0 });
-                    const _img = {
-                        uri: item.props.source.uri,
-                        name: 'userProfile.jpg',
-                        type: 'image/jpg'
+                    if (index >= tempImgId.length) {     
+                        __images.push({ id: 0 });
+                            const _img = {
+                                uri: item.props.source.uri,
+                                name: 'userProfile.jpg',
+                                type: 'image/jpg'
+                        
+                            }
+                        saveImg.push(saveImage(_img, __images[__images.length - 1]));
                     }
-                    saveImg.push(saveImage(_img, __images[index]));
                 })
 
-                Promise.all([...saveImg, saveAvt]).then(() => {
+                Promise.all([...saveImg,saveAvt]).then(() => {
+                    
                     let product_images = __images.map((item: any) => item.id);
-
+                    const avatarId = checkAvatar ? _avatar.id : product.product_avatar_id;
+                    product_images = [...product_images, ...tempImgId]
                     data = {
                         ...data,
-                        product_avatar: _avatar.id,
+                        product_avatar: avatarId,
                         product_categories: cats,
-                        product_image: product_images.join(",")
+                        product_image: product_images.join(","),
+                        last_update:product.last_update,
+                        product_id:product.product_id
                     }
-                    dispatch(insertProduct(data, info.shop_id));
+                    dispatch(updateProduct(data, info.shop_id));
                     setCatError(false)
                     setAvatarError(false)
                 })
@@ -156,13 +206,14 @@ export default function AddProduct(props: any) {
         }
     }
 
+   
     return (
         isInsert ?
             (<View style={[styles.container,{justifyContent:'center',alignItems:'center'}]}>
                 <ActivityIndicator size="large" color="#00ff00" />
             </View>) :
             <View style={styles.container}>
-                <HeaderTitle title="Thêm sản phẩm" />
+                <HeaderTitle title="Sửa sản phẩm" />
                 <View style={styles.header}>
                     <TouchableOpacity>
                         <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
@@ -190,12 +241,13 @@ export default function AddProduct(props: any) {
                                             placeholderTextColor="#888"
                                             numberOfLines={10}
                                             multiline={true}
-                                            value={value}
+                                            value={value}                                           
                                             maxLength={255}
+                                           
                                         />
                                     )}
                                     name="product_title"
-                                    defaultValue=""
+                                    defaultValue={product.product_title}
                                 />
                             </View>
                             {errors.product_title && <Text style={styles.txtError}>Tên sản phẩm phải có</Text>}
@@ -242,6 +294,7 @@ export default function AddProduct(props: any) {
                                     activeOpacity={0.7}
                                     source={{ uri: avatar }}
                                     avatarStyle={{borderWidth: 3,borderColor:'gray',borderRadius:10}}
+                                    
                                 />
                             </View>
                             {avatarError && <Text style={styles.txtError}>Bạn chưa chọn ảnh đại diện sản phẩm</Text>}
@@ -292,7 +345,7 @@ export default function AddProduct(props: any) {
                                         />
                                     )}
                                     name="product_price"
-                                    defaultValue=""
+                                    defaultValue={product.product_price.toString()}
                                 />
                             </View>
                             {errors.product_price && <Text style={styles.txtError}>Giá là số và phải lớn hơn 1.000đ</Text>}
@@ -322,7 +375,7 @@ export default function AddProduct(props: any) {
                                         />
                                     )}
                                     name="product_sale"
-                                    defaultValue=""
+                                    defaultValue={product.product_sale ? product.product_sale.toString() : ""}
                                 />
                             </View>
                             {errors.product_sale && <Text style={styles.txtError}>Nhập phần trăm giảm nhập số (1 - 99) </Text>}
@@ -350,7 +403,7 @@ export default function AddProduct(props: any) {
                                         />
                                     )}
                                     name="product_description"
-                                    defaultValue=""
+                                    defaultValue={product.product_description}
                                 />
                             </View>
                             {errors.product_description && <Text style={styles.txtError}>Mô tả phải có và ít hơn 1000 ký tự</Text>}
@@ -358,7 +411,7 @@ export default function AddProduct(props: any) {
                         <View style={styles.viewTotal}>
                             <Button
                                 onPress={handleSubmit(onSubmit)}
-                                title="Thêm sản phẩm"
+                                title="Sửa sản phẩm"
                                 buttonStyle={styles.btnContinute}
                             />
                         </View>
@@ -371,11 +424,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    imgPrimary:{
-        borderRadius: 6,
-        backgroundColor: '#fff',
-        padding: 2
     },
     imgSub:{
         flexDirection:'row',
@@ -427,6 +475,11 @@ const styles = StyleSheet.create({
         color: '#666464',
         marginBottom: 5,
         fontWeight: 'bold'
+    },
+    imgPrimary:{
+        borderRadius: 6,
+        backgroundColor: '#fff',
+        padding: 2
     },
     textAreaContainer: {
         borderColor: 'gray',

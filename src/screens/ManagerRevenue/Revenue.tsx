@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import { BarChart } from "react-native-gifted-charts";
@@ -7,22 +7,44 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+const data = [
+    {
+        revenue_id: 1,
+        revenue_month: 9,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 300000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 2,
+        revenue_month: 10,
+        revenue_year: 2021,
+        revenue_seasion: 4,
+        revenue_money: 0,
+        shop_id: 1
+    }]
+
 export default function Revenue() {
-    const lineData = [
-        { value: 0, },
-        { value: 300, dataPointText: '300', label: 'Jan' },
-        { value: 290, dataPointText: '290', label: 'Feb' },
-        { value: 330, dataPointText: '330', label: 'Mar' },
-        { value: 530, dataPointText: '530', label: 'Apr' },
-        { value: 1530, dataPointText: '1530', label: 'May' },
-        { value: 2530, dataPointText: '2530', label: 'Jun' },
-        { value: 1430, dataPointText: '1430', label: 'Jul' },
-        { value: 1000, dataPointText: '1000', label: 'Aug' },
-        { value: 1250, dataPointText: '1250', label: 'Sep' },
-        { value: 1300, dataPointText: '1300', label: 'Oct' },
-        { value: 1110, dataPointText: '1110', label: 'Nov' },
-        { value: 999, dataPointText: '9999', label: 'Dec' },
-    ];
+    const [lineData, setLineData] = useState([{ value: 0, dataPointText: '', label: '' }]);
+    // const lineData = [
+    //     { value: 0, },
+    //     { value[]: , dataPointText: '300', label: '1' },
+    // ];
+    useEffect(() => {
+        let dataLine = data.map(item => {
+            const money = item.revenue_money / 1000000;
+            return {
+                value: money,
+                dataPointText: money.toString(),
+                label: item.revenue_month.toString()
+            }
+        })
+        dataLine = [{ value: 0, dataPointText: '', label: '' }, ...dataLine];
+        setLineData(dataLine);
+    }, [])
+
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -54,7 +76,6 @@ export default function Revenue() {
                     spacing={30}
                     thickness={4}
                     hideRules
-                    rotateLabel
                     yAxisColor="#0BA5A4"
                     showVerticalLines
                     verticalLinesColor="rgba(14,164,164,0.5)"

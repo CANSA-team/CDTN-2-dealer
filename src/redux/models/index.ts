@@ -25,8 +25,16 @@ export interface ProductModel {
     product_description: string;
     product_rating: number;
     last_update: number;
+    product_image_id: number[];
+    product_avatar_id: number;
+    product_categories: ProductCat[];
     status: number;
 }
+export interface ProductCat{
+    label:string;
+    value:string;
+}
+
 //Product State
 export interface ProductState {
     productNew: ProductModel[];
@@ -34,7 +42,7 @@ export interface ProductState {
     productCategory: ProductModel[];
     productSearch: ProductModel[];
     productShop: ProductModel[];
-    product: ProductModel;
+    product: ProductModel[];
     error: string | undefined;
 }
 
@@ -137,8 +145,8 @@ export interface OderModel {
 
 
 export interface OderState {
-    status: string;
-    oderList: OderModel[];
+    status?: string;
+    oderList?: OderModel[];
     error: string | undefined;
 }
 
@@ -148,7 +156,7 @@ export interface CategoryState {
 }
 
 export interface SliderState {
-    slider: SliderModel[];
+    slider?: [SliderModel];
     error: string | undefined;
 }
 
@@ -192,4 +200,8 @@ export interface ImageStage {
     status: string;
     image: string;
     error: string | undefined;
+}
+
+export interface ImageId {
+    id: number;
 }

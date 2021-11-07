@@ -4,12 +4,12 @@ import { ProductModel, ProductState } from "../models";
 
 
 const initialState: ProductState = {
-    productNew: undefined,
-    productHot: undefined,
-    productCategory: undefined,
-    productSearch: undefined,
-    productShop: undefined,
-    product: undefined,
+    productNew: [] as ProductModel[],
+    productHot: [] as ProductModel[],
+    productCategory: [] as ProductModel[],
+    productSearch: [] as ProductModel[],
+    productShop: [] as ProductModel[],
+    product: [] as ProductModel[],
     error: undefined
 }
 
@@ -46,13 +46,15 @@ const productReducer = (state: ProductState = initialState, action: ProductActio
                 productSearch: action.payload
             }
         case ProductActionType.GET_PRODUCT_SHOP:
+        case ProductActionType.INSERT_PRODUCT:
+        case ProductActionType.DELETE_PRODUCT:
+        case ProductActionType.UPDATE_PRODUCT:
             return {
                 ...state,
                 productShop: action.payload
             }
         default:
             return state;
-
     }
 }
 

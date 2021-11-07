@@ -41,6 +41,7 @@ export default function Login(props: any) {
     dispatch(checkLogin());
   }, [status])
   
+
   useEffect(() => {
     if (check) {
       dispatch(getUserInfo())
@@ -61,7 +62,7 @@ export default function Login(props: any) {
         //chuyển đến màn hình đăng ký shop
         //------------------------------------------------------------------------------
         Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
-          { text: "OK", onPress: () => navigate('registerShopStack')}
+          { text: "OK", onPress: () => navigate('registerShopStack') }
         ])
         //------------------------------------------------------------------------------
       }
@@ -109,7 +110,7 @@ export default function Login(props: any) {
   //     alert(`Facebook Login Error: ${message}`);
   //   }
   // }
-  
+
   const valiDate = (text: any, type: any) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
@@ -145,7 +146,7 @@ export default function Login(props: any) {
 
   return (
     //Donot dismis Keyboard when click outside of TextInput
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={() => loginBtn()}>
       <View style={styles.container}>
         <View style={styles.up}>
           <Ionicons

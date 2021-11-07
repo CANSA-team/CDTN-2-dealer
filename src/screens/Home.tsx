@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import Menu from '../components/Menu';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SlugStr } from '../consts/Selector';
+import { SlugStr, SlugStrTitle } from '../consts/Selector';
 import COLORS from '../consts/Colors';
 import { useNavigation } from '../utils/useNavigation';
 import { ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
@@ -16,6 +16,7 @@ export default function Home() {
     const userState: UserStage = useSelector((state: State) => state.userReducer);
     const { info }: { info: ShopModel } = shopSate;
     const { userInfor }: { userInfor: UserModel } = userState;
+
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -26,15 +27,15 @@ export default function Home() {
                     </View>
                     <View style={styles.shopContainer}>
                         <View style={styles.contactContainer}>
-                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{SlugStr(info.shop_name, 23)}</Text>
+                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{info.shop_name && SlugStrTitle(info.shop_name, 23)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="email-outline" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{SlugStr(userInfor.user_name, 22)}</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_name && SlugStrTitle(userInfor.user_name, 22)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="phone-classic" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{userInfor.user_name}</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_name && userInfor.user_name}</Text>
                         </View>
                     </View>
 
@@ -43,7 +44,7 @@ export default function Home() {
                 <View style={styles.menuList}>
                     <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
                     <Menu onTab={() => navigate('OrderList')} icon="switcher" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
-                    <Menu onTab={() => navigate('Notification')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
+                    <Menu onTab={() => navigate('Revenue')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
                 </View>
 
             </ScrollView>

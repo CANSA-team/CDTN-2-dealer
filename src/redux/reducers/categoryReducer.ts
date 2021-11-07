@@ -4,7 +4,7 @@ import {  CategoryModel,CategoryState } from "../models";
 
 
 const initialState: CategoryState = {
-    categories: undefined,
+    categories: [] as CategoryModel[],
     error: undefined
 }
 
