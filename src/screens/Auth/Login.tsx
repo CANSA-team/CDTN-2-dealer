@@ -40,6 +40,7 @@ export default function Login(props: any) {
   useEffect(() => {
     dispatch(checkLogin());
   }, [status])
+  
   useEffect(() => {
     if (check) {
       dispatch(getUserInfo())

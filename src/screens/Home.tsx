@@ -43,7 +43,7 @@ export default function Home() {
                 <View style={styles.menuList}>
                     <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
                     <Menu onTab={() => navigate('OrderList')} icon="switcher" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
-                    <Menu onTab={() => navigate('ManagerProduct')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
+                    <Menu onTab={() => navigate('Notification')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
                 </View>
 
             </ScrollView>

@@ -75,10 +75,6 @@ export default function Revenue() {
                 <Entypo name="dot-single" size={25} style={{ textAlign: "center" }}></Entypo>
                 <Text style={styles.textNote}>Số tiền của tháng</Text>
             </View>
-
-
-
-
         </View>
 
     )
