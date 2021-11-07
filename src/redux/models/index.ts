@@ -95,6 +95,7 @@ export interface ShopModel {
     last_update: number;
     status: number;
     shop_avatar_id: number;
+    info: ShopModel;
 }
 
 /**
@@ -211,4 +212,10 @@ export interface ImageId {
 export interface RegisterShopModel {
     status: string;
     message: string;
+}
+//
+export interface ShopState {
+    info: ShopModel,
+    register_status: RegisterShopModel,
+    error: string | undefined;
 }

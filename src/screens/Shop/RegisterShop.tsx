@@ -53,7 +53,6 @@ export default function RegisterShop() {
 
     useEffect(() => {
         if (Object.keys(info).length !== 0) {
-            console.log(info)
             navigate('homeStack')
             setLoading(false);
         }
@@ -74,16 +73,17 @@ export default function RegisterShop() {
         dispatch(logout());
     }
 
-
     const onPress = () => {
 
         const shop_nameError = shopNameValidator(shop_name);
         const shop_descriptionError = shopDescriptionValidator(shop_description);
         const shop_TempError = tempValidator(checked);
+        const shop_ImageError = imgValidator(image);
+        
 
         if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png' || shop_TempError) {
 
-            Alert.alert('Thông báo', shop_nameError + shop_descriptionError + shop_TempError + 'Vui lòng bổ sung hình ảnh')
+            Alert.alert('Thông báo', shop_nameError + shop_descriptionError + shop_TempError + shop_ImageError)
             return;
         } else {
             setbuttonC(true);
@@ -102,7 +102,6 @@ export default function RegisterShop() {
                 setLoading(false);
             })
         }
-
     };
 
     let getImg = async () => {

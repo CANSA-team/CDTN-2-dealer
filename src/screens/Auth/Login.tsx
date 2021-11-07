@@ -57,10 +57,9 @@ export default function Login(props: any) {
     if (check) {
       
       if (Object.keys(info).length !== 0) {
-        console.log(info, 60);
         navigate('homeStack');
         
-      } else{
+      } else if(Object.keys(info).length === 0){
         //chuyển đến màn hình đăng ký shop
         //------------------------------------------------------------------------------
         Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
