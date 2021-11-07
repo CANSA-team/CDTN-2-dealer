@@ -78,10 +78,12 @@ export default function RegisterShop() {
         const shop_nameError = shopNameValidator(shop_name);
         const shop_descriptionError = shopDescriptionValidator(shop_description);
         const shop_TempError = tempValidator(checked);
+        const shop_ImageError = imgValidator(image);
+        
 
         if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png' || shop_TempError) {
 
-            Alert.alert('Thông báo', shop_nameError + shop_descriptionError + shop_TempError + 'Vui lòng bổ sung hình ảnh')
+            Alert.alert('Thông báo', shop_nameError + shop_descriptionError + shop_TempError + shop_ImageError)
             return;
         } else {
             setbuttonC(true);

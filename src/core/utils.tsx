@@ -27,7 +27,7 @@ export const shopDescriptionValidator = (name: string) => {
     return '';
 };
 export const imgValidator = (name: string) => {
-    if (name != '../../../assets/arrow_back.png') {
+    if (name == '../../../assets/arrow_back.png') {
         return 'Không được để trống Ảnh. ';
     }
     return '';

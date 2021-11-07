@@ -18,7 +18,7 @@ import { cansa } from '../../consts/Selector'
 import * as Facebook from 'expo-facebook';
 import { useDispatch, useSelector } from 'react-redux'
 import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
-import { checkLogin, login, logout, getUserInfo } from '../../redux/actions/userActions'
+import { checkLogin, login, logout, getUserInfo, LoginFacebook } from '../../redux/actions/userActions'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { getShopOwner } from '../../redux/actions/shopActions'
 
@@ -48,17 +48,15 @@ export default function Login(props: any) {
   }, [check])
 
   useEffect(() => {
-    if (userInfor) {
+    if (Object.keys(userInfor).length !== 0) {
       dispatch(getShopOwner(userInfor.user_id));
     }
   }, [userInfor])
 
   useEffect(() => {
     if (check) {
-      
       if (Object.keys(info).length !== 0) {
         navigate('homeStack');
-        
       } else if(Object.keys(info).length === 0){
         //chuyển đến màn hình đăng ký shop
         //------------------------------------------------------------------------------
@@ -68,7 +66,7 @@ export default function Login(props: any) {
         //------------------------------------------------------------------------------
       }
     }
-  }, [info, userInfor])
+  }, [info])
 
   const loginBtn = () => {
     if (email != '' && password != '') {
@@ -78,39 +76,34 @@ export default function Login(props: any) {
     }
   }
 
-  // const logInFB = async () => {
-  //   try {
-  //     await Facebook.initializeAsync({
-  //       appId: '994248931143640',
-  //     });
-  //     const {
-  //       type,
-  //       token,
-  //       expirationDate,
-  //       permissions,
-  //       declinedPermissions,
-  //     } = await Facebook.logInWithReadPermissionsAsync({
-  //       permissions: ['public_profile', 'email'],
-  //     });
-  //     if (type === 'success') {
-  //       // Get the user's name using Facebook's Graph API
-  //       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`);
-  //       //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-  //       var infomation = await response.json();
-  //       console.log(infomation)
-  //       axios.get(`${cansa[1]}/api/user/login/facebook/1/${token}/${infomation.email}/${infomation.id}/${infomation.name}/e4611a028c71342a5b083d2cbf59c494`)
-  //         .then(res => {
-  //           setisLoading(true)
-  //           navigate('homeStack');
-  //         })
-  //         .catch(error => console.log(error));
-  //     } else {
-  //       // type === 'cancel'
-  //     }
-  //   } catch ({ message }) {
-  //     alert(`Facebook Login Error: ${message}`);
-  //   }
-  // }
+  const logInFB = async () => {
+    try {
+      await Facebook.initializeAsync({
+        appId: '994248931143640',
+      });
+      const {
+        type,
+        token,
+        expirationDate,
+        permissions,
+        declinedPermissions,
+      }:any = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`);
+        //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+        var infomation = await response.json();
+        console.log(infomation)
+        dispatch(LoginFacebook(infomation.email, token, infomation.id, infomation.name))
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
   
   const valiDate = (text: any, type: any) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -202,13 +195,12 @@ export default function Login(props: any) {
           <Divider style={styles.divider}></Divider>
           <View style={{ marginBottom: 10 }}>
             <FontAwesome.Button
+              onPress={() => logInFB()}
               style={styles.facebookButton}
               name="facebook"
               backgroundColor="#3b5998"
             >
               <Text style={styles.loginButtonTitle}
-                // onPress={() => logInFB()}
-                onPress={() => { return }}
               >Login with Facebook</Text>
             </FontAwesome.Button>
           </View>

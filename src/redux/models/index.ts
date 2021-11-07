@@ -95,6 +95,7 @@ export interface ShopModel {
     last_update: number;
     status: number;
     shop_avatar_id: number;
+    info: ShopModel;
 }
 
 /**
@@ -186,10 +187,13 @@ export interface userModel {
     user_email: string,
 }
 
+
 export interface UserStage {
     check: boolean;
+    checkFogotPassword: boolean;
     userInfor: UserModel;
     status: string;
+    updateUser: number;
     error: string | undefined;
 }
 
@@ -211,4 +215,10 @@ export interface ImageId {
 export interface RegisterShopModel {
     status: string;
     message: string;
+}
+//
+export interface ShopState {
+    info: ShopModel,
+    register_status: RegisterShopModel,
+    error: string | undefined;
 }

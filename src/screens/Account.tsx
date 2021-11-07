@@ -29,7 +29,7 @@ export default function Account() {
 
 
     const onTapProfile = () => {
-        navigate('Profile', { email: email })
+        navigate('ProfileShop', { email: email })
     }
     const onTapOrdered = () => {
         navigate('Ordered')

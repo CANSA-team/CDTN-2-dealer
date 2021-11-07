@@ -8,6 +8,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '../../utils/useNavigation';
 import axios from 'axios';
 import { cansa } from '../../consts/Selector';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop, ShopModel, RegisterShopModel, getShopOwner } from '../../redux';
+
+
+
+import { ShopState, State } from '../../redux';
 
 let user_temp = {
     "id": 1,
@@ -17,23 +23,33 @@ let user_temp = {
 }
 
 class UserProfile {
-    id?: number;
-    phone?: string;
-    name?: string;
-    birthday?: Date;
-    user_id?: number;
-    user_key?: null;
-    user_name?: string;
-    user_avatar?: string;
-    user_status?: number;
-    user_last_update?: number;
+    shop_id?: number;
+    shop_name?: string;
+    shop_description?: string;
+    shop_owner?: number;
+    shop_avatar?: string;
+    last_update?: number;
+    status?: number;
+    shop_avatar_id?: number;
 }
 
 export default function ProfileShop(props: any) {
+    const dispatch = useDispatch();
+    const { navigate } = useNavigation();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
-    const [isLoadingChangePassword, setIsLoadingChangePassword] = useState<boolean>(true);
 
+    const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
+    const {info}: { info: ShopModel} = shopsState;
+
+    const { navigation, route } = props;
+    const { getParam, goBack } = navigation;
+
+    
+
+    const onTapEditProfile = () => {
+        navigate('EditProfileShop');
+    }
 
 
     return (
@@ -47,50 +63,31 @@ export default function ProfileShop(props: any) {
                             <HeaderTitle title={'PROFILE SHOP'} />
                             <View style={styles.header}>
                                 <TouchableOpacity>
-                                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => {return;}} />
+                                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => {return;}}>
+                                <TouchableOpacity onPress={onTapEditProfile}>
                                     <Feather name="edit" color="white" size={35} />
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        
+
                         <View style={styles.viewAvatar}>
                             <Avatar
                                 containerStyle={{ marginBottom: 20 }}
                                 rounded
                                 size={150}
                                 source={{
-                                    uri: image,
+                                    uri: info.shop_avatar,
                                 }} >
                             </Avatar>
                         </View>
                         <View style={styles.viewTxt}>
                             <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>Tên Shop: </Text>
+                                <Text style={styles.txtTitle}>Tên Shop: {info.shop_name}</Text>
                             </View>
 
                             <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>Mô tả:</Text>
-                            </View>
-                            <View style={styles.resetPassContainer}>
-                                {
-                                    isLoadingChangePassword &&
-                                    <TouchableOpacity style={styles.touchReset}
-                                        onPress={() => {
-                                            // setIsLoadingChangePassword(false);
-                                            // let email = getParam('email');
-                                            // axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res) => {
-                                            //     Alert.alert('Thông Báo', res.data.message);
-                                            //     navigate('OTPscreen', { email: email })
-                                            // })
-                                            return;
-                                        }}>
-                                        <Text style={{ fontSize: 20, color: '#555' }}>Đổi mật khẩu</Text>
-                                        <MaterialIcons name="arrow-right-alt" size={35} color="#555" />
-                                    </TouchableOpacity>
-                                }
-
+                                <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
                             </View>
                         </View>
                     </View>)}
