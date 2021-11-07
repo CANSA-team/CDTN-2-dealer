@@ -204,20 +204,6 @@ export default function Login(props: any) {
               >Login with Facebook</Text>
             </FontAwesome.Button>
           </View>
-          <View>
-            <FontAwesome.Button
-              style={styles.googleButton}
-              name="google"
-              backgroundColor="#E54646"
-            >
-              <Text style={styles.loginButtonTitle}>Login with Google</Text>
-            </FontAwesome.Button>
-          </View>
-          <TouchableOpacity style={styles.forgotButton}>
-            <Text style={styles.navButtonText1}>
-              Don't have an account? Create here
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>)
