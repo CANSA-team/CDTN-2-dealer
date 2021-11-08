@@ -25,8 +25,6 @@ export default function Resgister() {
   const [emailValdate, setEmailValdate] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
-  const [confirmPassword, setconfirmPassword] = useState('')
-  const [confirmPasswordValdate, setconfirmPasswordValdate] = useState(true)
 
   const valiDate = (text: any, type: any) => {
     const nameRegex = ''
@@ -49,18 +47,7 @@ export default function Resgister() {
       else {
         setPasswordValdate(false)
       }
-    }
-    else if (type == 'confirmpassword'){
-      if (text(text) != password) {
-        setconfirmPassword(text)
-        setconfirmPasswordValdate(true);
-      }
-      else {
-        setconfirmPassword('')
-        setconfirmPasswordValdate(false); 
-        console.log('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
-      }
-    }else if (type == 'nickname') {
+    } else if (type == 'nickname') {
       if (text!=null) {
         setName(text)
         setNameValdate(true)
@@ -153,10 +140,10 @@ export default function Resgister() {
 
           <View style={styles.textInputContainer}>
             <TextInput
-              style={[styles.textInput, !confirmPasswordValdate ? styles.error : null]}
+              style={[styles.textInput, !passwordValdate ? styles.error : null]}
               placeholder="Confirm password"
               secureTextEntry={true}
-              onChangeText={(text) => valiDate(text, 'confirmpassword')}
+              onChangeText={(text) => valiDate(text, 'password')}
             >
             </TextInput>
           </View>
