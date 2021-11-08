@@ -24,6 +24,7 @@ import {
     tempValidator,
 } from '../../core/utils';
 
+
 let user_temp = {
     "id": 1,
     "phone": "0968241064",
@@ -35,24 +36,24 @@ export default function EditProfileShop(props: any) {
     const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopsState;
     const [loading, setLoading] = useState(false);
+
     const [show, setShow] = useState(false);
     const [name, setName] = useState(info.shop_name);
     const [description, setDescription] = useState(info.shop_description);
     const [image, setImage] = useState(info.shop_avatar);
     const dispatch = useDispatch();
     const { navigate } = useNavigation();
-
-
     const { navigation, route } = props;
     const { getParam, goBack } = navigation;
 
     useEffect(() => {
-        
+
         if (Object.keys(info).length !== 0 && loading) {
             setLoading(false);
             navigate('ProfileShop')
         }
     }, [info])
+
 
     let getImg = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -66,13 +67,12 @@ export default function EditProfileShop(props: any) {
             setImage(result.uri);
         }
     };
-
     const xacMinh = () => {
         //setbuttonC(true);
 
         setLoading(true);
         let _avatar: ImageId = { id: info.shop_avatar_id };
-        let saveAvt: Promise<void> ;
+        let saveAvt: Promise<void>;
         if (image !== info.shop_avatar) {
             const avatar_img = {
                 uri: image,
@@ -80,11 +80,11 @@ export default function EditProfileShop(props: any) {
                 type: 'image/jpg'
             }
             saveAvt = updateImage(avatar_img, info.shop_avatar_id, _avatar);
-        }else{
-            saveAvt = new Promise((resolve,reject)=>resolve());
+        } else {
+            saveAvt = new Promise((resolve, reject) => resolve());
         }
         Promise.all([saveAvt]).then(() => {
-            dispatch(updateShop(name, description, info.shop_id, _avatar.id, info.last_update ));
+            dispatch(updateShop(name, description, info.shop_id, _avatar.id, info.last_update));
         })
     }
 
@@ -129,13 +129,15 @@ export default function EditProfileShop(props: any) {
                         source={{
                             uri: image,
                         }}
-                        onPress={getImg}
+
                     >
-                        <Accessory style={{
-                            borderWidth: 2,
-                            borderColor: "#444",
-                            backgroundColor: COLORS.primary
-                        }} size={50}></Accessory>
+                        <Accessory
+                            onPress={getImg}
+                            style={{
+                                borderWidth: 2,
+                                borderColor: "#444",
+                                backgroundColor: COLORS.primary
+                            }} size={50}></Accessory>
                     </Avatar>
                 </View>
 

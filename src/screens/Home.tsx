@@ -26,7 +26,7 @@ export default function Home() {
                     </View>
                     <View style={styles.shopContainer}>
                         <View style={styles.contactContainer}>
-                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{ info.shop_name && SlugStrTitle(info.shop_name, 23)}</Text>
+                            <Text style={{ fontSize: 22, color: "#222", fontWeight: 'bold' }}>{info.shop_name && SlugStrTitle(info.shop_name, 23)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="email-outline" color="#222" size={20} />
@@ -43,7 +43,7 @@ export default function Home() {
                 <View style={styles.menuList}>
                     <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
                     <Menu onTab={() => navigate('OrderList')} icon="switcher" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
-                    <Menu onTab={() => navigate('ManagerProduct')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
+                    <Menu onTab={() => navigate('Revenue')} icon="bank" title="Doanh thu" description="Doanh thu shop của bạn" />
                 </View>
 
             </ScrollView>

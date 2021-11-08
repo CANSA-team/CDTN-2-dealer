@@ -3,9 +3,9 @@
 /**
  * Silder
  */
-export class SliderModel {
-    slider_id?: number;
-    slider_image?: string;
+export interface SliderModel {
+    slider_id: number;
+    slider_image: string;
 }
 
 /**
@@ -51,11 +51,16 @@ export interface ProductState {
  */
 export interface UserModel {
     user_id: number;
+    user_phone: string;
+    user_email: string;
     user_key: null;
     user_name: string;
     user_avatar: string;
     user_status: number;
     user_last_update: number;
+    user_real_name: string;
+    user_birthday: Date;
+    user_avatar_image: string;
 }
 
 /**
@@ -98,26 +103,33 @@ export interface ShopModel {
     info: ShopModel;
 }
 
+export interface ShopOrder {
+    oder_id: string;
+    oder_date: Date;
+    oder_phone: string;
+    product_oder: OderItemModel[];
+}
+
 /**
  * Cart Item
  */
-export class CartItemModel {
-    qty?: number;
-    product?: ProductModel;
+export interface CartItemModel {
+    qty: number;
+    product: ProductModel;
 }
 
 /**
  * Cart
  */
-export class CartModel {
-    cart?: [CartItemModel];
-    sub_price?: number;
-    ship?: number;
-    total_price?: number;
+export interface CartModel {
+    cart: CartItemModel[];
+    sub_price: number;
+    ship: number;
+    total_price: number;
 }
 export interface CartState {
-    cart?: CartModel;
-    status?: string;
+    cart: CartModel;
+    status: string;
     error: string | undefined;
 }
 /**
@@ -134,14 +146,14 @@ export interface OderItemModel {
  * Oder
 */
 
-export class OderModel {
-    oder_id?: string;
-    oder_address?: string;
-    oder_phone?: string;
-    oder_date?: Date;
-    oder_customer?: number;
-    product_oder?: OderItemModel[];
-    status?: number;
+export interface OderModel {
+    oder_id: string;
+    oder_address: string;
+    oder_phone: string;
+    oder_date: Date;
+    oder_customer: number;
+    product_oder: OderItemModel[];
+    status: number;
 }
 
 
@@ -169,12 +181,13 @@ export interface CommentState {
 
 export interface ShopState {
     info: ShopModel;
+    order: ShopOrder[];
     error: string | undefined;
     register_status: RegisterShopModel;
 }
 
 export interface AccessState {
-    message?: any;
+    message: any;
     error: string | undefined;
 }
 
@@ -195,27 +208,24 @@ export interface UserStage {
 }
 
 export interface ComplaintStage {
-    status?: string;
+    status: string;
     error: string | undefined;
 }
 
 export interface ImageStage {
-    status?: string;
-    image?: string;
+    status: string;
+    image: string;
     error: string | undefined;
 }
 
 export interface ImageId {
     id: number;
 }
+
 //Dang ky shop
 export interface RegisterShopModel {
     status: string;
     message: string;
 }
-//
-export interface ShopState {
-    info: ShopModel,
-    register_status: RegisterShopModel,
-    error: string | undefined;
-}
+
+

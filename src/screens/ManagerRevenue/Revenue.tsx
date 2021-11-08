@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import { BarChart } from "react-native-gifted-charts";
@@ -7,32 +7,125 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-export default function Revenue() {
-    const lineData = [
-        { value: 0, },
-        { value: 300, dataPointText: '300', label: 'Jan' },
-        { value: 290, dataPointText: '290', label: 'Feb' },
-        { value: 330, dataPointText: '330', label: 'Mar' },
-        { value: 530, dataPointText: '530', label: 'Apr' },
-        { value: 1530, dataPointText: '1530', label: 'May' },
-        { value: 2530, dataPointText: '2530', label: 'Jun' },
-        { value: 1430, dataPointText: '1430', label: 'Jul' },
-        { value: 1000, dataPointText: '1000', label: 'Aug' },
-        { value: 1250, dataPointText: '1250', label: 'Sep' },
-        { value: 1300, dataPointText: '1300', label: 'Oct' },
-        { value: 1110, dataPointText: '1110', label: 'Nov' },
-        { value: 999, dataPointText: '9999', label: 'Dec' },
-    ];
+const data = [
+    {
+        revenue_id: 1,
+        revenue_month: 1,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 2,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 3,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 4,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 5,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 6,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 7,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 8,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 300000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 2,
+        revenue_month: 9,
+        revenue_year: 2021,
+        revenue_seasion: 4,
+        revenue_money: 2000000000,
+        shop_id: 1
+    }]
+
+interface DataChar {
+    value: number,
+    dataPointText?: string,
+    label?: string
+}
+
+export default function Revenue(props: any) {
+    const { navigation } = props;
+    let total = data.length - 1
+    let [lineData, setLineData] = useState<DataChar[]>([{ value: 0 }]);
+    // const lineData = [
+    //     { value: 0 },
+    //     { value: 200, dataPointText: '200', label: '1' },
+    // ];
+
+
+    useEffect(() => {
+        let dataLine: DataChar[] = data.map(item => {
+            const money = item.revenue_money / 1000000;
+            return {
+                value: money,
+                dataPointText: money.toString(),
+                label: item.revenue_month.toString()
+            }
+        })
+        dataLine = [{ value: 0 }, ...dataLine];
+        setLineData(dataLine)
+    }, [])
+
+
 
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Doanh thu của shop"></HeaderTitle>
+            <View style={styles.header}>
+                <TouchableOpacity>
+                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                </TouchableOpacity>
+            </View>
 
             <View style={{ backgroundColor: '#Fff', padding: 12 }}>
                 <TouchableOpacity style={styles.contactContainer}>
                     <AntDesign name="calendar" size={20}></AntDesign>
-                    <Text style={{ marginHorizontal: 8 }}>Năm này</Text>
-                    <Entypo name="chevron-down" size={20}></Entypo>
+                    <Text style={{ marginHorizontal: 8 }}>Năm {data[1].revenue_year}</Text>
+                    {/* <Entypo name="chevron-down" size={20}></Entypo> */}
                 </TouchableOpacity>
             </View>
 
@@ -54,7 +147,6 @@ export default function Revenue() {
                     spacing={30}
                     thickness={4}
                     hideRules
-                    rotateLabel
                     yAxisColor="#0BA5A4"
                     showVerticalLines
                     verticalLinesColor="rgba(14,164,164,0.5)"
@@ -75,12 +167,7 @@ export default function Revenue() {
                 <Entypo name="dot-single" size={25} style={{ textAlign: "center" }}></Entypo>
                 <Text style={styles.textNote}>Số tiền của tháng</Text>
             </View>
-
-
-
-
-        </View>
-
+        </View >
     )
 }
 
@@ -106,5 +193,15 @@ const styles = StyleSheet.create({
     textNote: {
         fontSize: 8,
         color: '#ABA9A9'
-    }
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2
+    },
 });

@@ -34,7 +34,8 @@ export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | Login | 
 export const checkLogin = () => {
     return async (dispatch: Dispatch<UserActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/api/user/check/login`)
+            const response = await axios.get<any>(`${cansa[1]}/api/user/check/login`, { withCredentials: true })
+            console.log(response.data.data)
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
@@ -92,6 +93,7 @@ export const login = (email: string, password: string) => {
                 password: password,
             }
             const response = await axios.post<any>(`${cansa[1]}/api/user/login/e4611a028c71342a5b083d2cbf59c494`, data, { withCredentials: true })
+            console.log(response.data.status)
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,

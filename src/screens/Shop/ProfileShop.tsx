@@ -10,10 +10,8 @@ import axios from 'axios';
 import { cansa } from '../../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop, ShopModel, RegisterShopModel, getShopOwner } from '../../redux';
-
-
-
 import { ShopState, State } from '../../redux';
+
 
 let user_temp = {
     "id": 1,
@@ -38,14 +36,12 @@ export default function ProfileShop(props: any) {
     const { navigate } = useNavigation();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
-
     const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
-    const {info}: { info: ShopModel} = shopsState;
-
+    const { info }: { info: ShopModel } = shopsState;
     const { navigation, route } = props;
     const { getParam, goBack } = navigation;
 
-    
+
 
     const onTapEditProfile = () => {
         navigate('EditProfileShop');
@@ -65,7 +61,9 @@ export default function ProfileShop(props: any) {
                                 <TouchableOpacity>
                                     <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                                 </TouchableOpacity>
+
                                 <TouchableOpacity onPress={onTapEditProfile}>
+
                                     <Feather name="edit" color="white" size={35} />
                                 </TouchableOpacity>
                             </View>

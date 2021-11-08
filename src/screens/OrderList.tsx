@@ -1,11 +1,24 @@
-import React from 'react'
+import moment from 'moment';
+import React, { useEffect } from 'react'
 import { View, StyleSheet, ScrollView, Text, Image, TouchableOpacity } from 'react-native'
+import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch, useSelector } from 'react-redux';
 import HeaderTitle from '../components/HeaderTitle'
 import { SlugStrTitle } from '../consts/Selector'
+import { getShopOder, ShopModel, ShopOrder, ShopState, State } from '../redux';
 
 export default function OrderList(props: any) {
     const { navigation } = props;
+    const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+    const { order }: { order: ShopOrder[] } = shopSate;
+    const { info }: { info: ShopModel } = shopSate;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getShopOder(info.shop_id))
+    }, [])
+
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Danh sách đơn hàng"></HeaderTitle>
@@ -17,26 +30,61 @@ export default function OrderList(props: any) {
 
             <ScrollView>
                 {/* hiển thị các đơn hàng */}
-                <View style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+
+                {
+                    order.length ?
+                        order.map((item: any) =>
+                            // console.log(item);
+
+                            <View style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                                <View style={[styles.container, { marginTop: 10 }]}>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
+                                    <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(item.oder_date).format('DD/MM/YYYY')}</Text>
+                                </View>
+                                <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>{item.oder_phone}</Text>
+                                {item.product_oder.length && item.product_oder.map((i: any) =>
+
+                                    <View style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
+                                        <Image source={{ uri: i.product.product_avatar }} style={{ width: 80, height: 80 }}></Image>
+                                        <View style={styles.textView}>
+                                            <View style={{ marginRight: 20 }}>
+                                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle(i.product.product_title, 65)}</Text>
+                                            </View>
+                                            <View style={{ marginRight: 20 }}>
+                                                <Text>{i.product_quantity}</Text>
+                                            </View>
+                                            <Text style={{ marginTop: 5 }}>{i.product.product_price}</Text>
+                                        </View>
+                                    </View>
+                                )}
+
+
+                            </View>)
+
+                        :
+                        <View></View>
+                }
+
+                {/* <View style={{ backgroundColor: '#fff', marginBottom: 10 }}>
                     <View style={[styles.container, { marginTop: 10 }]}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>921633950000288</Text>
-                        <Text style={{ marginLeft: 'auto', fontSize: 10 }}>25/10/2021</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{order.order_id}</Text>
+                        <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(order.order_date).format('DD/MM/YYYY')}</Text>
                     </View>
-                    <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>hoanganh34k@gmail.com</Text>
+                    <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>{order.order_phone}</Text>
                     <View style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
-                        <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
+                        <Image source={require(order.product_order.product.product_avatar)} style={{ width: 80, height: 80 }}></Image>
                         <View style={styles.textView}>
                             <View style={{ marginRight: 20 }}>
-                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle("Nước rửa cọ MAC Brush Cleanser 235ml Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae earum voluptatum dicta distinctio, illo velit aspernatur voluptate autem quidem itaque necessitatibus doloribus ab quis quae nihil tempore ex culpa fugit.", 65)}</Text>
+                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle(order.product_order.product.product_title, 65)}</Text>
                             </View>
                             <View style={{ marginRight: 20 }}>
-                                <Text>Qty: 2</Text>
+                                <Text>{order.product_order.product_quantity}</Text>
                             </View>
-                            <Text style={{ marginTop: 5 }}>4.500.000đ</Text>
+                            <Text style={{ marginTop: 5 }}>{order.product_order.product.product_price}</Text>
                         </View>
-                    </View>
+                    </View> */}
 
-                    <View style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
+                {/* <View style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
                         <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
                         <View style={styles.textView}>
                             <View style={{ marginRight: 20 }}>
@@ -60,11 +108,11 @@ export default function OrderList(props: any) {
                             </View>
                             <Text style={{ marginTop: 5 }}>14.500.000đ</Text>
                         </View>
-                    </View>
-                </View>
+                    </View> */}
+                {/* </View> */}
                 {/*  */}
 
-                <View style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                {/* <View style={{ backgroundColor: '#fff', marginBottom: 10 }}>
                     <View style={[styles.container, { marginTop: 10 }]}>
                         <Text style={{ fontWeight: 'bold', fontSize: 18 }}>921633950000288</Text>
                         <Text style={{ marginLeft: 'auto', fontSize: 10 }}>25/10/2021</Text>
@@ -115,10 +163,10 @@ export default function OrderList(props: any) {
                             <Text style={{ marginTop: 5 }}>4.500.000đ</Text>
                         </View>
                     </View>
-                </View>
+                </View> */}
 
-            </ScrollView>
-        </View>
+            </ScrollView >
+        </View >
     )
 }
 

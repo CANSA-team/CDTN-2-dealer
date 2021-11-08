@@ -35,6 +35,8 @@
     "react-native-cookies": "^3.3.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-gifted-charts": "^0.1.15",
+    "react-native-paper": "^4.9.2",
     "react-native-multiple-select": "^0.5.7",
     "react-native-paper": "^4.9.2",
     "react-native-picker-select": "^8.0.4",
