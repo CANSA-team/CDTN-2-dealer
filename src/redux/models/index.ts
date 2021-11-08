@@ -200,10 +200,13 @@ export interface userModel {
     user_email: string,
 }
 
+
 export interface UserStage {
     check: boolean;
+    checkFogotPassword: boolean;
     userInfor: UserModel;
     status: string;
+    updateUser: number;
     error: string | undefined;
 }
 

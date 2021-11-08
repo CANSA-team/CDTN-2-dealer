@@ -24,7 +24,6 @@ import {
     tempValidator,
 } from '../../core/utils';
 
-
 let user_temp = {
     "id": 1,
     "phone": "0968241064",

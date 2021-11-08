@@ -13,6 +13,7 @@ import { UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop,
 import { ShopState, State } from '../../redux';
 
 
+
 let user_temp = {
     "id": 1,
     "phone": "0968241064",
@@ -41,8 +42,6 @@ export default function ProfileShop(props: any) {
     const { navigation, route } = props;
     const { getParam, goBack } = navigation;
 
-
-
     const onTapEditProfile = () => {
         navigate('EditProfileShop');
     }
@@ -61,9 +60,7 @@ export default function ProfileShop(props: any) {
                                 <TouchableOpacity>
                                     <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                                 </TouchableOpacity>
-
                                 <TouchableOpacity onPress={onTapEditProfile}>
-
                                     <Feather name="edit" color="white" size={35} />
                                 </TouchableOpacity>
                             </View>

@@ -74,7 +74,8 @@ const switchNavigator = createSwitchNavigator({
         }),
 
     },
-
+    
+    
 
 
     // shopStack:{
