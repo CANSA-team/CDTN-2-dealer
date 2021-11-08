@@ -27,7 +27,7 @@ import ProductDetail from '../screens/ProductDetail';
 import EditProduct from '../screens/ManagerProduct/EditProduct';
 
 const DIMENS = {
-    iconSize : 30,
+    iconSize: 30,
     fontNameCategory: 15
 }
 const switchNavigator = createSwitchNavigator({
@@ -41,8 +41,8 @@ const switchNavigator = createSwitchNavigator({
         }),
 
     },
-    
-    loginStack:{
+
+    loginStack: {
         screen: createStackNavigator({
             Login,
             OTPscreen,
@@ -56,7 +56,7 @@ const switchNavigator = createSwitchNavigator({
     },
     registerShopStack: {
         screen: createStackNavigator({
-            RegisterShop ,
+            RegisterShop,
         }, {
             defaultNavigationOptions: {
                 headerShown: false
@@ -66,7 +66,7 @@ const switchNavigator = createSwitchNavigator({
     },
     ProfileShop: {
         screen: createStackNavigator({
-            ProfileShop , EditProfileShop
+            ProfileShop, EditProfileShop
         }, {
             defaultNavigationOptions: {
                 headerShown: false
@@ -74,8 +74,8 @@ const switchNavigator = createSwitchNavigator({
         }),
 
     },
-    
-    
+
+
 
 
     // shopStack:{
@@ -93,48 +93,50 @@ const switchNavigator = createSwitchNavigator({
         home: {
             screen: createStackNavigator({
                 Home: Home,
-                ManagerProduct:ManagerProduct,
-                AddProduct:AddProduct,
-                OrderList:OrderList,
-                ProductDetail:ProductDetail,
-                EditProduct: EditProduct
+                ManagerProduct: ManagerProduct,
+                AddProduct: AddProduct,
+                OrderList: OrderList,
+                ProductDetail: ProductDetail,
+                EditProduct: EditProduct,
+                Chat
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
                 },
-                
+
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <MaterialCommunityIcons name="storefront" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="storefront-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <MaterialCommunityIcons name="storefront" size={DIMENS.iconSize} color={COLORS.primary} /> : <MaterialCommunityIcons name="storefront-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
                     return icon;
                 },
                 tabBarLabel: "Cửa hàng"
             },
-            
+
         },
         chat: {
             screen: createStackNavigator({
                 Chat: Chat,
                 ChatUser,
+                Home,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
-                },          
+                },
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <MaterialCommunityIcons name="chat" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="chat-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <MaterialCommunityIcons name="chat" size={DIMENS.iconSize} color={COLORS.primary} /> : <MaterialCommunityIcons name="chat-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
                     return icon;
                 },
                 tabBarLabel: "Tin nhắn"
             },
-            
+
         },
         account: {
-            screen: createStackNavigator({         
+            screen: createStackNavigator({
                 Account: Account,
-                ProfileShop:ProfileShop,
+                ProfileShop: ProfileShop,
                 EditProfileShop: EditProfileShop,
                 EmailOTPscreen,
                 ChangePassword,
@@ -143,31 +145,31 @@ const switchNavigator = createSwitchNavigator({
                 defaultNavigationOptions: {
                     headerShown: false,
                 },
-                
+
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary} /> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
                     return icon;
                 },
                 tabBarLabel: "Tài khoản"
             },
-            
+
         },
-    },{
-        tabBarOptions:{
+    }, {
+        tabBarOptions: {
             activeTintColor: COLORS.primary,
-            inactiveTintColor :COLORS.colorFontInit,
-            labelStyle:{
-                fontSize:DIMENS.fontNameCategory,
-                fontWeight:'600'
+            inactiveTintColor: COLORS.colorFontInit,
+            labelStyle: {
+                fontSize: DIMENS.fontNameCategory,
+                fontWeight: '600'
             },
             style: {
-                padding:8,
+                padding: 8,
                 height: 60,
             },
             allowFontScaling: true
-        }          
+        }
     }),
 });
 const AppNavigation = createAppContainer(switchNavigator);

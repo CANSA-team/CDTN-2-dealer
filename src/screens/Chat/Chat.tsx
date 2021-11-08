@@ -16,7 +16,7 @@ import { cansa, chatSever } from '../../consts/Selector'
 let user_avatar: any = undefined;
 export default function Chat(props: any) {
     const [mess, setMess] = useState([])
-    const {navigation,route} = props;
+    const { navigation, route } = props;
     const { getParam, goBack } = navigation;
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
@@ -28,37 +28,37 @@ export default function Chat(props: any) {
     console.log(myID)
     useEffect(() => {
         setMess([]);
-        (async()=>{
-           await axios.get(`${chatSever}/api/chat/getChatHistory/${myID}/${hisID}/1/100`)
-            .then(res => {
-                axios.get(`${chatSever}/api/chat/getChatHistory/${hisID}/${myID}/1/100`)
-                .then(res2 => {
-                    let data_chat_all:any = [];
-                    res2.data.data.forEach((element:any) => {
-                        let dataMesss = {
-                            "_id": '' + Math.random().toString(36).substr(2, 16),
-                            "createdAt": element.CreateDate,
-                            "text": element.message,
-                        }
-                        data_chat_all.push(dataMesss);
-                    });
-                    res.data.data.forEach((element:any) => {
-                        let dataMesss = {
-                            "_id": '' + Math.random().toString(36).substr(2, 16),
-                            "createdAt": element.CreateDate,
-                            "text": element.message,
-                            "user":{},
-                        }
-                        data_chat_all.push(dataMesss);
-                    });
-                    let temp = data_chat_all.sort((a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-                    setMess(temp);
+        (async () => {
+            await axios.get(`${chatSever}/api/chat/getChatHistory/${myID}/${hisID}/1/100`)
+                .then(res => {
+                    axios.get(`${chatSever}/api/chat/getChatHistory/${hisID}/${myID}/1/100`)
+                        .then(res2 => {
+                            let data_chat_all: any = [];
+                            res2.data.data.forEach((element: any) => {
+                                let dataMesss = {
+                                    "_id": '' + Math.random().toString(36).substr(2, 16),
+                                    "createdAt": element.CreateDate,
+                                    "text": element.message,
+                                }
+                                data_chat_all.push(dataMesss);
+                            });
+                            res.data.data.forEach((element: any) => {
+                                let dataMesss = {
+                                    "_id": '' + Math.random().toString(36).substr(2, 16),
+                                    "createdAt": element.CreateDate,
+                                    "text": element.message,
+                                    "user": {},
+                                }
+                                data_chat_all.push(dataMesss);
+                            });
+                            let temp = data_chat_all.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                            setMess(temp);
+                        })
+                        .catch(error => console.log(error));
                 })
                 .catch(error => console.log(error));
-            })
-            .catch(error => console.log(error));
         })()
-        socket.emit('watched', myID,hisID)
+        socket.emit('watched', myID, hisID)
         socket.on("typing", function (data) {
             if (data.user_to == myID && data.user_id == hisID) {
                 if (data.status === true) {
@@ -70,7 +70,7 @@ export default function Chat(props: any) {
         });
         socket.on("thread", function (data) {
             if (data.user_to == myID && data.user_id == hisID) {
-                let dataMesss:any = {
+                let dataMesss: any = {
                     "_id": '' + Math.random().toString(36).substr(2, 16),
                     "createdAt": new Date,
                     "text": data.message,
@@ -84,7 +84,7 @@ export default function Chat(props: any) {
             }
         });
     }, []);
-    const onSend = (messNew:any) => {
+    const onSend = (messNew: any) => {
         setMess(prevState => GiftedChat.append(prevState, messNew))
         var msgDetails = {
             user_id: myID,
@@ -97,7 +97,7 @@ export default function Chat(props: any) {
 
         socket.emit("messages", msgDetails);
     }
-    var timeout:any;
+    var timeout: any;
     function timeoutFunction() {
         var typo = {
             user_to: hisID,
@@ -121,7 +121,12 @@ export default function Chat(props: any) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderTitle title={'Chat'} />
+            <HeaderTitle title={getParam('user_name')} />
+            <View style={styles.header}>
+                <TouchableOpacity>
+                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                </TouchableOpacity>
+            </View>
             <GiftedChat
                 inverted={true}
                 messages={mess}
@@ -142,5 +147,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#E5E5E5'
+    },
+    header: {
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        zIndex: 2
     },
 });

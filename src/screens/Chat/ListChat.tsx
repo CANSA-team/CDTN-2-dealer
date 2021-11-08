@@ -15,6 +15,7 @@ import { ShopModel, ShopState, State } from '../../redux';
 import { useSelector } from 'react-redux';
 
 export default function Chat(props: any) {
+    const { navigation } = props;
     const [data, setData]: any = useState([])
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
@@ -38,9 +39,10 @@ export default function Chat(props: any) {
                     let id = '_' + Math.random().toString(36).substr(2, 16)
                     let id_user = (myID != element[0].user_to) ? element[0].user_to : element[0].user_from
                     let a = await axios.get(`https://103.207.38.200/api/user/get/user/by/${id_user.split('user_')[1]}`)
+                    console.log(a.data.data)
                     tempData.push({
                         id: id,
-                        title: a.data.data.shop_name,
+                        title: a.data.data.user_name,
                         img: a.data.data.shop_avatar,
                         id_user: (myID != element[0].user_to) ? element[0].user_to : element[0].user_from,
                         newStatusMess: (element[0].isWatched == 1) ? false : true,
@@ -50,9 +52,10 @@ export default function Chat(props: any) {
                     })
                 }));
             } else {
-                let id = (myID !=data[0].user_to)?data[0].user_to:data[0].user_from
+                let id = (myID != data[0].user_to) ? data[0].user_to : data[0].user_from
                 socket.emit('onlineStatus', data[0].user_to)
                 let a = await axios.get(`https://103.207.38.200/api/user/get/user/by/${id.split('user_')[1]}`)
+
                 tempData.push({
                     id: '_' + Math.random().toString(36).substr(2, 16),
                     title: a.data.data.user_name,
@@ -73,7 +76,7 @@ export default function Chat(props: any) {
 
     const renderItem = ({ item }: any) => {
         return (
-            <TouchableOpacity style={styles.item} onPress={() => { navigate('ChatUser', { id_user: item.id_user }) }}>
+            <TouchableOpacity style={styles.item} onPress={() => { navigate('ChatUser', { id_user: item.id_user, user_name: item.title }) }}>
                 <View style={styles.row}>
                     <Avatar
                         rounded
@@ -101,6 +104,11 @@ export default function Chat(props: any) {
     return (
         <SafeAreaView style={styles.container}>
             <HeaderTitle title={'List Chat'} />
+            <View style={styles.header}>
+                <TouchableOpacity>
+                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                </TouchableOpacity>
+            </View>
             <FlatList
                 data={data}
                 renderItem={renderItem}
@@ -132,5 +140,12 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 8,
         marginHorizontal: 10,
-    }
+    },
+    header: {
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        zIndex: 2
+    },
 });
