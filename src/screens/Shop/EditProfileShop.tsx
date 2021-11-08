@@ -12,8 +12,10 @@ import HeaderTitle from '../../components/HeaderTitle';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import { cansa } from '../../consts/Selector';
-import {  margin, marginBottom } from 'styled-system';
+import { margin, marginBottom } from 'styled-system';
 import COLORS from '../../consts/Colors';
+import { ShopModel, ShopState, State } from '../../redux';
+import { useSelector } from 'react-redux';
 
 let user_temp = {
     "id": 1,
@@ -23,11 +25,17 @@ let user_temp = {
 }
 
 export default function EditProfileShop(props: any) {
+    const { navigate } = useNavigation();
+    const { navigation, route } = props;
+    const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+    const { info }: { info: ShopModel } = shopSate;
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
-    const [name, setName] = useState('Ten Shop');
-    const [description, setDescription] = useState('Mo ta');
-    const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
+    const [name, setName] = useState(info.shop_name);
+    const [description, setDescription] = useState(info.shop_description);
+    const [image, setImage] = useState(info.shop_avatar);
+
+
 
     let getImg = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -41,7 +49,7 @@ export default function EditProfileShop(props: any) {
             setImage(result.uri);
         }
     };
-    
+
 
     return (
         <View style={styles.container}>
@@ -50,7 +58,7 @@ export default function EditProfileShop(props: any) {
                     <HeaderTitle title={'EDIT PROFILE SHOP'} />
                     <View style={styles.header}>
                         <TouchableOpacity>
-                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => {return;}} />
+                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -88,7 +96,7 @@ export default function EditProfileShop(props: any) {
 
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 8 }}>
                         <TouchableOpacity onPress={() => {
-                            {return;}
+                            { return; }
                         }}>
                             <Text style={styles.btnBuy}>Lưu</Text>
                         </TouchableOpacity>

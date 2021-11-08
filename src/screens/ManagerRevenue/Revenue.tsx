@@ -10,7 +10,63 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const data = [
     {
         revenue_id: 1,
-        revenue_month: 9,
+        revenue_month: 1,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 2,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 3,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 4,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 5,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 6,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 7,
+        revenue_year: 2021,
+        revenue_seasion: 3,
+        revenue_money: 200000000,
+        shop_id: 1
+    },
+    {
+        revenue_id: 1,
+        revenue_month: 8,
         revenue_year: 2021,
         revenue_seasion: 3,
         revenue_money: 300000000,
@@ -18,21 +74,31 @@ const data = [
     },
     {
         revenue_id: 2,
-        revenue_month: 10,
+        revenue_month: 9,
         revenue_year: 2021,
         revenue_seasion: 4,
-        revenue_money: 0,
+        revenue_money: 2000000000,
         shop_id: 1
     }]
 
-export default function Revenue() {
-    const [lineData, setLineData] = useState([{ value: 0, dataPointText: '', label: '' }]);
+interface DataChar {
+    value: number,
+    dataPointText?: string,
+    label?: string
+}
+
+export default function Revenue(props: any) {
+    const { navigation } = props;
+    let total = data.length - 1
+    let [lineData, setLineData] = useState<DataChar[]>([{ value: 0 }]);
     // const lineData = [
-    //     { value: 0, },
-    //     { value[]: , dataPointText: '300', label: '1' },
+    //     { value: 0 },
+    //     { value: 200, dataPointText: '200', label: '1' },
     // ];
+
+
     useEffect(() => {
-        let dataLine = data.map(item => {
+        let dataLine: DataChar[] = data.map(item => {
             const money = item.revenue_money / 1000000;
             return {
                 value: money,
@@ -40,8 +106,8 @@ export default function Revenue() {
                 label: item.revenue_month.toString()
             }
         })
-        dataLine = [{ value: 0, dataPointText: '', label: '' }, ...dataLine];
-        setLineData(dataLine);
+        dataLine = [{ value: 0 }, ...dataLine];
+        setLineData(dataLine)
     }, [])
 
 
@@ -49,12 +115,17 @@ export default function Revenue() {
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Doanh thu của shop"></HeaderTitle>
+            <View style={styles.header}>
+                <TouchableOpacity>
+                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                </TouchableOpacity>
+            </View>
 
             <View style={{ backgroundColor: '#Fff', padding: 12 }}>
                 <TouchableOpacity style={styles.contactContainer}>
                     <AntDesign name="calendar" size={20}></AntDesign>
-                    <Text style={{ marginHorizontal: 8 }}>Năm này</Text>
-                    <Entypo name="chevron-down" size={20}></Entypo>
+                    <Text style={{ marginHorizontal: 8 }}>Năm {data[1].revenue_year}</Text>
+                    {/* <Entypo name="chevron-down" size={20}></Entypo> */}
                 </TouchableOpacity>
             </View>
 
@@ -96,8 +167,7 @@ export default function Revenue() {
                 <Entypo name="dot-single" size={25} style={{ textAlign: "center" }}></Entypo>
                 <Text style={styles.textNote}>Số tiền của tháng</Text>
             </View>
-        </View>
-
+        </View >
     )
 }
 
@@ -123,5 +193,15 @@ const styles = StyleSheet.create({
     textNote: {
         fontSize: 8,
         color: '#ABA9A9'
-    }
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2
+    },
 });

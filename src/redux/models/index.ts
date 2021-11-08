@@ -30,9 +30,9 @@ export interface ProductModel {
     product_categories: ProductCat[];
     status: number;
 }
-export interface ProductCat{
-    label:string;
-    value:string;
+export interface ProductCat {
+    label: string;
+    value: string;
 }
 
 //Product State
@@ -51,11 +51,16 @@ export interface ProductState {
  */
 export interface UserModel {
     user_id: number;
+    user_phone: string;
+    user_email: string;
     user_key: null;
     user_name: string;
     user_avatar: string;
     user_status: number;
     user_last_update: number;
+    user_real_name: string;
+    user_birthday: Date;
+    user_avatar_image: string;
 }
 
 /**
@@ -94,6 +99,13 @@ export interface ShopModel {
     shop_avatar: string;
     last_update: number;
     status: number;
+}
+
+export interface ShopOrder {
+    oder_id: string;
+    oder_date: Date;
+    oder_phone: string;
+    product_oder: OderItemModel[];
 }
 
 /**
@@ -167,6 +179,7 @@ export interface CommentState {
 
 export interface ShopState {
     info: ShopModel;
+    order: ShopOrder[];
     error: string | undefined;
 }
 
@@ -204,4 +217,8 @@ export interface ImageStage {
 
 export interface ImageId {
     id: number;
+}
+export interface RegisterShopModel {
+    status: string;
+    message: string;
 }

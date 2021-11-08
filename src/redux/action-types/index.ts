@@ -38,6 +38,7 @@ export enum ShopActionType {
     GET_SHOP_INFO = 'GET_SHOP_INFO',
     ON_SHOP_ERROR = 'ON_SHOP_ERROR',
     GET_SHOP_OWNER = 'GET_SHOP_OWNER',
+    GET_SHOP_ORDER = 'GET_SHOP_ORDER',
 }
 
 export enum AccessActionType {

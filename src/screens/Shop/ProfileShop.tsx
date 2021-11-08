@@ -8,6 +8,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '../../utils/useNavigation';
 import axios from 'axios';
 import { cansa } from '../../consts/Selector';
+import { ShopModel, ShopState, State } from '../../redux';
+import { useSelector } from 'react-redux';
 
 let user_temp = {
     "id": 1,
@@ -30,6 +32,10 @@ class UserProfile {
 }
 
 export default function ProfileShop(props: any) {
+    const { navigate } = useNavigation();
+    const { navigation, route } = props;
+    const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+    const { info }: { info: ShopModel } = shopSate;
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
     const [isLoadingChangePassword, setIsLoadingChangePassword] = useState<boolean>(true);
@@ -47,31 +53,31 @@ export default function ProfileShop(props: any) {
                             <HeaderTitle title={'PROFILE SHOP'} />
                             <View style={styles.header}>
                                 <TouchableOpacity>
-                                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => {return;}} />
+                                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => {return;}}>
+                                <TouchableOpacity onPress={() => navigate('EditProfileShop')}>
                                     <Feather name="edit" color="white" size={35} />
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        
+
                         <View style={styles.viewAvatar}>
                             <Avatar
                                 containerStyle={{ marginBottom: 20 }}
                                 rounded
                                 size={150}
                                 source={{
-                                    uri: image,
+                                    uri: info.shop_avatar,
                                 }} >
                             </Avatar>
                         </View>
                         <View style={styles.viewTxt}>
                             <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>Tên Shop: </Text>
+                                <Text style={styles.txtTitle}>Tên Shop: {info.shop_name}</Text>
                             </View>
 
                             <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>Mô tả:</Text>
+                                <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
                             </View>
                             <View style={styles.resetPassContainer}>
                                 {
