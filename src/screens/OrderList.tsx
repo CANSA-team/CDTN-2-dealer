@@ -33,18 +33,18 @@ export default function OrderList(props: any) {
 
                 {
                     order.length ?
-                        order.map((item: any) =>
+                        order.map((item: any,index:number) =>
                             // console.log(item);
 
-                            <View style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                            <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
                                 <View style={[styles.container, { marginTop: 10 }]}>
                                     <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
                                     <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(item.oder_date).format('DD/MM/YYYY')}</Text>
                                 </View>
                                 <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>{item.oder_phone}</Text>
-                                {item.product_oder.length && item.product_oder.map((i: any) =>
+                                {item.product_oder.length && item.product_oder.map((i: any,index:number) =>
 
-                                    <View style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
+                                    <View key={index} style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
                                         <Image source={{ uri: i.product.product_avatar }} style={{ width: 80, height: 80 }}></Image>
                                         <View style={styles.textView}>
                                             <View style={{ marginRight: 20 }}>

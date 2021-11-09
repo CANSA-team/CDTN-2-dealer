@@ -12,10 +12,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ProductCat,CategoryModel, CategoryState, getCategory, ImageId, ProductModel, ProductState, ShopModel, ShopState, State, updateProduct } from '../../redux';
 import { useNavigation } from '../../utils/useNavigation';
 
-interface CategoriesProps {
-    label: string,
-    value: string
-}
 export default function EditProduct(props: any) {
     const { navigation } = props;
     const { getParam } = navigation;
@@ -28,7 +24,8 @@ export default function EditProduct(props: any) {
     const [catError, setCatError] = useState<boolean>(false);
     const [avatarError, setAvatarError] = useState<boolean>(false);
     const [isInsert, setIsInsert] = useState<boolean>(false);
-    const [categoriesRender, setCategoriesRender] = useState<CategoriesProps[]>([] as CategoriesProps[]);
+    const [imgSubError, setImgSubError] = useState<boolean>(false);
+    const [categoriesRender, setCategoriesRender] = useState<ProductCat[]>([] as ProductCat[]);
     const multiSelect = useRef<any>()
     const categoryState: CategoryState = useSelector((state: State) => state.categoryReducer);
     const shopState: ShopState = useSelector((state: State) => state.shopReducer);
@@ -107,6 +104,7 @@ export default function EditProduct(props: any) {
 
     
     const getGallerys = async () => {
+        setImgSubError(false)
         if (images.length <= 4) {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -143,67 +141,66 @@ export default function EditProduct(props: any) {
     }
 
     const accept = (data: any) => {
-        setIsInsert(true);
-        if (selectedItems.length >= 1 && images.length >= 1) {
+        setIsInsert(false);
+        if (selectedItems.length !== 0) {
+            setCatError(false)
             if (avatar !== 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
-                let cats = handleCats(selectedItems);
-                let saveAvt: Promise<void>
-                let _avatar: ImageId = { id: 0 };
-                if(checkAvatar){
-                    const avatar_img = {
-                        uri: avatar,
-                        name: 'userProfile.jpg',
-                        type: 'image/jpg'
+                setAvatarError(false)
+                if (images.length !== 0) {
+                    let cats = handleCats(selectedItems);
+                    let saveAvt: Promise<void>
+                    let _avatar: ImageId = { id: 0 };
+                    if(checkAvatar){
+                        const avatar_img = {
+                            uri: avatar,
+                            name: 'userProfile.jpg',
+                            type: 'image/jpg'
+                        }
+                        saveAvt = updateImage(avatar_img, product.product_avatar_id,_avatar);
+                    }else{
+                        saveAvt = new Promise((resolve,reject)=>resolve())
                     }
-                    saveAvt = updateImage(avatar_img, product.product_avatar_id,_avatar);
-                }else{
-                    saveAvt = new Promise((resolve,reject)=>resolve())
-                }
 
-                let saveImg: Promise<void>[] = [];
-                let __images: ImageId[] = [] as ImageId[];
+                    let saveImg: Promise<void>[] = [];
+                    let __images: ImageId[] = [] as ImageId[];
 
-                images.map((item: any, index: number) => {
-                    if (index >= tempImgId.length) {     
-                        __images.push({ id: 0 });
-                            const _img = {
-                                uri: item.props.source.uri,
-                                name: 'userProfile.jpg',
-                                type: 'image/jpg'
+                    images.map((item: any, index: number) => {
+                        if (index >= tempImgId.length) {     
+                            __images.push({ id: 0 });
+                                const _img = {
+                                    uri: item.props.source.uri,
+                                    name: 'userProfile.jpg',
+                                    type: 'image/jpg'
+                            
+                                }
+                            saveImg.push(saveImage(_img, __images[__images.length - 1]));
+                        }
+                    })
+
+                    Promise.all([...saveImg,saveAvt]).then(() => {
                         
-                            }
-                        saveImg.push(saveImage(_img, __images[__images.length - 1]));
-                    }
-                })
-
-                Promise.all([...saveImg,saveAvt]).then(() => {
-                    
-                    let product_images = __images.map((item: any) => item.id);
-                    const avatarId = checkAvatar ? _avatar.id : product.product_avatar_id;
-                    product_images = [...product_images, ...tempImgId]
-                    data = {
-                        ...data,
-                        product_avatar: avatarId,
-                        product_categories: cats,
-                        product_image: product_images.join(","),
-                        last_update:product.last_update,
-                        product_id:product.product_id
-                    }
-                    dispatch(updateProduct(data, info.shop_id));
-                    setCatError(false)
-                    setAvatarError(false)
-                })
-
-
+                        let product_images = __images.map((item: any) => item.id);
+                        const avatarId = checkAvatar ? _avatar.id : product.product_avatar_id;
+                        product_images = [...product_images, ...tempImgId]
+                        data = {
+                            ...data,
+                            product_avatar: avatarId,
+                            product_categories: cats,
+                            product_image: product_images.join(","),
+                            last_update:product.last_update,
+                            product_id:product.product_id
+                        }
+                        dispatch(updateProduct(data, info.shop_id));
+                        setIsInsert(true);
+                    })
+                }else{
+                    setImgSubError(true)
+                }
             } else {
-                setIsInsert(false);
                 setAvatarError(true)
             }
-
         }
         else {
-            setIsInsert(false);
-            Alert.alert('Hình ảnh không hợp lệ')
             setCatError(true)
         }
     }
@@ -252,7 +249,7 @@ export default function EditProduct(props: any) {
                                     defaultValue={product.product_title}
                                 />
                             </View>
-                            {errors.product_title && <Text style={styles.txtError}>Tên sản phẩm phải có</Text>}
+                            {errors.product_title && <Text style={styles.txtError}>* Tên sản phẩm phải có</Text>}
                         </View>
                         <View style={styles.viewTotal}>
                             <Text style={styles.txtTitle}>Danh mục :</Text>
@@ -283,7 +280,7 @@ export default function EditProduct(props: any) {
                                     hideSubmitButton
                                 />
                             }
-                            {catError && <Text style={styles.txtError}>Phải chọn ít nhất 1 danh mục</Text>}
+                            {catError && <Text style={styles.txtError}>* Phải chọn ít nhất 1 danh mục</Text>}
                         </View>
 
                         <View style={styles.viewTotal}>
@@ -299,7 +296,7 @@ export default function EditProduct(props: any) {
                                     
                                 />
                             </View>
-                            {avatarError && <Text style={styles.txtError}>Bạn chưa chọn ảnh đại diện sản phẩm</Text>}
+                            {avatarError && <Text style={styles.txtError}>* Bạn chưa chọn ảnh đại diện sản phẩm</Text>}
 
                         </View>
 
@@ -308,6 +305,7 @@ export default function EditProduct(props: any) {
                                 <Text style={styles.txtTitle}>Thêm hình ảnh phụ </Text>
                                 <MaterialIcons name="add-chart" style={{ fontSize: 20, fontWeight: 'bold' }} />
                             </TouchableOpacity>
+                            {imgSubError && <Text style={styles.txtError}>* Hình ảnh phụ phải có ít nhất 1 ảnh</Text>}
                             {
                                 images.map((item: any, index: number) => {
                                     return (
@@ -351,7 +349,7 @@ export default function EditProduct(props: any) {
                                     defaultValue={product.product_price.toString()}
                                 />
                             </View>
-                            {errors.product_price && <Text style={styles.txtError}>Giá là số từ 1.000đ - 999.999.999đ</Text>}
+                            {errors.product_price && <Text style={styles.txtError}>* Giá là số từ 1.000đ - 999.999.999đ</Text>}
                         </View>
                         <View style={styles.viewTotal}>
                             <Text style={styles.txtTitle}>Phần trăm giảm giá :</Text>
@@ -381,7 +379,7 @@ export default function EditProduct(props: any) {
                                     defaultValue={product.product_sale ? product.product_sale.toString() : ""}
                                 />
                             </View>
-                            {errors.product_sale && <Text style={styles.txtError}>Nhập phần trăm giảm nhập số (1 - 99) </Text>}
+                            {errors.product_sale && <Text style={styles.txtError}>* Nhập phần trăm giảm nhập số (1 - 99) </Text>}
                         </View>
                         <View style={styles.viewTotal}>
                             <Text style={styles.txtTitle}>Mô tả :</Text>
@@ -409,7 +407,7 @@ export default function EditProduct(props: any) {
                                     defaultValue={product.product_description}
                                 />
                             </View>
-                            {errors.product_description && <Text style={styles.txtError}>Mô tả phải có và ít hơn 1000 ký tự</Text>}
+                            {errors.product_description && <Text style={styles.txtError}>* Mô tả phải có và ít hơn 1000 ký tự</Text>}
                         </View>
                         <View style={styles.viewTotal}>
                             <Button
