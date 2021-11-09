@@ -1,5 +1,4 @@
 
-
 /**
  * Silder
  */
@@ -108,6 +107,16 @@ export interface ShopOrder {
     product_oder: OderItemModel[];
 }
 
+export interface ShopRevenue {
+    revenue_id: number,
+    revenue_month: number,
+    revenue_year: number,
+    revenue_seasion: number,
+    revenue_money: number,
+    shop_id: number
+}
+
+
 /**
  * Cart Item
  */
@@ -180,6 +189,7 @@ export interface CommentState {
 export interface ShopState {
     info: ShopModel;
     order: ShopOrder[];
+    revenue: ShopRevenue[];
     error: string | undefined;
 }
 

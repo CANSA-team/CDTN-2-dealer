@@ -1,3 +1,4 @@
+import { ShopRevenue } from './../models/index';
 import { ShopActionType } from "../action-types";
 import { ShopActions } from "../actions/shopActions";
 import { CommentState, CommentModel, ShopState, ShopModel, ShopOrder } from "../models";
@@ -5,7 +6,8 @@ import { CommentState, CommentModel, ShopState, ShopModel, ShopOrder } from "../
 
 const initialState: ShopState = {
     info: {} as ShopModel,
-    order: {} as ShopOrder,
+    order: [] as ShopOrder[],
+    revenue: [] as ShopRevenue[],
     error: undefined
 }
 
@@ -25,6 +27,11 @@ const shopReducer = (state: ShopState = initialState, action: ShopActions) => {
             return {
                 ...state,
                 order: action.payload
+            }
+        case ShopActionType.GET_SHOP_REVENUE:
+            return {
+                ...state,
+                revenue: action.payload
             }
         case ShopActionType.ON_SHOP_ERROR:
             return {
