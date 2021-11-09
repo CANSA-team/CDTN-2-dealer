@@ -10,19 +10,31 @@ export const emailValidator = (email: string) => {
 
 export const shopNameValidator = (name: string) => {
     if (!name) {
-        return 'Không được để trống Tên Shop.';
+        return 'Không được để trống Tên Shop. ';
     }
     else if (name.length <= 3) {
-        return 'Tên shop phải nhiều hơn 3 ký tự';
+        return 'Tên shop phải nhiều hơn 3 ký tự. ';
     }
     return '';
 };
 export const shopDescriptionValidator = (name: string) => {
     if (!name) {
-        return 'Không được để trống Mô tả Shop';
+        return 'Không được để trống Mô tả Shop. ';
     }
     else if (name.length <= 20) {
-        return 'Mô tả Shop phải nhiều hơn 20 ký tự';
+        return 'Mô tả Shop phải nhiều hơn 20 ký tự. ';
+    }
+    return '';
+};
+export const imgValidator = (name: string) => {
+    if (name == '../../../assets/arrow_back.png') {
+        return 'Không được để trống Ảnh. ';
+    }
+    return '';
+};
+export const tempValidator = (name: boolean) => {
+    if (name != true) {
+        return 'Vui lòng đồng ý Điều khoản dịch vụ !. ';
     }
     return '';
 };

@@ -9,8 +9,8 @@ const initialState: UserStage = {
     checkFogotPassword: false,
     userInfor: {} as UserModel,
     status: '',
+    updateUser: 0,
     error: undefined
-
 }
 
 const userReducer = (state: UserStage = initialState, action: UserActions) => {
@@ -20,7 +20,7 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
                 ...state,
                 check: action.payload
             }
-        case UserActionType.GET_UER_INFO:
+        case UserActionType.GET_USER_INFO:
             return {
                 ...state,
                 userInfor: action.payload
@@ -35,12 +35,12 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
                 ...state,
                 status: action.payload
             }
-        case UserActionType.LOGOUT:
+        case UserActionType.REGISTER:
             return {
                 ...state,
                 status: action.payload
             }
-        case UserActionType.REGISTER:
+        case UserActionType.LOGOUT:
             return {
                 ...state,
                 status: action.payload
@@ -60,7 +60,11 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
                 ...state,
                 checkFogotPassword: action.payload
             }
-
+        case UserActionType.UPDATE_USER_PROFILE:
+            return {
+                ...state,
+                updateUser: action.payload
+            }
 
         default:
             return state;

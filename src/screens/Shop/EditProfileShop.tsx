@@ -11,9 +11,18 @@ import Feather from 'react-native-vector-icons/Feather';
 import HeaderTitle from '../../components/HeaderTitle';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import { cansa } from '../../consts/Selector';
-import {  margin, marginBottom } from 'styled-system';
+import { cansa, updateImage } from '../../consts/Selector';
+import { margin, marginBottom } from 'styled-system';
 import COLORS from '../../consts/Colors';
+import { ImageId, ShopModel, ShopState, State, updateShop } from '../../redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+    shopNameValidator,
+    shopDescriptionValidator,
+    imgValidator,
+    tempValidator,
+} from '../../core/utils';
 
 let user_temp = {
     "id": 1,
@@ -23,11 +32,27 @@ let user_temp = {
 }
 
 export default function EditProfileShop(props: any) {
-    const [date, setDate] = useState(new Date());
+    const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
+    const { info }: { info: ShopModel } = shopsState;
+    const [loading, setLoading] = useState(false);
+
     const [show, setShow] = useState(false);
-    const [name, setName] = useState('Ten Shop');
-    const [description, setDescription] = useState('Mo ta');
-    const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
+    const [name, setName] = useState(info.shop_name);
+    const [description, setDescription] = useState(info.shop_description);
+    const [image, setImage] = useState(info.shop_avatar);
+    const dispatch = useDispatch();
+    const { navigate } = useNavigation();
+    const { navigation, route } = props;
+    const { getParam, goBack } = navigation;
+
+    useEffect(() => {
+
+        if (Object.keys(info).length !== 0 && loading) {
+            setLoading(false);
+            navigate('ProfileShop')
+        }
+    }, [info])
+
 
     let getImg = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -41,7 +66,47 @@ export default function EditProfileShop(props: any) {
             setImage(result.uri);
         }
     };
-    
+    const xacMinh = () => {
+        //setbuttonC(true);
+
+        setLoading(true);
+        let _avatar: ImageId = { id: info.shop_avatar_id };
+        let saveAvt: Promise<void>;
+        if (image !== info.shop_avatar) {
+            const avatar_img = {
+                uri: image,
+                name: 'userProfile.jpg',
+                type: 'image/jpg'
+            }
+            saveAvt = updateImage(avatar_img, info.shop_avatar_id, _avatar);
+        } else {
+            saveAvt = new Promise((resolve, reject) => resolve());
+        }
+        Promise.all([saveAvt]).then(() => {
+            dispatch(updateShop(name, description, info.shop_id, _avatar.id, info.last_update));
+        })
+    }
+
+    ///api/shop/update/:shop_id/:key
+    const save = () => {
+        const shop_nameError = shopNameValidator(name);
+        const shop_descriptionError = shopDescriptionValidator(description);
+
+        if (shop_nameError || shop_descriptionError) {
+
+            Alert.alert('Thông báo', shop_nameError + shop_descriptionError)
+            return;
+        } else {
+
+
+            Alert.alert('Thông báo', 'Xác nhận thay đổi', [
+                { text: "Huỷ", onPress: () => navigation.goBack() },
+                { text: "Xác nhận", onPress: () => xacMinh() }
+            ])
+
+        }
+
+    }
 
     return (
         <View style={styles.container}>
@@ -50,7 +115,7 @@ export default function EditProfileShop(props: any) {
                     <HeaderTitle title={'EDIT PROFILE SHOP'} />
                     <View style={styles.header}>
                         <TouchableOpacity>
-                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => {return;}} />
+                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -63,13 +128,15 @@ export default function EditProfileShop(props: any) {
                         source={{
                             uri: image,
                         }}
-                        onPress={getImg}
+
                     >
-                        <Accessory style={{
-                            borderWidth: 2,
-                            borderColor: "#444",
-                            backgroundColor: COLORS.primary
-                        }} size={50}></Accessory>
+                        <Accessory
+                            onPress={getImg}
+                            style={{
+                                borderWidth: 2,
+                                borderColor: "#444",
+                                backgroundColor: COLORS.primary
+                            }} size={50}></Accessory>
                     </Avatar>
                 </View>
 
@@ -85,10 +152,13 @@ export default function EditProfileShop(props: any) {
                         label="Mô tả"
                         onChangeText={setDescription}
                     />
+                    <ActivityIndicator
+                        animating={loading}
+                    />
 
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25, marginBottom: 8 }}>
                         <TouchableOpacity onPress={() => {
-                            {return;}
+                            save()
                         }}>
                             <Text style={styles.btnBuy}>Lưu</Text>
                         </TouchableOpacity>

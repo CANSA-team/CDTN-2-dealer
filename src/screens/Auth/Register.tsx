@@ -18,7 +18,6 @@ import { cansa } from '../../consts/Selector'
 
 export default function Resgister() {
   const { navigate } = useNavigation();
-
   const [name, setName] = useState('')
   const [nameValdate, setNameValdate] = useState(true)
   const [email, setEmail] = useState('')

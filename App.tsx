@@ -13,6 +13,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <SwitchNavigation />
+      {/* <RegisterShop/> */}
     </Provider>
   );
 }

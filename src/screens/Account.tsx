@@ -8,7 +8,7 @@ import { useNavigation } from '../utils/useNavigation';
 import HeaderTitle from '../components/HeaderTitle';
 import axios from 'axios';
 import { cansa } from '../consts/Selector'
-import { State, UserStage, checkLogin, logout, login } from '../redux';
+import { State, UserStage, checkLogin, logout, login, getUserInfo, UserModel, ShopModel, ShopState } from '../redux';
 import { useDispatch, useSelector } from 'react-redux';
 
 let user_avatar: any = undefined;
@@ -23,25 +23,33 @@ export default function Account() {
     const { navigate } = useNavigation();
     const [isLoading, setisLoading] = useState(false)
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check, status }: { check: boolean, status: string} = userState;
+    const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+    const { check, userInfor, status }: { check: boolean, userInfor: UserModel, status: string } = userState;
+    const { info }: { info: ShopModel } = shopSate;
+
+
 
     const dispatch = useDispatch();
 
 
     const onTapProfile = () => {
-        navigate('Profile', { email: email })
+        navigate('ProfileShop')
+
     }
     const onTapOrdered = () => {
         navigate('Ordered')
     }
 
-    useEffect(()=>{
-        dispatch(checkLogin());
-    },[status])
-
+    useEffect(() => {
+        if (status === "Faild" || status === "") {
+            dispatch(checkLogin())
+        }
+    }, [status])
 
     useEffect(() => {
-        if (!check) {
+        if (check) {
+            dispatch(getUserInfo());
+        } else {
             navigate('loginStack')
         }
     }, [check])
@@ -56,12 +64,12 @@ export default function Account() {
 
             <View style={styles.accountContainer}>
                 <View>
-                    <Image style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: image }} />
+                    <Image style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: info.shop_avatar }} />
                 </View>
                 <View style={styles.actionAccount}>
-                    <Text style={styles.nameUser}>{name}</Text>
-                    <Text style={[styles.nameUserNickName, { color: 'black' }]}>@{nickName}</Text>
-                    <Text style={{ fontSize: 18, color: 'gray' }}>{email}</Text>
+                    <Text style={styles.nameUser}>{info.shop_name}</Text>
+                    <Text style={[styles.nameUserNickName, { color: 'black' }]}>@{userInfor.user_name}</Text>
+                    <Text style={{ fontSize: 18, color: 'gray' }}>{info.shop_description}</Text>
                 </View>
             </View>
 
@@ -119,6 +127,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     actionAccount: {
+        flex: 1,
         marginLeft: 20,
         flexDirection: 'column',
         justifyContent: 'center',

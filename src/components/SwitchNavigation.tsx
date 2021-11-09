@@ -16,15 +16,19 @@ import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
-import Chat from '../screens/Chat';
+import ListChat from '../screens/Chat/ListChat';
+import Chat from '../screens/Chat/Chat';
+
 import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 import AddProduct from '../screens/ManagerProduct/AddProduct';
 import OrderList from '../screens/OrderList';
-
+import ProductDetail from '../screens/ProductDetail';
+import EditProduct from '../screens/ManagerProduct/EditProduct';
+import Revenue from '../screens/ManagerRevenue/Revenue';
 
 const DIMENS = {
-    iconSize : 30,
+    iconSize: 30,
     fontNameCategory: 15
 }
 const switchNavigator = createSwitchNavigator({
@@ -38,8 +42,8 @@ const switchNavigator = createSwitchNavigator({
         }),
 
     },
-    
-    loginStack:{
+
+    loginStack: {
         screen: createStackNavigator({
             Login,
             OTPscreen,
@@ -53,7 +57,7 @@ const switchNavigator = createSwitchNavigator({
     },
     registerShopStack: {
         screen: createStackNavigator({
-            RegisterShop ,
+            RegisterShop,
         }, {
             defaultNavigationOptions: {
                 headerShown: false
@@ -63,7 +67,7 @@ const switchNavigator = createSwitchNavigator({
     },
     ProfileShop: {
         screen: createStackNavigator({
-            ProfileShop , EditProfileShop
+            ProfileShop, EditProfileShop
         }, {
             defaultNavigationOptions: {
                 headerShown: false
@@ -71,7 +75,8 @@ const switchNavigator = createSwitchNavigator({
         }),
 
     },
-    
+
+
 
 
     // shopStack:{
@@ -89,47 +94,51 @@ const switchNavigator = createSwitchNavigator({
         home: {
             screen: createStackNavigator({
                 Home: Home,
-                ManagerProduct:ManagerProduct,
-                AddProduct:AddProduct,
-                OrderList:OrderList
+                ManagerProduct: ManagerProduct,
+                AddProduct: AddProduct,
+                OrderList: OrderList,
+                ProductDetail: ProductDetail,
+                EditProduct: EditProduct,
+                Revenue: Revenue,
 
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
                 },
-                
+
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <MaterialCommunityIcons name="storefront" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="storefront-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <MaterialCommunityIcons name="storefront" size={DIMENS.iconSize} color={COLORS.primary} /> : <MaterialCommunityIcons name="storefront-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
                     return icon;
                 },
                 tabBarLabel: "Cửa hàng"
             },
-            
+
         },
         chat: {
             screen: createStackNavigator({
-                Chat: Chat,
+                ListChat: ListChat,
+                Chat,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
-                },          
+                },
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <MaterialCommunityIcons name="chat" size={DIMENS.iconSize} color={COLORS.primary}/> : <MaterialCommunityIcons name="chat-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <MaterialCommunityIcons name="chat" size={DIMENS.iconSize} color={COLORS.primary} /> : <MaterialCommunityIcons name="chat-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
                     return icon;
                 },
                 tabBarLabel: "Tin nhắn"
             },
-            
+
         },
         account: {
-            screen: createStackNavigator({         
+            screen: createStackNavigator({
                 Account: Account,
-                Profile:Profile,
-                EditProfile: EditProfile,
+                ProfileShop: ProfileShop,
+                EditProfileShop: EditProfileShop,
                 EmailOTPscreen,
                 ChangePassword,
                 OTPscreen,
@@ -137,31 +146,31 @@ const switchNavigator = createSwitchNavigator({
                 defaultNavigationOptions: {
                     headerShown: false,
                 },
-                
+
             }),
             navigationOptions: {
                 tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary}/> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit}/>
+                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary} /> : <Ionicons name="person-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
                     return icon;
                 },
                 tabBarLabel: "Tài khoản"
             },
-            
+
         },
-    },{
-        tabBarOptions:{
+    }, {
+        tabBarOptions: {
             activeTintColor: COLORS.primary,
-            inactiveTintColor :COLORS.colorFontInit,
-            labelStyle:{
-                fontSize:DIMENS.fontNameCategory,
-                fontWeight:'600'
+            inactiveTintColor: COLORS.colorFontInit,
+            labelStyle: {
+                fontSize: DIMENS.fontNameCategory,
+                fontWeight: '600'
             },
             style: {
-                padding:8,
+                padding: 8,
                 height: 60,
             },
             allowFontScaling: true
-        }          
+        }
     }),
 });
 const AppNavigation = createAppContainer(switchNavigator);
