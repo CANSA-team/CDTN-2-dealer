@@ -16,7 +16,9 @@ import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
-import Chat from '../screens/Chat';
+import Chat from '../screens/Chat/ListChat';
+import ChatUser from '../screens/Chat/Chat';
+
 import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 import AddProduct from '../screens/ManagerProduct/AddProduct';
@@ -24,7 +26,6 @@ import OrderList from '../screens/OrderList';
 import ProductDetail from '../screens/ProductDetail';
 import EditProduct from '../screens/ManagerProduct/EditProduct';
 import Revenue from '../screens/ManagerRevenue/Revenue';
-
 
 const DIMENS = {
     iconSize: 30,
@@ -74,8 +75,8 @@ const switchNavigator = createSwitchNavigator({
         }),
 
     },
-    
-    
+
+
 
 
     // shopStack:{
@@ -98,7 +99,9 @@ const switchNavigator = createSwitchNavigator({
                 OrderList: OrderList,
                 ProductDetail: ProductDetail,
                 EditProduct: EditProduct,
-                Revenue: Revenue
+                Revenue: Revenue,
+                Chat
+
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -117,6 +120,8 @@ const switchNavigator = createSwitchNavigator({
         chat: {
             screen: createStackNavigator({
                 Chat: Chat,
+                ChatUser,
+                Home,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -134,7 +139,7 @@ const switchNavigator = createSwitchNavigator({
         account: {
             screen: createStackNavigator({
                 Account: Account,
-                ProfileShop:ProfileShop,
+                ProfileShop: ProfileShop,
                 EditProfileShop: EditProfileShop,
                 EmailOTPscreen,
                 ChangePassword,
