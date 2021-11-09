@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Image } from 'react-native';
 import HeaderTitle from '../../components/HeaderTitle';
 import  MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Product from '../../components/Product';
@@ -71,7 +71,8 @@ export default function ManagerProduct(props:any) {
             </View>
             {isLoading ?
             ( <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <ActivityIndicator size="large" color="#00ff00" />
+                    <Image source={require('../../images/loader.gif')} />
+
                 </View>)
             :
             (

@@ -41,7 +41,6 @@ export default function AddProduct(props: any) {
     useEffect(() => {
         if (productShop && isInsert) {
             setIsInsert(false);
-            
             navigate('ManagerProduct')
         }
     }, [productState])
@@ -83,23 +82,26 @@ export default function AddProduct(props: any) {
     }
 
     const getGallerys = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-        if (!result.cancelled) {
-            let img = (
-                <Avatar
-                    size="xlarge"
-                    title="CR"
-                    activeOpacity={0.7}
-                    source={{ uri: result.uri }}
-                />
-            )
-            let data: any[] = [...images, img]
-            setImages(data);
+        if (images.length <= 4) {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                let img = (
+                    <Avatar
+                        avatarStyle={{width:160,height:120}}
+                        size="xlarge"
+                        title="CR"
+                        activeOpacity={0.7}
+                        source={{ uri: result.uri }}
+                    />
+                )
+                let data: any[] = [...images, img]
+                setImages(data);
+            }
         }
     }
 
@@ -277,6 +279,7 @@ export default function AddProduct(props: any) {
                                     rules={{
                                         required: true,
                                         min: 1000,
+                                        max: 999999999,
                                         pattern: /[0-9]/g
                                     }}
                                     render={({ field: { onChange, onBlur, value } }) => (
@@ -296,7 +299,7 @@ export default function AddProduct(props: any) {
                                     defaultValue=""
                                 />
                             </View>
-                            {errors.product_price && <Text style={styles.txtError}>Giá là số và phải lớn hơn 1.000đ</Text>}
+                            {errors.product_price && <Text style={styles.txtError}>Giá là số từ 1.000đ - 999.999.999đ</Text>}
                         </View>
                         <View style={styles.viewTotal}>
                             <Text style={styles.txtTitle}>Phần trăm giảm giá :</Text>

@@ -103,11 +103,7 @@ export default function Chat(props: any) {
     return (
         <SafeAreaView style={styles.container}>
             <HeaderTitle title={'List Chat'} />
-            <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
-                </TouchableOpacity>
-            </View>
+          
             <FlatList
                 data={data}
                 renderItem={renderItem}
@@ -139,12 +135,5 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 8,
         marginHorizontal: 10,
-    },
-    header: {
-        padding: 5,
-        position: 'absolute',
-        top: 34,
-        left: 5,
-        zIndex: 2
     },
 });
