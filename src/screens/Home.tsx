@@ -16,7 +16,6 @@ export default function Home() {
     const userState: UserStage = useSelector((state: State) => state.userReducer);
     const { info }: { info: ShopModel } = shopSate;
     const { userInfor }: { userInfor: UserModel } = userState;
-
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>

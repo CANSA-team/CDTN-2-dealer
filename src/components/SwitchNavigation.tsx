@@ -16,7 +16,9 @@ import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
-import Chat from '../screens/Chat';
+import ListChat from '../screens/Chat/ListChat';
+import Chat from '../screens/Chat/Chat';
+
 import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 import AddProduct from '../screens/ManagerProduct/AddProduct';
@@ -24,7 +26,6 @@ import OrderList from '../screens/OrderList';
 import ProductDetail from '../screens/ProductDetail';
 import EditProduct from '../screens/ManagerProduct/EditProduct';
 import Revenue from '../screens/ManagerRevenue/Revenue';
-
 
 const DIMENS = {
     iconSize: 30,
@@ -77,6 +78,7 @@ const switchNavigator = createSwitchNavigator({
 
 
 
+
     // shopStack:{
     //     screen: createStackNavigator({
     //         Shop,
@@ -97,7 +99,8 @@ const switchNavigator = createSwitchNavigator({
                 OrderList: OrderList,
                 ProductDetail: ProductDetail,
                 EditProduct: EditProduct,
-                Revenue: Revenue
+                Revenue: Revenue,
+
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -115,7 +118,8 @@ const switchNavigator = createSwitchNavigator({
         },
         chat: {
             screen: createStackNavigator({
-                Chat: Chat,
+                ListChat: ListChat,
+                Chat,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -133,8 +137,8 @@ const switchNavigator = createSwitchNavigator({
         account: {
             screen: createStackNavigator({
                 Account: Account,
-                Profile: Profile,
-                EditProfile: EditProfile,
+                ProfileShop: ProfileShop,
+                EditProfileShop: EditProfileShop,
                 EmailOTPscreen,
                 ChangePassword,
                 OTPscreen,

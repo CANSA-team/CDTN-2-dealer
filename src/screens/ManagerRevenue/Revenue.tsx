@@ -97,6 +97,10 @@ export default function Revenue(props: any) {
     const { revenue }: { revenue: ShopRevenue[] } = shopSate;
     const { info }: { info: ShopModel } = shopSate;
     const dispatch = useDispatch();
+    const month = (arr: ShopRevenue[]) => {
+        const result = arr.sort((a: ShopRevenue, b: ShopRevenue) => a.revenue_month - b.revenue_month);
+        return result;
+    }
 
     // const lineData = [
     //     { value: 0 },
@@ -105,11 +109,11 @@ export default function Revenue(props: any) {
     useEffect(() => {
         dispatch(getShopRevenue(info.shop_id))
     }, [])
-    console.log(revenue)
 
     useEffect(() => {
         if (revenue.length) {
-            let dataLine: DataChar[] = revenue.map((item: ShopRevenue) => {
+            const sortM = month(revenue);
+            let dataLine: DataChar[] = sortM.map((item: ShopRevenue) => {
                 const money = item.revenue_money / 1000000;
                 return {
                     value: money,
@@ -121,7 +125,6 @@ export default function Revenue(props: any) {
             setLineData(dataLine)
         }
     }, [revenue])
-
 
 
     return (

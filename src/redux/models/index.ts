@@ -98,6 +98,8 @@ export interface ShopModel {
     shop_avatar: string;
     last_update: number;
     status: number;
+    shop_avatar_id: number;
+    info: ShopModel;
 }
 
 export interface ShopOrder {
@@ -191,6 +193,7 @@ export interface ShopState {
     order: ShopOrder[];
     revenue: ShopRevenue[];
     error: string | undefined;
+    register_status: RegisterShopModel;
 }
 
 export interface AccessState {
@@ -207,10 +210,13 @@ export interface userModel {
     user_email: string,
 }
 
+
 export interface UserStage {
     check: boolean;
+    checkFogotPassword: boolean;
     userInfor: UserModel;
     status: string;
+    updateUser: number;
     error: string | undefined;
 }
 
@@ -228,7 +234,11 @@ export interface ImageStage {
 export interface ImageId {
     id: number;
 }
+
+//Dang ky shop
 export interface RegisterShopModel {
     status: string;
     message: string;
 }
+
+

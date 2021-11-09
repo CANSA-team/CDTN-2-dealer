@@ -34,6 +34,7 @@ export default function Account() {
 
     const onTapProfile = () => {
         navigate('ProfileShop')
+
     }
     const onTapOrdered = () => {
         navigate('Ordered')

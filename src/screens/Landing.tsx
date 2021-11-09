@@ -24,16 +24,18 @@ export default function Lauding() {
 
     useEffect(() => {
         if (check) {
-            if (info) {
-                navigate('homeStack');
-            } else {
-                //chuyển đến màn hình đăng ký shop
-                //------------------------------------------------------------------------------
-                Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
-                    { text: "OK", onPress: () => navigate('registerShopStack') }
-                ])
-                //------------------------------------------------------------------------------
-            }
+          if (Object.keys(info).length === 0) {
+            navigate('homeStack');
+          } else {
+            //chuyển đến màn hình đăng ký shop
+            //------------------------------------------------------------------------------
+            Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
+              { text: "OK", onPress: () => navigate('registerShopStack')}
+            ])
+            //------------------------------------------------------------------------------
+          }
+        }else{
+            navigate('loginStack')
         }
     }, [info, userInfor])
 
