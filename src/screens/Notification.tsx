@@ -1,7 +1,6 @@
 import React from 'react'
-import { Text, ScrollView, StyleSheet, View, Image, Button, TouchableOpacity } from 'react-native'
+import { Text, ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { flexDirection, marginRight } from 'styled-system'
 import HeaderTitle from '../components/HeaderTitle'
 import { SlugStr, SlugStrTitle } from '../consts/Selector'
 
@@ -19,7 +18,6 @@ export default function Notification(props: any) {
 
             <ScrollView>
 
-                {/* hiển thị thông báo */}
                 <TouchableOpacity>
                     <View style={styles.container}>
                         <Image source={require("../images/noorders.png")} style={{ width: 80, height: 80 }}></Image>
@@ -34,7 +32,6 @@ export default function Notification(props: any) {
                         </View>
                     </View>
                 </TouchableOpacity>
-                {/*  */}
 
                 <TouchableOpacity>
                     <View style={styles.container}>

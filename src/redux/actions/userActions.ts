@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { CommentModel, UserModel } from "../models";
+import { UserModel } from "../models";
 import axios from 'axios';
 import { UserActionType } from "../action-types";
 import { cansa } from "../../consts/Selector";

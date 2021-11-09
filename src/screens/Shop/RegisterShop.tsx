@@ -1,8 +1,7 @@
-import React, { memo, useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Avatar, Accessory, Input, CheckBox } from 'react-native-elements';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import * as ImagePicker from 'expo-image-picker';
 
 import {
@@ -79,7 +78,7 @@ export default function RegisterShop() {
         const shop_descriptionError = shopDescriptionValidator(shop_description);
         const shop_TempError = tempValidator(checked);
         const shop_ImageError = imgValidator(image);
-        
+
 
         if (shop_nameError || shop_descriptionError || image == '../../../assets/arrow_back.png' || shop_TempError) {
 
@@ -116,6 +115,7 @@ export default function RegisterShop() {
             setImage(result.uri);
         }
     };
+
     return (
         <View style={styles.container}>
             <View>

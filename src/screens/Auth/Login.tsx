@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Text,
@@ -6,20 +6,15 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
-  ActivityIndicator,
   Alert,
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
-import { cansa } from '../../consts/Selector'
 import * as Facebook from 'expo-facebook';
 import { useDispatch, useSelector } from 'react-redux'
 import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
-import { checkLogin, login, logout, getUserInfo, LoginFacebook } from '../../redux/actions/userActions'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { checkLogin, login, getUserInfo, LoginFacebook } from '../../redux/actions/userActions'
 import { getShopOwner } from '../../redux/actions/shopActions'
 
 
@@ -59,12 +54,9 @@ export default function Login(props: any) {
       if (Object.keys(info).length !== 0) {
         navigate('homeStack');
       } else if (Object.keys(info).length === 0) {
-        //chuyển đến màn hình đăng ký shop
-        //------------------------------------------------------------------------------
         Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
           { text: "OK", onPress: () => navigate('registerShopStack') }
         ])
-        //------------------------------------------------------------------------------
       }
     }
   }, [info])
@@ -85,20 +77,13 @@ export default function Login(props: any) {
       const {
         type,
         token,
-        expirationDate,
-        permissions,
-        declinedPermissions,
       }: any = await Facebook.logInWithReadPermissionsAsync({
         permissions: ['public_profile', 'email'],
       });
       if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`);
-        //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
         var infomation = await response.json();
         dispatch(LoginFacebook(infomation.email, token, infomation.id, infomation.name))
-      } else {
-        // type === 'cancel'
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
@@ -139,7 +124,6 @@ export default function Login(props: any) {
   }
 
   return (
-    //Donot dismis Keyboard when click outside of TextInput
     <TouchableWithoutFeedback onPress={() => loginBtn()}>
       <View style={styles.container}>
         <View style={styles.up}>

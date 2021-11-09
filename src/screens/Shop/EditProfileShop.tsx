@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Platform, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import { Button, Text, Input, Avatar, Accessory } from 'react-native-elements';
-
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { Text, Input, Avatar, Accessory } from 'react-native-elements';
 import { useNavigation } from '../../utils/useNavigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
 import HeaderTitle from '../../components/HeaderTitle';
-import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import { cansa, updateImage } from '../../consts/Selector';
-import { margin, marginBottom } from 'styled-system';
+import { updateImage } from '../../consts/Selector';
 import COLORS from '../../consts/Colors';
 import { ImageId, ShopModel, ShopState, State, updateShop } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,30 +13,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     shopNameValidator,
     shopDescriptionValidator,
-    imgValidator,
-    tempValidator,
 } from '../../core/utils';
-
-let user_temp = {
-    "id": 1,
-    "phone": "0968241064",
-    "name": "anh",
-    "birthday": "1999-09-28T17:00:00.000Z"
-}
 
 export default function EditProfileShop(props: any) {
     const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopsState;
     const [loading, setLoading] = useState(false);
 
-    const [show, setShow] = useState(false);
     const [name, setName] = useState(info.shop_name);
     const [description, setDescription] = useState(info.shop_description);
     const [image, setImage] = useState(info.shop_avatar);
     const dispatch = useDispatch();
     const { navigate } = useNavigation();
-    const { navigation, route } = props;
-    const { getParam, goBack } = navigation;
+    const { navigation } = props;
 
     useEffect(() => {
 
@@ -67,8 +49,6 @@ export default function EditProfileShop(props: any) {
         }
     };
     const xacMinh = () => {
-        //setbuttonC(true);
-
         setLoading(true);
         let _avatar: ImageId = { id: info.shop_avatar_id };
         let saveAvt: Promise<void>;
@@ -87,7 +67,6 @@ export default function EditProfileShop(props: any) {
         })
     }
 
-    ///api/shop/update/:shop_id/:key
     const save = () => {
         const shop_nameError = shopNameValidator(name);
         const shop_descriptionError = shopDescriptionValidator(description);
@@ -128,7 +107,6 @@ export default function EditProfileShop(props: any) {
                         source={{
                             uri: image,
                         }}
-
                     >
                         <Accessory
                             onPress={getImg}

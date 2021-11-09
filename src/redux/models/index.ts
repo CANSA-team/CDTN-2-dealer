@@ -36,12 +36,7 @@ export interface ProductCat {
 
 //Product State
 export interface ProductState {
-    productNew: ProductModel[];
-    productHot: ProductModel[];
-    productCategory: ProductModel[];
-    productSearch: ProductModel[];
     productShop: ProductModel[];
-    product: ProductModel[];
     error: string | undefined;
 }
 
@@ -217,11 +212,6 @@ export interface UserStage {
     userInfor: UserModel;
     status: string;
     updateUser: number;
-    error: string | undefined;
-}
-
-export interface ComplaintStage {
-    status: string;
     error: string | undefined;
 }
 

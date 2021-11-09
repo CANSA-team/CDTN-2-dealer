@@ -1,9 +1,4 @@
 export enum ProductActionType {
-    GET_PRODUCT_NEW = 'GET_PRODUCT_NEW',
-    GET_PRODUCT_HOT = 'GET_PRODUCT_HOT',
-    GET_PRODUCT_CATEGORY = 'GET_PRODUCT_CATEGORY',
-    GET_PRODUCT = 'GET_PRODUCT',
-    GET_PRODUCT_SEARCH = 'GET_PRODUCT_SEARCH',
     GET_PRODUCT_SHOP = 'GET_PRODUCT_SHOP',
     ON_PRODUCT_ERROR = 'ON_PRODUCT_ERROR',
     INSERT_PRODUCT = 'INSERT_PRODUCT',
@@ -30,12 +25,10 @@ export enum SliderActionType {
 
 export enum CommentActionType {
     GET_ALL_COMMENT = 'GET_ALL_COMMENT',
-    ADD_COMMENT = 'ADD_COMMENT',
     ON_COMMENT_ERROR = 'ON_COMMENT_ERROR'
 }
 
 export enum ShopActionType {
-    GET_SHOP_INFO = 'GET_SHOP_INFO',
     ON_SHOP_ERROR = 'ON_SHOP_ERROR',
     GET_SHOP_OWNER = 'GET_SHOP_OWNER',
     REGISTER_SHOP = 'REGISTER_SHOP',
@@ -62,17 +55,6 @@ export enum UserActionType {
     GET_USER_INFO = 'GET_USER_INFO',
     ON_LOGIN_ERROR = 'ON_LOGIN_ERROR',
     UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE'
-}
-
-export enum OderActionType {
-    ADD_ORDER = 'ADD_ORDER',
-    GET_ALL_ORDER = 'GET_ALL_ORDER',
-    ON_ORDER_ERROR = 'ON_ORDER_ERROR'
-}
-
-export enum CommplaintActionType {
-    ADD_COMPLAINT = 'ADD_COMPLAINT',
-    ON_COMPLAINT_ERROR = 'ON_COMPLAINT_ERROR'
 }
 
 export enum ImageActionType {

@@ -1,7 +1,6 @@
-import { CommentActionType, SliderActionType, UserActionType } from "../action-types";
-import { CommentActions } from "../actions/commentActions";
+import { UserActionType } from "../action-types";
 import { UserActions } from "../actions/userActions";
-import { CommentState, CommentModel, UserStage, UserModel } from "../models";
+import { UserStage, UserModel } from "../models";
 
 
 const initialState: UserStage = {

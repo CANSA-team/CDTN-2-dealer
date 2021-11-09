@@ -1,7 +1,6 @@
 import { Dispatch } from "redux";
-import { CommentModel, ShopModel } from "../models";
 import axios from 'axios';
-import { AccessActionType, CommentActionType, ShopActionType } from "../action-types";
+import { AccessActionType } from "../action-types";
 import { cansa } from "../../consts/Selector";
 
 export interface UpdateAccess {

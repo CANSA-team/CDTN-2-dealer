@@ -5,10 +5,10 @@ import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
 
-export default function OTPscreen(props:any) {
+export default function OTPscreen(props: any) {
     const { navigate } = useNavigation();
-    const {navigation,route} = props;
-    const { getParam, goBack } = navigation;
+    const { navigation } = props;
+    const { getParam } = navigation;
     const [pinText1, setpinText1] = useState<string>('');
     const [pinText2, setpinText2] = useState<string>('');
     const [pinText3, setpinText3] = useState<string>('');
@@ -33,7 +33,7 @@ export default function OTPscreen(props:any) {
         setpinText2(pinText2);
         if (pinText2 != "") {
             pinInputRef3.current?.focus()
-        }else if(pinText2 == ""){
+        } else if (pinText2 == "") {
             pinInputRef1.current?.focus()
         }
     };
@@ -42,7 +42,7 @@ export default function OTPscreen(props:any) {
         setpinText3(pinText3);
         if (pinText3 != "") {
             pinInputRef4.current?.focus()
-        }else if(pinText3 == ""){
+        } else if (pinText3 == "") {
             pinInputRef2.current?.focus()
         }
     };
@@ -51,7 +51,7 @@ export default function OTPscreen(props:any) {
         setpinText4(pinText4);
         if (pinText4 != "") {
             pinInputRef5.current?.focus()
-        }else if(pinText4 == ""){
+        } else if (pinText4 == "") {
             pinInputRef3.current?.focus()
         }
     };
@@ -60,7 +60,7 @@ export default function OTPscreen(props:any) {
         setpinText5(pinText5);
         if (pinText5 != "") {
             pinInputRef6.current?.focus()
-        }else if(pinText5 == ""){
+        } else if (pinText5 == "") {
             pinInputRef4.current?.focus()
         }
     };
@@ -72,22 +72,22 @@ export default function OTPscreen(props:any) {
         }
     };
     //Hàm continue
-    const continueBtn = ()=>{
-        if(pinText1 && pinText2 && pinText3 && pinText4 && pinText5 && pinText6){
+    const continueBtn = () => {
+        if (pinText1 && pinText2 && pinText3 && pinText4 && pinText5 && pinText6) {
             let codePin = `${pinText1}${pinText2}${pinText3}${pinText4}${pinText5}${pinText6}`;
             let email = getParam('email')
-            axios.get(`${cansa[1]}/api/user/forgot/password/checkPin/${email}/${codePin}`).then((res)=>{
-                if(res.data.data){
-                    Alert.alert('Thông Báo',res.data.message);
-                    navigate('ChangePassword',{email:email})
+            axios.get(`${cansa[1]}/api/user/forgot/password/checkPin/${email}/${codePin}`).then((res) => {
+                if (res.data.data) {
+                    Alert.alert('Thông Báo', res.data.message);
+                    navigate('ChangePassword', { email: email })
 
-                }else{
-                    Alert.alert('Thông Báo',res.data.message);
+                } else {
+                    Alert.alert('Thông Báo', res.data.message);
                 }
-            }) 
-            
-        }else{
-            Alert.alert('Thông báo',"Vui lòng không để trống ô nào!!")
+            })
+
+        } else {
+            Alert.alert('Thông báo', "Vui lòng không để trống ô nào!!")
         }
     }
     // Time out
@@ -97,8 +97,8 @@ export default function OTPscreen(props:any) {
             setTimeout(() => {
                 setTime(time - 1)
             }, 1000);
-        }else{
-            // Alert.alert('Thông báo',"Vui lòng resend mã code!!")
+        } else {
+            Alert.alert('Thông báo', "Vui lòng resend mã code!!")
         }
     }, [time]);
     useEffect(() => {
@@ -199,7 +199,7 @@ export default function OTPscreen(props:any) {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.loginButton}
-                    onPress={continueBtn}
+                        onPress={continueBtn}
                     >
                         <Text style={styles.loginButtonTitle}>Continue</Text>
                     </TouchableOpacity>

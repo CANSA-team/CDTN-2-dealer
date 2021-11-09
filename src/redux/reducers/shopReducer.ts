@@ -1,7 +1,7 @@
 import { ShopRevenue } from './../models/index';
 import { ShopActionType } from "../action-types";
 import { ShopActions } from "../actions/shopActions";
-import { CommentState, CommentModel, ShopState, ShopModel, RegisterShopModel, ShopOrder } from "../models";
+import { ShopState, ShopModel, RegisterShopModel, ShopOrder } from "../models";
 
 
 const initialState: ShopState = {
@@ -14,11 +14,6 @@ const initialState: ShopState = {
 
 const shopReducer = (state: ShopState = initialState, action: ShopActions) => {
     switch (action.type) {
-        case ShopActionType.GET_SHOP_INFO:
-            return {
-                ...state,
-                info: action.payload
-            }
         case ShopActionType.GET_SHOP_OWNER:
             return {
                 ...state,

@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react'
+import React, { useState } from 'react'
 import {
     StyleSheet,
     Text,
@@ -14,42 +14,40 @@ import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
 
-export default function ChangePassword(props:any) {
+export default function ChangePassword(props: any) {
     const { navigate } = useNavigation();
     const [password, setPassword] = useState('')
     const [passwordValdate, setPasswordValdate] = useState(true)
-    const {navigation,route} = props;
-    const { getParam, goBack } = navigation;
+    const { navigation } = props;
+    const { getParam } = navigation;
     const valiDate = (text: any, type: any) => {
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
         if (type == 'password') {
             if (passwordRegex.test(text)) {
                 setPassword(text)
                 setPasswordValdate(true)
-                console.warn('Password hợp lệ')
             }
             else {
                 setPasswordValdate(false)
-                console.warn('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
             }
         }
     }
-    const changePasswordBtn = ()=>{
+    const changePasswordBtn = () => {
         let email = getParam('email')
-        if(password){
-            axios.get(`${cansa[1]}/api/user/forgot/password/center/${email}/${password}`).then((res)=>{  
-                if(res.data.data){
-                    Alert.alert('Thông Báo',res.data.message);
+        if (password) {
+            axios.get(`${cansa[1]}/api/user/forgot/password/center/${email}/${password}`).then((res) => {
+                if (res.data.data) {
+                    Alert.alert('Thông Báo', res.data.message);
                     navigate('Login')
-                }else{
-                    Alert.alert('Thông Báo',res.data.message);
+                } else {
+                    Alert.alert('Thông Báo', res.data.message);
                 }
-            }) 
-        }else{
+            })
+        } else {
             Alert.alert('Thông báo', 'Email không giống nhau hoặc không đúng định dạng!!')
 
         }
-        
+
     }
     const Divider = (props: any) => {
         return <View {...props}>
@@ -59,7 +57,6 @@ export default function ChangePassword(props:any) {
         </View>
     }
     return (
-        //Donot dismis Keyboard when click outside of TextInput
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 <View style={styles.up}>
@@ -93,7 +90,7 @@ export default function ChangePassword(props:any) {
                     </View>
 
                     <TouchableOpacity style={styles.retrievalButton}
-                    onPress = {changePasswordBtn}
+                        onPress={changePasswordBtn}
                     >
                         <Text style={styles.retrievalButtonTitle}>Recuperate</Text>
                     </TouchableOpacity>

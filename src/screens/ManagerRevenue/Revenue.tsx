@@ -1,87 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
-import { BarChart } from "react-native-gifted-charts";
 import { LineChart } from "react-native-gifted-charts";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from 'react-redux';
 import { getShopRevenue, ShopModel, ShopRevenue, ShopState, State } from '../../redux';
-
-const data = [
-    {
-        revenue_id: 1,
-        revenue_month: 1,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 2,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 3,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 4,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 5,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 6,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 7,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 200000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 1,
-        revenue_month: 8,
-        revenue_year: 2021,
-        revenue_seasion: 3,
-        revenue_money: 300000000,
-        shop_id: 1
-    },
-    {
-        revenue_id: 2,
-        revenue_month: 9,
-        revenue_year: 2021,
-        revenue_seasion: 4,
-        revenue_money: 2000000000,
-        shop_id: 1
-    }]
 
 interface DataChar {
     value: number,
@@ -91,21 +16,17 @@ interface DataChar {
 
 export default function Revenue(props: any) {
     const { navigation } = props;
-    let total = data.length - 1
     const [lineData, setLineData] = useState<DataChar[]>([]);
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { revenue }: { revenue: ShopRevenue[] } = shopSate;
     const { info }: { info: ShopModel } = shopSate;
     const dispatch = useDispatch();
+
     const month = (arr: ShopRevenue[]) => {
-        const result = arr.sort((a: ShopRevenue, b: ShopRevenue) => a.revenue_month - b.revenue_month);
+        const result = arr.sort((a: ShopRevenue, b: ShopRevenue) => a.revenue_year - b.revenue_year == 0 ? a.revenue_month - b.revenue_month : a.revenue_year - b.revenue_year);
         return result;
     }
 
-    // const lineData = [
-    //     { value: 0 },
-    //     { value: 200, dataPointText: '200', label: '1' },
-    // ];
     useEffect(() => {
         dispatch(getShopRevenue(info.shop_id))
     }, [])
@@ -126,7 +47,6 @@ export default function Revenue(props: any) {
         }
     }, [revenue])
 
-
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Doanh thu của shop"></HeaderTitle>
@@ -142,8 +62,7 @@ export default function Revenue(props: any) {
                         <View style={{ backgroundColor: '#Fff', padding: 12 }}>
                             <TouchableOpacity style={styles.contactContainer}>
                                 <AntDesign name="calendar" size={20}></AntDesign>
-                                <Text style={{ marginHorizontal: 8 }}>Năm {data[1].revenue_year}</Text>
-                                {/* <Entypo name="chevron-down" size={20}></Entypo> */}
+                                <Text style={{ marginHorizontal: 8 }}>Năm {revenue[0].revenue_year}</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -186,7 +105,6 @@ export default function Revenue(props: any) {
                             <Text style={styles.textNote}>Số tiền của tháng</Text>
                         </View>
                     </>
-
                     :
                     <View></View>
             }

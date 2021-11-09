@@ -1,26 +1,26 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-navigation'
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Carousel from './../components/Carousel';
 import COLORS from '../consts/Colors';
 import { Rating } from 'react-native-elements';
-import {  CommentModel, getComments, ProductModel, State } from '../redux';
+import { CommentModel, CommentState, getComments, ProductModel, State } from '../redux';
 import { vnd } from '../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
 import Comment from '../components/Comment';
 export default function ProductDetail(props: any) {
     const { navigation } = props;
     const { getParam } = navigation;
-    const product:ProductModel = getParam('product');
+    const product: ProductModel = getParam('product');
     const dispatch = useDispatch();
-    const commentState = useSelector((state: State) => state.commentReducer);
-    const { comment } : { comment: CommentModel[]} = commentState;
+    const commentState: CommentState = useSelector((state: State) => state.commentReducer);
+    const { comment }: { comment: CommentModel[] } = commentState;
 
     useEffect(() => {
         dispatch(getComments(product.product_id));
     }, [])
-   
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -41,7 +41,7 @@ export default function ProductDetail(props: any) {
                         </View>
                         :
                         <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 10 }}>
-                            <Text style={{color: 'gray', fontSize: 20 }}>Chưa đánh giá</Text>
+                            <Text style={{ color: 'gray', fontSize: 20 }}>Chưa đánh giá</Text>
                         </View>
                     }
                     {product && <Text style={styles.title}>{product.product_title}</Text>}
@@ -56,7 +56,7 @@ export default function ProductDetail(props: any) {
                         {
                             product && product.product_description
                         }
-                    </Text> 
+                    </Text>
                     <View>
                         {
                             comment && comment.map((comment: CommentModel, index: number) =>

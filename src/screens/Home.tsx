@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import Menu from '../components/Menu';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SlugStr, SlugStrTitle } from '../consts/Selector';
+import { SlugStrTitle } from '../consts/Selector';
 import COLORS from '../consts/Colors';
 import { useNavigation } from '../utils/useNavigation';
 import { ShopModel, ShopState, State, UserModel, UserStage } from '../redux';

@@ -8,17 +8,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Account from './../screens/Account';
 import COLORS from '../consts/Colors';
-import Profile from './../screens/User/Profile';
 import ProfileShop from './../screens/Shop/ProfileShop';
 import EditProfileShop from './../screens/Shop/EditProfileShop';
 import Login from '../screens/Auth/Login';
 import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
-import EditProfile from '../screens/User/EditProfile';
 import ListChat from '../screens/Chat/ListChat';
 import Chat from '../screens/Chat/Chat';
-
 import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
 import AddProduct from '../screens/ManagerProduct/AddProduct';
@@ -76,21 +73,7 @@ const switchNavigator = createSwitchNavigator({
 
     },
 
-
-
-
-    // shopStack:{
-    //     screen: createStackNavigator({
-    //         Shop,
-    //     }, {
-    //         defaultNavigationOptions: {
-    //             headerShown: false
-    //         }
-    //     })
-    // },
-
     homeStack: createBottomTabNavigator({
-        // Home tab Icon
         home: {
             screen: createStackNavigator({
                 Home: Home,

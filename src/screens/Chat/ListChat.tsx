@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Text, FlatList, TouchableOpacity, View, TextInput, StyleSheet, ScrollView } from 'react-native'
+import { Text, FlatList, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
-import COLORS from '../../consts/Colors'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '../../utils/useNavigation';
 import HeaderTitle from '../../components/HeaderTitle';
 import axios from 'axios';
-import { GiftedChat } from 'react-native-gifted-chat';
 import io from "socket.io-client";
 import { Avatar, Badge, withBadge, Icon } from 'react-native-elements';
 import { cansa, chatSever } from '../../consts/Selector'
@@ -15,16 +11,13 @@ import { ShopModel, ShopState, State } from '../../redux';
 import { useSelector } from 'react-redux';
 
 export default function ListChat(props: any) {
-    const { navigation } = props;
     const [data, setData]: any = useState([])
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
-    const [dataStatus, setDataStatus]: any = useState([])
     const { navigate } = useNavigation();
     const socket = io(chatSever);
     const myID = 'shop_' + info.shop_id;
     useEffect(() => {
-        let temp: any = []
         socket.on("thread", function (data) {
             if (data.user_to == myID) {
                 socket.emit('roomList', myID)
@@ -71,7 +64,6 @@ export default function ListChat(props: any) {
 
     }, [])
 
-    const BadgedIcon = withBadge(1)(Icon)
 
     const renderItem = ({ item }: any) => {
         return (
@@ -103,7 +95,7 @@ export default function ListChat(props: any) {
     return (
         <SafeAreaView style={styles.container}>
             <HeaderTitle title={'List Chat'} />
-          
+
             <FlatList
                 data={data}
                 renderItem={renderItem}

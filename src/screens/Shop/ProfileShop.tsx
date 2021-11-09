@@ -1,91 +1,82 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Platform, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import { Accessory, Avatar, Button } from 'react-native-elements';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Avatar } from 'react-native-elements';
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '../../utils/useNavigation';
+import { useSelector } from 'react-redux';
+import { ShopModel } from '../../redux';
+import { ShopState, State } from '../../redux';
 import axios from 'axios';
 import { cansa } from '../../consts/Selector';
-import { useDispatch, useSelector } from 'react-redux';
-import { UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop, ShopModel, RegisterShopModel, getShopOwner } from '../../redux';
-import { ShopState, State } from '../../redux';
-
-
-
-let user_temp = {
-    "id": 1,
-    "phone": "0968241064",
-    "name": "anh",
-    "birthday": "1999-09-28T17:00:00.000Z"
-}
-
-class UserProfile {
-    shop_id?: number;
-    shop_name?: string;
-    shop_description?: string;
-    shop_owner?: number;
-    shop_avatar?: string;
-    last_update?: number;
-    status?: number;
-    shop_avatar_id?: number;
-}
 
 export default function ProfileShop(props: any) {
-    const dispatch = useDispatch();
     const { navigate } = useNavigation();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [image, setImage] = useState('https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg');
+    const [isLoadingChangePassword, setIsLoadingChangePassword] = useState<boolean>(true);
     const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopsState;
-    const { navigation, route } = props;
-    const { getParam, goBack } = navigation;
+    const { navigation } = props;
+    const { getParam } = navigation;
 
     const onTapEditProfile = () => {
         navigate('EditProfileShop');
     }
 
-
     return (
         <View style={styles.container}>
-            {!isLoading ?
-                (<View style={styles.container}>
-                    <ActivityIndicator size="large" color="#00ff00" />
-                </View>) : (
-                    <View>
-                        <View>
-                            <HeaderTitle title={'PROFILE SHOP'} />
-                            <View style={styles.header}>
-                                <TouchableOpacity>
-                                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={onTapEditProfile}>
-                                    <Feather name="edit" color="white" size={35} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
 
-                        <View style={styles.viewAvatar}>
-                            <Avatar
-                                containerStyle={{ marginBottom: 20 }}
-                                rounded
-                                size={150}
-                                source={{
-                                    uri: info.shop_avatar,
-                                }} >
-                            </Avatar>
-                        </View>
-                        <View style={styles.viewTxt}>
-                            <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>Tên Shop: {info.shop_name}</Text>
-                            </View>
+            <View>
+                <View>
+                    <HeaderTitle title={'PROFILE SHOP'} />
+                    <View style={styles.header}>
+                        <TouchableOpacity>
+                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={onTapEditProfile}>
+                            <Feather name="edit" color="white" size={35} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
-                            <View style={styles.txtContainer}>
-                                <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
-                            </View>
-                        </View>
-                    </View>)}
+                <View style={styles.viewAvatar}>
+                    <Avatar
+                        containerStyle={{ marginBottom: 20 }}
+                        rounded
+                        size={150}
+                        source={{
+                            uri: info.shop_avatar,
+                        }} >
+                    </Avatar>
+                </View>
+                <View style={styles.viewTxt}>
+                    <View style={styles.txtContainer}>
+                        <Text style={styles.txtTitle}>Tên Shop: {info.shop_name}</Text>
+                    </View>
+
+                    <View style={styles.txtContainer}>
+                        <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
+                    </View>
+                </View>
+                <View style={styles.resetPassContainer}>
+                    {
+                        isLoadingChangePassword &&
+                        <TouchableOpacity style={styles.touchReset}
+                            onPress={() => {
+                                setIsLoadingChangePassword(false);
+                                let email = getParam('email');
+                                axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res) => {
+                                    Alert.alert('Thông Báo', res.data.message);
+                                    navigate('OTPscreen', { email: email })
+                                })
+                            }}>
+                            <Text style={{ fontSize: 20, color: '#555' }}>Đổi mật khẩu</Text>
+                            <MaterialIcons name="arrow-right-alt" size={35} color="#555" />
+                        </TouchableOpacity>
+                    }
+
+                </View>
+            </View>
         </View>
     )
 }

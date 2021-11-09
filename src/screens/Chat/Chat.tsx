@@ -1,31 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { Text, FlatList, TouchableOpacity, View, TextInput, StyleSheet, ScrollView } from 'react-native'
+import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
-import COLORS from '../../consts/Colors'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '../../utils/useNavigation';
 import HeaderTitle from '../../components/HeaderTitle';
 import axios from 'axios';
 import { GiftedChat } from 'react-native-gifted-chat';
 import io from "socket.io-client";
 import { ShopModel, ShopState, State } from '../../redux';
 import { useSelector } from 'react-redux';
-import { cansa, chatSever } from '../../consts/Selector'
+import { chatSever } from '../../consts/Selector'
 
-let user_avatar: any = undefined;
 export default function Chat(props: any) {
     const [mess, setMess] = useState([])
-    const { navigation, route } = props;
-    const { getParam, goBack } = navigation;
+    const { navigation } = props;
+    const { getParam } = navigation;
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
     const [isTyping, setIsTyping] = useState(false)
     const socket = io(chatSever);
-    const myName = 'Hoàng Anh';
     const myID = 'shop_' + info.shop_id;
     const hisID = getParam('id_user');
-    console.log(myID)
     useEffect(() => {
         setMess([]);
         (async () => {

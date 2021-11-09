@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image, Alert } from 'react-native';
+import React, { useEffect } from 'react'
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { checkLogin, getShopOwner, getUserInfo, ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 import COLORS from '../consts/Colors';
@@ -10,7 +10,7 @@ import { updateAccess } from '../redux/actions/accessActions';
 export default function Lauding() {
     const accessState = useSelector((state: State) => state.accessReducer);
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check, status, userInfor }: { check: boolean, status: string, userInfor: UserModel } = userState;
+    const { check, userInfor }: { check: boolean, userInfor: UserModel } = userState;
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
     const { message } = accessState;
@@ -24,17 +24,14 @@ export default function Lauding() {
 
     useEffect(() => {
         if (check) {
-          if (Object.keys(info).length === 0) {
-            navigate('homeStack');
-          } else {
-            //chuyển đến màn hình đăng ký shop
-            //------------------------------------------------------------------------------
-            Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
-              { text: "OK", onPress: () => navigate('registerShopStack')}
-            ])
-            //------------------------------------------------------------------------------
-          }
-        }else{
+            if (Object.keys(info).length === 0) {
+                navigate('homeStack');
+            } else {
+                Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
+                    { text: "OK", onPress: () => navigate('registerShopStack') }
+                ])
+            }
+        } else {
             navigate('loginStack')
         }
     }, [info, userInfor])
