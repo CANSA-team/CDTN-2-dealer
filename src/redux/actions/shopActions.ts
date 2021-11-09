@@ -1,3 +1,4 @@
+import { ShopRevenue } from './../models/index';
 import { Dispatch } from "redux";
 import { CommentModel, ShopModel, ShopOrder } from "../models";
 import axios from 'axios';
@@ -23,6 +24,11 @@ export interface GetShopOder {
     payload?: ShopOrder
 }
 
+export interface GetShopRevenue {
+    readonly type: ShopActionType.GET_SHOP_REVENUE,
+    payload?: ShopRevenue
+}
+
 export interface ShopErrorAction {
     readonly type: ShopActionType.ON_SHOP_ERROR,
     payload: any
@@ -36,7 +42,7 @@ export interface EditProfileShopAction {
     payload: any
 }
 
-export type ShopActions = GetShopInfo | ShopErrorAction | GetShopOwner | RegisterShopAction | EditProfileShopAction | GetShopOder;
+export type ShopActions = GetShopInfo | ShopErrorAction | GetShopOwner | RegisterShopAction | EditProfileShopAction | GetShopOder | GetShopRevenue;
 
 
 export const getShopInfo = (shop_id: number, option: number = 0) => {
@@ -118,6 +124,32 @@ export const getShopOder = (user_id: number) => {
 
     }
 }
+export const getShopRevenue = (user_id: number) => {
+    return async (dispatch: Dispatch<ShopActions>) => {
+        try {
+            const response = await axios.get<any>(`${cansa[1]}/api/shop/revenue/${user_id}/e4611a028c71342a5b083d2cbf59c494`)
+            if (!response) {
+                dispatch({
+                    type: ShopActionType.ON_SHOP_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                // save our location in local storage
+                dispatch({
+                    type: ShopActionType.GET_SHOP_REVENUE,
+                    payload: response.data.data
+                })
+            }
+
+        } catch (error) {
+            dispatch({
+                type: ShopActionType.ON_SHOP_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
 
 
 
@@ -176,7 +208,6 @@ export const updateShop = (shop_name: string, shop_description: string, shop_id:
                 // save our location in local storage
                 dispatch({
                     type: ShopActionType.EDIT_PROFILE_SHOP,
-
                     payload: response.data.data
                 })
             }

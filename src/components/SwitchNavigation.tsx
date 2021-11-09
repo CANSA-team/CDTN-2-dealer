@@ -16,8 +16,8 @@ import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import EditProfile from '../screens/User/EditProfile';
-import Chat from '../screens/Chat/ListChat';
-import ChatUser from '../screens/Chat/Chat';
+import ListChat from '../screens/Chat/ListChat';
+import Chat from '../screens/Chat/Chat';
 
 import RegisterShop from '../screens/Shop/RegisterShop';
 import ManagerProduct from '../screens/ManagerProduct/ManagerProduct';
@@ -100,7 +100,6 @@ const switchNavigator = createSwitchNavigator({
                 ProductDetail: ProductDetail,
                 EditProduct: EditProduct,
                 Revenue: Revenue,
-                Chat
 
             }, {
                 defaultNavigationOptions: {
@@ -119,9 +118,8 @@ const switchNavigator = createSwitchNavigator({
         },
         chat: {
             screen: createStackNavigator({
-                Chat: Chat,
-                ChatUser,
-                Home,
+                ListChat: ListChat,
+                Chat,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

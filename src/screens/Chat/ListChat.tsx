@@ -14,7 +14,7 @@ import { cansa, chatSever } from '../../consts/Selector'
 import { ShopModel, ShopState, State } from '../../redux';
 import { useSelector } from 'react-redux';
 
-export default function Chat(props: any) {
+export default function ListChat(props: any) {
     const { navigation } = props;
     const [data, setData]: any = useState([])
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
@@ -75,7 +75,7 @@ export default function Chat(props: any) {
 
     const renderItem = ({ item }: any) => {
         return (
-            <TouchableOpacity style={styles.item} onPress={() => { navigate('ChatUser', { id_user: item.id_user, user_name: item.title }) }}>
+            <TouchableOpacity style={styles.item} onPress={() => { navigate('Chat', { id_user: item.id_user, user_name: item.title }) }}>
                 <View style={styles.row}>
                     <Avatar
                         rounded
