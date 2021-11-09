@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { LogBox, View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert } from 'react-native'
+import { LogBox, View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView, Alert, Image } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
@@ -160,7 +160,7 @@ export default function AddProduct(props: any) {
     return (
         isInsert ?
             (<View style={[styles.container,{justifyContent:'center',alignItems:'center'}]}>
-                <ActivityIndicator size="large" color="#00ff00" />
+                <Image source={require('../../images/loader.gif')} />
             </View>) :
             <View style={styles.container}>
                 <HeaderTitle title="Thêm sản phẩm" />

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { LogBox, View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert } from 'react-native'
+import { LogBox, View, StyleSheet, TouchableOpacity, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView, Alert, Image } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,9 +9,8 @@ import COLORS from '../../consts/Colors';
 import { Controller, useForm } from "react-hook-form";
 import { getCategories, handleCats, saveImage, updateImage } from '../../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductCat,CategoryModel, CategoryState, getCategory, ImageId, insertProduct, ProductModel, ProductState, ShopModel, ShopState, State, updateProduct } from '../../redux';
+import { ProductCat,CategoryModel, CategoryState, getCategory, ImageId, ProductModel, ProductState, ShopModel, ShopState, State, updateProduct } from '../../redux';
 import { useNavigation } from '../../utils/useNavigation';
-import { borderWidth } from 'styled-system';
 
 interface CategoriesProps {
     label: string,
@@ -210,7 +209,7 @@ export default function EditProduct(props: any) {
     return (
         isInsert ?
             (<View style={[styles.container,{justifyContent:'center',alignItems:'center'}]}>
-                <ActivityIndicator size="large" color="#00ff00" />
+                <Image source={require('../../images/loader.gif')} />
             </View>) :
             <View style={styles.container}>
                 <HeaderTitle title="Sửa sản phẩm" />
@@ -236,12 +235,12 @@ export default function EditProduct(props: any) {
                                             style={styles.textArea}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
+                                            value={value}                                           
                                             underlineColorAndroid="transparent"
                                             placeholder="Tên sản phẩm . . ."
                                             placeholderTextColor="#888"
                                             numberOfLines={10}
                                             multiline={true}
-                                            value={value}                                           
                                             maxLength={255}
                                            
                                         />
