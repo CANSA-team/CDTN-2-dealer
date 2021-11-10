@@ -225,6 +225,10 @@ export interface ImageId {
     id: number;
 }
 
+export interface ChatStage {
+    isChat: boolean | undefined;
+}
+
 //Dang ky shop
 export interface RegisterShopModel {
     status: string;

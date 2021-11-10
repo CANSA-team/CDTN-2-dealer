@@ -7,8 +7,9 @@ import axios from 'axios';
 import { GiftedChat } from 'react-native-gifted-chat';
 import io from "socket.io-client";
 import { ShopModel, ShopState, State } from '../../redux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { chatSever } from '../../consts/Selector'
+import { chat } from '../../redux/actions/chatActions';
 
 export default function Chat(props: any) {
     const [mess, setMess] = useState([])
@@ -20,6 +21,7 @@ export default function Chat(props: any) {
     const socket = io(chatSever);
     const myID = 'shop_' + info.shop_id;
     const hisID = getParam('id_user');
+    const dispatch = useDispatch();
     useEffect(() => {
         setMess([]);
         (async () => {
@@ -88,7 +90,7 @@ export default function Chat(props: any) {
             image: '',
             base64: ''
         };
-
+        dispatch(chat(true))
         socket.emit("messages", msgDetails);
     }
     var timeout: any;
