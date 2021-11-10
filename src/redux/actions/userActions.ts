@@ -59,7 +59,6 @@ export const checkLogin = () => {
     return async (dispatch: Dispatch<UserActions>) => {
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/check/login`, { withCredentials: true })
-            console.log(response.data.data)
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
@@ -153,7 +152,6 @@ export const login = (email: string, password: string) => {
                 password: password,
             }
             const response = await axios.post<any>(`${cansa[1]}/api/user/login/e4611a028c71342a5b083d2cbf59c494`, data, { withCredentials: true })
-            console.log(response.data.status)
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
@@ -181,7 +179,6 @@ export const register = (email: string, password: string, name_full: string) => 
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/create/1/${name_full}/${password}/${email}/e4611a028c71342a5b083d2cbf59c494`)
             alert(response.data.message)
-            console.log(response)
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
@@ -328,7 +325,6 @@ export const updateUserProfile = (profile_name: string, profile_phone: string, p
                     payload: 'Product list error'
                 })
             } else {
-                console.log(response.data.data)
                 // save our location in local storage
                 dispatch({
                     type: UserActionType.UPDATE_USER_PROFILE,

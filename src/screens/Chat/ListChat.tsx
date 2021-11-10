@@ -5,8 +5,8 @@ import { useNavigation } from '../../utils/useNavigation';
 import HeaderTitle from '../../components/HeaderTitle';
 import axios from 'axios';
 import io from "socket.io-client";
-import { Avatar, Badge, withBadge, Icon } from 'react-native-elements';
-import { cansa, chatSever } from '../../consts/Selector'
+import { Avatar, Badge } from 'react-native-elements';
+import { chatSever } from '../../consts/Selector'
 import { ShopModel, ShopState, State, ChatStage } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { chat } from '../../redux/actions/chatActions';
