@@ -16,7 +16,7 @@ export default function AddProduct(props: any) {
     const { navigate } = useNavigation();
     const { control, handleSubmit, formState: { errors } } = useForm();
     const { navigation } = props;
-    const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494');
+    const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/373/e4611a028c71342a5b083d2cbf59c494');
     const [images, setImages] = useState<any>([])
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [catError, setCatError] = useState<boolean>(false);
