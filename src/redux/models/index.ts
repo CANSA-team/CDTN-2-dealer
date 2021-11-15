@@ -101,6 +101,7 @@ export interface ShopOrder {
     oder_id: string;
     oder_date: Date;
     oder_phone: string;
+    status: number;
     product_oder: OderItemModel[];
 }
 
