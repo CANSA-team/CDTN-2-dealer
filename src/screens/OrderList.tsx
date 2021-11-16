@@ -119,9 +119,6 @@ export default function OrderList(props: any) {
                                             <View style={{ marginRight: 20 }}>
                                                 <Text>{i.product_quantity}</Text>
                                             </View>
-                                            {
-
-                                            }
                                             <Text style={{ marginTop: 5 }}>{i.product.product_price}</Text>
                                         </View>
                                     </View>
