@@ -30,11 +30,11 @@ export default function Home() {
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="email-outline" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{userInfor.user_name && SlugStrTitle(userInfor.user_name, 22)}</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_email && SlugStrTitle(userInfor.user_email, 22)}</Text>
                         </View>
                         <View style={styles.contactContainer}>
                             <MaterialCommunityIcons name="phone-classic" color="#222" size={20} />
-                            <Text style={styles.txtContact}>{userInfor.user_name && userInfor.user_name}</Text>
+                            <Text style={styles.txtContact}>{userInfor.user_phone && userInfor.user_phone}</Text>
                         </View>
                     </View>
 
