@@ -26,6 +26,12 @@ export default function OrderList(props: any) {
             <Text>Đã đặt</Text>
         </View>,
         <View style={{ marginRight: 20 }}>
+            <Text>Đang sử lý</Text>
+        </View>,
+        <View style={{ marginRight: 20 }}>
+            <Text>Đang sử lý</Text>
+        </View>,
+        <View style={{ marginRight: 20 }}>
             <Text>Đã nhận</Text>
         </View >
     ]
