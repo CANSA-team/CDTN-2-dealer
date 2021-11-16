@@ -32,11 +32,11 @@ export default function OrderList(props: any) {
                 setOrderRender(result)
                 break;
             case 2:
-                result = order.filter((order: ShopOrder) => order.status === 2);
+                result = order.filter((order: ShopOrder) => order.status === 2 || order.status === 3);
                 setOrderRender(result)
                 break;
             case 3:
-                result = order.filter((order: ShopOrder) => order.status === 3);
+                result = order.filter((order: ShopOrder) => order.status === 4);
                 setOrderRender(result)
                 break;
 
@@ -56,7 +56,7 @@ export default function OrderList(props: any) {
             <Text>Đã hủy</Text>
         </View>,
         <View style={{ marginRight: 20 }}>
-            <Text>Đang xử lý</Text>
+            <Text>Đã đặt</Text>
         </View>,
         <View style={{ marginRight: 20 }}>
             <Text>Đang sử lý</Text>
@@ -81,13 +81,16 @@ export default function OrderList(props: any) {
             <ScrollView>
                 <View style={styles.containerStatus}>
                     <TouchableOpacity >
-                        <Text onPress={() => { filterData(4) }}>Tất cả</Text>
+                        <Text onPress={() => { filterData(10) }}>Tất cả</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingLeft: 15 }}>
-                        <Text onPress={() => { filterData(1) }}>Đang xử lý</Text>
+                    <TouchableOpacity style={{ paddingLeft: 10 }}>
+                        <Text onPress={() => { filterData(2) }}>Đang xử lý</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingLeft: 15, paddingRight: 15 }}>
-                        <Text onPress={() => { filterData(2) }}>Đã nhận</Text>
+                    <TouchableOpacity style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        <Text onPress={() => { filterData(3) }}>Đã nhận</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ paddingRight: 10 }}>
+                        <Text onPress={() => { filterData(1) }}>Đã đặt</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text onPress={() => { filterData(0) }}>Đã huỷ</Text>
