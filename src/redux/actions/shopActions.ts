@@ -49,7 +49,6 @@ export const getShopOwner = (user_id: number, option: number = 0) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.GET_SHOP_OWNER,
                     payload: response.data.data
@@ -76,7 +75,6 @@ export const getShopOder = (user_id: number,page: number = 1) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.GET_SHOP_ORDER,
                     payload: response.data.data
@@ -103,7 +101,6 @@ export const getShopRevenue = (user_id: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.GET_SHOP_REVENUE,
                     payload: response.data.data
@@ -137,7 +134,6 @@ export const registerShop = (shop_name: string, shop_description: string, shop_o
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.REGISTER_SHOP,
 
@@ -172,7 +168,7 @@ export const updateShop = (shop_name: string, shop_description: string, shop_id:
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
+               
                 dispatch({
                     type: ShopActionType.EDIT_PROFILE_SHOP,
                     payload: response.data.data

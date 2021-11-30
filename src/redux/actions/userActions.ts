@@ -65,7 +65,6 @@ export const checkLogin = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.CHECK_LOGIN,
                     payload: response.data.data
@@ -92,7 +91,6 @@ export const getUserInfo = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.GET_USER_INFO,
                     payload: response.data.data
@@ -128,7 +126,6 @@ export const LoginFacebook = (email: string, token: string, username: string, fu
                 if (response.data.status === "Faild" || response.data.status === "") {
                     alert("Tài khoản hoặc mật khẩu không đúng!")
                 }
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.LOGIN,
                     payload: response.data.status
@@ -158,7 +155,6 @@ export const login = (email: string, password: string) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.LOGIN,
                     payload: response.data.status
@@ -188,7 +184,6 @@ export const register = (email: string, password: string, name_full: string) => 
                 if (response.data.status === "Faild" || response.data.status === "") {
                     alert("Tài khoản hoặc mật khẩu không đúng!")
                 }
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.REGISTER,
                     payload: response.data.status
@@ -218,7 +213,6 @@ export const logout = () => {
                 if (response.data.status == 'success') {
                     status = 'Faild';
                 }
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.LOGOUT,
                     payload: status
@@ -245,7 +239,6 @@ export const ForgottPassword = (email: string) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.FORGOTT_PASSWORD,
                     payload: response.data.status
@@ -272,7 +265,6 @@ export const ForgottPasswordOTP = (email: string, OTP: string) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.FORGOTT_PASSWORD_OTP,
                     payload: response.data.data
@@ -299,7 +291,6 @@ export const ForgottPasswordCenter = (email: string, password: string) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.FORGOTT_PASSWORD_CENTER,
                     payload: response.data.data
@@ -325,7 +316,6 @@ export const updateUserProfile = (profile_name: string, profile_phone: string, p
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.UPDATE_USER_PROFILE,
                     payload: response.data.data

@@ -25,7 +25,6 @@ export const updateAccess = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AccessActionType.UPDATE_ACCESS_INFO,
                     payload: response.data.message

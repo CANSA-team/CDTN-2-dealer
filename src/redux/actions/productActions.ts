@@ -38,7 +38,6 @@ export const getProductsShop = (shop_id: number, page: number = 1, option: numbe
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ProductActionType.GET_PRODUCT_SHOP,
                     payload: response.data.data
@@ -65,7 +64,6 @@ export const insertProduct = (data: any, shop_id: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ProductActionType.INSERT_PRODUCT,
                     payload: response.data.data
@@ -92,7 +90,6 @@ export const updateProduct = (data: any, shop_id: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ProductActionType.UPDATE_PRODUCT,
                     payload: response.data.data
@@ -120,7 +117,6 @@ export const deleteProduct = (product_id: number, shop_id: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ProductActionType.DELETE_PRODUCT,
                     payload: response.data.data

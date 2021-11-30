@@ -14,18 +14,58 @@ export default function OrderList(props: any) {
     const { info }: { info: ShopModel } = shopSate;
     const [isLoadMore, setisLoadMore] = useState(false)
     const [page, setPage] = useState<number>(1);
+    const [orderRender, setOrderRender] = useState<ShopOrder[]>([])
+    
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getShopOder(info.shop_id))
     }, [])
 
+
+    const filterData = (data: number) => {
+        let result = [];
+        switch (data) {
+            case 0:
+                result = order.filter((order: ShopOrder) => order.status === 0);
+                setOrderRender(result)
+                break;
+            case 1:
+                result = order.filter((order: ShopOrder) => order.status === 1);
+                setOrderRender(result)
+                break;
+            case 2:
+                result = order.filter((order: ShopOrder) => order.status === 2 || order.status === 3);
+                setOrderRender(result)
+                break;
+            case 3:
+                result = order.filter((order: ShopOrder) => order.status === 4);
+                setOrderRender(result)
+                break;
+
+            default:
+                setOrderRender(order)
+                break;
+        }
+    }
+    useEffect(() => {
+        if (order?.length) {
+            setOrderRender(order)
+        }
+    }, [order])
+
     const __status = [
         <View style={{ marginRight: 20 }}>
             <Text>Đã hủy</Text>
         </View>,
         <View style={{ marginRight: 20 }}>
-            <Text>Đã đặt</Text>
+            <Text>Đã đặt</Text>
+        </View>,
+        <View style={{ marginRight: 20 }}>
+            <Text>Đang sử lý</Text>
+        </View>,
+        <View style={{ marginRight: 20 }}>
+            <Text>Đang sử lý</Text>
         </View>,
         <View style={{ marginRight: 20 }}>
             <Text>Đã nhận</Text>
@@ -54,7 +94,6 @@ export default function OrderList(props: any) {
                     <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
-
             <ScrollView
                     onScroll={({ nativeEvent }) => {
                         if (isCloseToBottom(nativeEvent)) {
@@ -67,7 +106,7 @@ export default function OrderList(props: any) {
                 >
                 <>
                 {
-                order.length &&
+                order &&
                     order.map((item: any, index: number) =>
                         <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
                             <View style={[styles.container, { marginTop: 10 }]}>
@@ -99,7 +138,7 @@ export default function OrderList(props: any) {
                 {
                      isLoadMore &&
                      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                         <ActivityIndicator size="large" color="#00ff00" />
+                        <ActivityIndicator size="large" color="#00ff00" />
                      </View>
                 }
                 </>
@@ -130,4 +169,10 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 2
     },
+    containerStatus: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+
 })

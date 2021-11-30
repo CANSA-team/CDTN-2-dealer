@@ -26,7 +26,6 @@ export const getCategory = () => {
                     payload: 'Product list error'
                 })
             }else{
-                // save our location in local storage
                 dispatch({
                     type: CategoryActionType.GET_ALL_CATEGORY,
                     payload: response.data.data

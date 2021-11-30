@@ -101,6 +101,7 @@ export interface ShopOrder {
     oder_id: string;
     oder_date: Date;
     oder_phone: string;
+    status: number;
     product_oder: OderItemModel[];
 }
 
@@ -223,6 +224,10 @@ export interface ImageStage {
 
 export interface ImageId {
     id: number;
+}
+
+export interface ChatStage {
+    isChat: boolean | undefined;
 }
 
 //Dang ky shop

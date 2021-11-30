@@ -26,7 +26,6 @@ export const getComments = (product_id: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: CommentActionType.GET_ALL_COMMENT,
                     payload: response.data.data
