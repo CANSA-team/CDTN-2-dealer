@@ -66,10 +66,10 @@ export const getShopOwner = (user_id: number, option: number = 0) => {
     }
 }
 
-export const getShopOder = (user_id: number) => {
+export const getShopOder = (user_id: number,page: number = 1) => {
     return async (dispatch: Dispatch<ShopActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/api/oder/get_shop/${user_id}/e4611a028c71342a5b083d2cbf59c494`)
+            const response = await axios.get<any>(`${cansa[1]}/api/oder/get_shop/${user_id}/${page}/e4611a028c71342a5b083d2cbf59c494`)
             if (!response) {
                 dispatch({
                     type: ShopActionType.ON_SHOP_ERROR,

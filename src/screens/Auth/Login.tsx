@@ -45,7 +45,7 @@ export default function Login(props: any) {
 
   useEffect(() => {
     if (Object.keys(userInfor).length !== 0) {
-      dispatch(getShopOwner(userInfor.user_id));
+      dispatch(getShopOwner(userInfor.user_id,1));
     }
   }, [userInfor])
 

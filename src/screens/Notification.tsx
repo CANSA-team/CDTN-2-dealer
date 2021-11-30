@@ -11,8 +11,8 @@ export default function Notification(props: any) {
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
             <HeaderTitle title="Thông báo của bạn" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
 

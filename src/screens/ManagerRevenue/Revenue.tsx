@@ -51,8 +51,8 @@ export default function Revenue(props: any) {
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Doanh thu của shop"></HeaderTitle>
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
 

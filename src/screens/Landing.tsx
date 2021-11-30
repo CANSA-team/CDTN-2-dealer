@@ -18,7 +18,6 @@ export default function Lauding() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-
         dispatch(updateAccess());
     }, [])
 

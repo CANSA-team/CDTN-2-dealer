@@ -122,8 +122,8 @@ export default function RegisterShop() {
                 <View>
                     <HeaderTitle title={'Đăng Ký Bán Hàng'} />
                     <View style={styles.header}>
-                        <TouchableOpacity>
-                            <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => _logout()} />
+                        <TouchableOpacity onPress={() => _logout()}>
+                            <MaterialIcons name="arrow-back" size={35} color="white" />
                         </TouchableOpacity>
                     </View>
                 </View>

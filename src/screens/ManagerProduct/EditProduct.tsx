@@ -214,8 +214,8 @@ export default function EditProduct(props: any) {
             <View style={styles.container}>
                 <HeaderTitle title="Sửa sản phẩm" />
                 <View style={styles.header}>
-                    <TouchableOpacity>
-                        <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons name="arrow-back" size={35} color="white"/>
                     </TouchableOpacity>
                 </View>
 
