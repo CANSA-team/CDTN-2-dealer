@@ -118,7 +118,7 @@ export default function Login(props: any) {
   const Divider = (props: any) => {
     return <View {...props}>
       <View style={styles.line}></View>
-      <Text style={styles.textOR}>OR</Text>
+      <Text style={styles.textOR}>HOẶC</Text>
       <View style={styles.line}></View>
     </View>
   }
@@ -133,7 +133,7 @@ export default function Login(props: any) {
             color={'rgb(221, 97, 97)'}>
           </Ionicons>
           <Text style={styles.title}>
-            Account Information
+            Nhập thông tin tài khoản Đăng nhập
           </Text>
         </View>
 
@@ -143,7 +143,7 @@ export default function Login(props: any) {
               style={[styles.textInput, !emailValdate ? styles.error : null]}
               textContentType='emailAddress'
               keyboardType='email-address'
-              placeholder="Enter your email"
+              placeholder="Nhập E-mail"
               onChangeText={(text) => valiDate(text, 'email')}
             >
             </TextInput>
@@ -153,7 +153,7 @@ export default function Login(props: any) {
           <View style={styles.textInputContainer}>
             <TextInput
               style={[styles.textInput, !passwordValdate ? styles.error : null]}
-              placeholder="Enter your password"
+              placeholder="Nhập mật khẩu"
               secureTextEntry={true}
               onChangeText={(text) => valiDate(text, 'password')}
             >
@@ -165,14 +165,14 @@ export default function Login(props: any) {
           <TouchableOpacity style={styles.loginButton}
             onPress={() => loginBtn()}
           >
-            <Text style={styles.loginButtonTitle}>Sign In</Text>
+            <Text style={styles.loginButtonTitle}>Đăng Nhập</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.forgotButton}
             onPress={() => { navigate('EmailOTPscreen') }}
           >
             <Text style={styles.navButtonText}>
-              Forgot Password?
+              Quên mật khẩu?
             </Text>
           </TouchableOpacity>
 
@@ -185,7 +185,7 @@ export default function Login(props: any) {
               backgroundColor="#3b5998"
             >
               <Text style={styles.loginButtonTitle}
-              >Login with Facebook</Text>
+              >Đăng nhập bằng Facebook</Text>
             </FontAwesome.Button>
           </View>
         </View>

@@ -52,7 +52,7 @@ export default function ChangePassword(props: any) {
     const Divider = (props: any) => {
         return <View {...props}>
             <View style={styles.line}></View>
-            <Text style={styles.textOR}>OR</Text>
+            <Text style={styles.textOR}>HOẶC</Text>
             <View style={styles.line}></View>
         </View>
     }
@@ -66,7 +66,7 @@ export default function ChangePassword(props: any) {
                         color={'rgb(221, 97, 97)'}>
                     </Ionicons>
                     <Text style={styles.title}>
-                        Change Password
+                        Lấy Lại Mật Khẩu
                     </Text>
                 </View>
                 <View style={styles.down}>
@@ -74,7 +74,7 @@ export default function ChangePassword(props: any) {
                         <TextInput
                             style={[styles.textInput, !passwordValdate ? styles.error : null]}
                             onChangeText={(text) => valiDate(text, 'password')}
-                            placeholder="Import password new"
+                            placeholder="Nhập mật khẩu mới"
                             secureTextEntry={true}
                         >
                         </TextInput>
@@ -83,7 +83,7 @@ export default function ChangePassword(props: any) {
                         <TextInput
                             style={[styles.textInput, !passwordValdate ? styles.error : null]}
                             onChangeText={(text) => valiDate(text, 'password')}
-                            placeholder="Confirm password new"
+                            placeholder="Nhập lại mật khẩu"
                             secureTextEntry={true}
                         >
                         </TextInput>
@@ -92,14 +92,14 @@ export default function ChangePassword(props: any) {
                     <TouchableOpacity style={styles.retrievalButton}
                         onPress={changePasswordBtn}
                     >
-                        <Text style={styles.retrievalButtonTitle}>Recuperate</Text>
+                        <Text style={styles.retrievalButtonTitle}>Xác nhận</Text>
                     </TouchableOpacity>
 
                     <Divider style={styles.divider}></Divider>
 
                     <TouchableOpacity style={styles.forgotButton}>
                         <Text style={styles.navButtonText}>
-                            Have an account? Sign In
+                            Bạn đã có tài khoản? Đăng Nhập
                         </Text>
                     </TouchableOpacity>
 
