@@ -91,6 +91,7 @@ export default function ManagerProduct(props: any) {
                                     <Product onDelete={() => onDelete(product.product_id)} onTapEidt={() => onTapEidt(product)} onDetail={() => onTapDetail(product)} key={product.product_id} productInfo={product} />
                                 )
                             }
+                            
                             {
                                 isLoadMore &&
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>

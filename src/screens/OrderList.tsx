@@ -15,7 +15,7 @@ export default function OrderList(props: any) {
     const [isLoadMore, setisLoadMore] = useState(false)
     const [page, setPage] = useState<number>(1);
     const [orderRender, setOrderRender] = useState<ShopOrder[]>([])
-    
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -53,6 +53,7 @@ export default function OrderList(props: any) {
             setOrderRender(order)
         }
     }, [order])
+    console.log(order)
 
     const __status = [
         <View style={{ marginRight: 20 }}>
@@ -91,56 +92,58 @@ export default function OrderList(props: any) {
             <HeaderTitle title="Danh sách đơn hàng"></HeaderTitle>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
             <ScrollView
-                    onScroll={({ nativeEvent }) => {
-                        if (isCloseToBottom(nativeEvent)) {
-                            setPage(page + 1);
-                            setisLoadMore(true);
-                        }
-                    }}
-                    scrollEventThrottle={400}
-                    showsVerticalScrollIndicator={false}
-                >
+                onScroll={({ nativeEvent }) => {
+                    if (isCloseToBottom(nativeEvent)) {
+                        setPage(page + 1);
+                        setisLoadMore(true);
+                    }
+                }}
+                scrollEventThrottle={400}
+                showsVerticalScrollIndicator={false}
+            >
                 <>
-                {
-                order &&
-                    order.map((item: any, index: number) =>
-                        <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
-                            <View style={[styles.container, { marginTop: 10 }]}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
-                                <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(item.oder_date).format('DD/MM/YYYY')}</Text>
-                            </View>
-                            <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>{item.oder_phone}</Text>
-                            {item.product_oder.length && item.product_oder.map((i: any, index: number) =>
-
-                                <View key={index} style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
-                                    <Image source={{ uri: i.product.product_avatar }} style={{ width: 80, height: 80 }}></Image>
-                                    <View style={styles.textView}>
-                                        <View style={{ marginRight: 20 }}>
-                                            <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle(i.product.product_title, 65)}</Text>
-                                        </View>
-                                        <View style={{ marginRight: 20 }}>
-                                            <Text>{i.product_quantity}</Text>
-                                        </View>
-                                        {
-                                            __status[i.status]
-                                        }
-                                        <Text style={{ marginTop: 5 }}>{i.product.product_price}</Text>
-                                    </View>
+                    {
+                        order &&
+                        order.map((item: any, index: number) =>
+                            <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                                <View style={[styles.container, { marginTop: 10 }]}>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
+                                    <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(item.oder_date).format('DD/MM/YYYY')}</Text>
                                 </View>
-                            )}
-                        </View>)
-                            
-                }
-                {
-                     isLoadMore &&
-                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <ActivityIndicator size="large" color="#00ff00" />
-                     </View>
-                }
+                                <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>{item.oder_phone}</Text>
+                                {item.product_oder.length && item.product_oder.map((i: any, index: number) =>
+
+                                    <View key={index} style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
+                                        <Image source={{ uri: i.product_avatar }} style={{ width: 80, height: 80 }}></Image>
+                                        <View style={styles.textView}>
+                                            <View style={{ marginRight: 20 }}>
+                                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle(i.product_title, 65)}</Text>
+                                            </View>
+                                            <View style={{ marginRight: 20 }}>
+                                                <Text>{i.product_quantity}</Text>
+                                            </View>
+                                            {
+                                                __status[i.status]
+                                            }
+                                            <Text style={{ marginTop: 5 }}>{i.product_price}</Text>
+                                        </View>
+                                    </View>
+                                )}
+                            </View>)
+
+                    }
+                    {
+                        isLoadMore &&
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <ActivityIndicator size="large" color="#00ff00" />
+                        </View>
+
+                    }
+
                 </>
             </ScrollView >
         </View >

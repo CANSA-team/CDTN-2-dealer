@@ -144,7 +144,12 @@ export interface OderItemModel {
     oder_id: string,
     product_quantity: number,
     status: number,
-    product: ProductModel,
+    shop_id: number,
+    product_avatar: string;
+    product_price: number;
+    product_sale: number;
+    product_title: string;
+
 }
 
 /**

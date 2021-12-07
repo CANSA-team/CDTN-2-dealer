@@ -72,7 +72,8 @@ export default function Account() {
                     </TouchableOpacity>
                 </View>
             </View>
-        </SafeAreaView>)
+        </SafeAreaView>
+        )
 }
 const styles = StyleSheet.create({
     container: {
