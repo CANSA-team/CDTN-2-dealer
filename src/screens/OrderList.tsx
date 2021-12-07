@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeaderTitle from '../components/HeaderTitle'
 import { SlugStrTitle } from '../consts/Selector'
 import { getShopOder, ShopModel, ShopOrder, ShopState, State } from '../redux';
+import RNPickerSelect from 'react-native-picker-select';
+
 
 export default function OrderList(props: any) {
     const { navigation } = props;
@@ -15,6 +17,7 @@ export default function OrderList(props: any) {
     const [isLoadMore, setisLoadMore] = useState(false)
     const [page, setPage] = useState<number>(1);
     const [orderRender, setOrderRender] = useState<ShopOrder[]>([])
+
 
     const dispatch = useDispatch();
 
@@ -53,7 +56,6 @@ export default function OrderList(props: any) {
             setOrderRender(order)
         }
     }, [order])
-    console.log(order)
 
     const __status = [
         <View style={{ marginRight: 20 }}>
@@ -87,6 +89,34 @@ export default function OrderList(props: any) {
             contentSize.height - paddingToBottom;
     };
 
+    const filterStatus = (data: number) => {
+        if (order) {
+            let result = [];
+            switch (data) {
+                case 0:
+                    result = order.filter((order: ShopOrder) => order.status === 0);
+                    setOrderRender(result)
+                    break;
+                case 1:
+                    result = order.filter((order: ShopOrder) => order.status === 1);
+                    setOrderRender(result)
+                    break;
+                case 2:
+                    result = order.filter((order: ShopOrder) => order.status === 2 || order.status === 3);
+                    setOrderRender(result)
+                    break;
+                case 3:
+                    result = order.filter((order: ShopOrder) => order.status === 4);
+                    setOrderRender(result)
+                    break;
+
+                default:
+                    setOrderRender(order)
+                    break;
+            }
+        }
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Danh sách đơn hàng"></HeaderTitle>
@@ -94,6 +124,19 @@ export default function OrderList(props: any) {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
+            </View>
+            <View style={{ padding: 10, backgroundColor: 'white' }}>
+                <RNPickerSelect
+                    placeholder={{ label: "Filter", value: -1 }}
+                    style={{ ...pickerSelectStyles, placeholder: { color: '#555' } }}
+                    onValueChange={(data) => filterStatus(data)}
+                    items={[
+                        { label: 'Đang sử lý', value: 2 },
+                        { label: 'Đã đặt hàng', value: 1 },
+                        { label: 'Đã hủy', value: 0 },
+                        { label: 'Đã giao', value: 3 },
+                    ]}
+                />
             </View>
             <ScrollView
                 onScroll={({ nativeEvent }) => {
@@ -107,8 +150,8 @@ export default function OrderList(props: any) {
             >
                 <>
                     {
-                        order &&
-                        order.map((item: any, index: number) =>
+                        orderRender &&
+                        orderRender.map((item: any, index: number) =>
                             <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
                                 <View style={[styles.container, { marginTop: 10 }]}>
                                     <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
@@ -179,3 +222,20 @@ const styles = StyleSheet.create({
     },
 
 })
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 20,
+        borderRadius: 30,
+        color: 'black',
+        padding: 20,
+
+    },
+    inputAndroid: {
+        fontSize: 20,
+        borderRadius: 30,
+        color: 'black',
+        padding: 20
+    },
+
+});
