@@ -10,7 +10,7 @@ import { updateAccess } from '../redux/actions/accessActions';
 export default function Lauding() {
     const accessState = useSelector((state: State) => state.accessReducer);
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check, userInfor }: { check: boolean, userInfor: UserModel } = userState;
+    const { check, userInfor, timeSampCheckLogin }: { check: boolean, userInfor: UserModel, timeSampCheckLogin:number } = userState;
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
     const { message } = accessState;
@@ -22,7 +22,7 @@ export default function Lauding() {
     }, [])
 
     useEffect(() => {
-        if (check) {
+        if (check && timeSampCheckLogin !== -1) {
             if (Object.keys(info).length === 0) {
                 navigate('homeStack');
             } else {
@@ -30,13 +30,13 @@ export default function Lauding() {
                     { text: "OK", onPress: () => navigate('registerShopStack') }
                 ])
             }
-        } else {
+        } else if(timeSampCheckLogin !== -1) {
             navigate('loginStack')
         }
-    }, [info, userInfor])
+    }, [info, userInfor, timeSampCheckLogin])
 
     useEffect(() => {
-        if (!check && message) {
+        if (!check && message && timeSampCheckLogin !== -1) {
             navigate('loginStack')
         }
         else if (check && message) {

@@ -18,7 +18,7 @@ export default function Account() {
     const dispatch = useDispatch();
 
     const onTapProfile = () => {
-        navigate('ProfileShop')
+        navigate('ProfileShop',{email:userInfor.user_email})
 
     }
 

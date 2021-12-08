@@ -218,6 +218,7 @@ export interface UserStage {
     userInfor: UserModel;
     status: string;
     updateUser: number;
+    timeSampCheckLogin: number;
     error: string | undefined;
 }
 

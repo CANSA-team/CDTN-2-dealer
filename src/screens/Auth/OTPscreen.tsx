@@ -108,6 +108,18 @@ export default function OTPscreen(props: any) {
         setTime(time)
     }, []);
 
+    const reSend = () => {
+        let email = getParam('email')
+        if (email != '') {
+            axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res) => {
+                setTime(60)
+                Alert.alert('Thông Báo', res.data.message);
+                navigate('OTPscreen', { email: email })
+            })
+        } else {
+            Alert.alert('Thông báo', 'Email không được để trống!!')
+        }
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -208,7 +220,9 @@ export default function OTPscreen(props: any) {
                         <Text style={styles.loginButtonTitle}>Xác nhận</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.forgotButton}>
+                    <TouchableOpacity style={styles.forgotButton}
+                    onPress={reSend}
+                    >
                         <Text style={styles.navButtonText}>
                             Gửi lại OTP
                         </Text>
