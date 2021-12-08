@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet, Text, Image, ScrollView, Alert } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import Menu from '../components/Menu';
@@ -21,8 +21,8 @@ export default function Home() {
             blockShop()
         }
     }, [])
-   
-    const blockShop = () =>{
+
+    const blockShop = () => {
         Alert.alert(
             "Thông báo",
             "Shop của bạn hiện bị khoá, vui lòng liên hệ admin để mở khoá !",
@@ -54,17 +54,17 @@ export default function Home() {
                     </View>
 
                 </View>
-                <Text style={styles.txtAction}>Actions :</Text>
-                    <View style={styles.menuList}>
-                        {
-                            info.status ?
+                <Text style={styles.txtAction}>Thao tác :</Text>
+                <View style={styles.menuList}>
+                    {
+                        info.status ?
                             <Menu onTab={() => navigate('ManagerProduct')} icon="tago" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
                             :
                             <Menu onTab={blockShop} icon="exception1" title="Sản phẩm của bạn" description="Quản lí các sản phẩm của bạn tại đây" />
-                        }
-                        <Menu onTab={() => navigate('OrderList')} icon="inbox" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
-                        <Menu onTab={() => navigate('Revenue')} icon="linechart" title="Doanh thu" description="Doanh thu shop của bạn" />
-                    </View>
+                    }
+                    <Menu onTab={() => navigate('OrderList')} icon="inbox" title="Đơn hàng" description="Quản lí các đơn hàng của khách yêu cầu" />
+                    <Menu onTab={() => navigate('Revenue')} icon="linechart" title="Doanh thu" description="Doanh thu shop của bạn" />
+                </View>
             </ScrollView>
         </View>
     )

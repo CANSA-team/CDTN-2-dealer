@@ -42,7 +42,7 @@ export default function Account() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderTitle title={'ACCOUNT'} />
+            <HeaderTitle title={'Thông tin'} />
 
             <View style={styles.accountContainer}>
                 <View>
@@ -67,13 +67,13 @@ export default function Account() {
                 <View style={styles.viewAction}>
                     <TouchableOpacity style={styles.actionTouch}
                         onPress={() => _logout()}>
-                        <Text style={{ fontSize: 20, color: 'red' }}>Logout</Text>
+                        <Text style={{ fontSize: 20, color: 'red' }}>Đăng xuất</Text>
                         <MaterialIcons name="exit-to-app" size={35} color='#ec2525' />
                     </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
-        )
+    )
 }
 const styles = StyleSheet.create({
     container: {

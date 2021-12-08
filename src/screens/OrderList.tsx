@@ -26,31 +26,6 @@ export default function OrderList(props: any) {
     }, [])
 
 
-    const filterData = (data: number) => {
-        let result = [];
-        switch (data) {
-            case 0:
-                result = order.filter((order: ShopOrder) => order.status === 0);
-                setOrderRender(result)
-                break;
-            case 1:
-                result = order.filter((order: ShopOrder) => order.status === 1);
-                setOrderRender(result)
-                break;
-            case 2:
-                result = order.filter((order: ShopOrder) => order.status === 2 || order.status === 3);
-                setOrderRender(result)
-                break;
-            case 3:
-                result = order.filter((order: ShopOrder) => order.status === 4);
-                setOrderRender(result)
-                break;
-
-            default:
-                setOrderRender(order)
-                break;
-        }
-    }
     useEffect(() => {
         if (order?.length) {
             setOrderRender(order)
@@ -127,7 +102,7 @@ export default function OrderList(props: any) {
             </View>
             <View style={{ padding: 10, backgroundColor: 'white' }}>
                 <RNPickerSelect
-                    placeholder={{ label: "Filter", value: -1 }}
+                    placeholder={{ label: "Tất cả", value: -1 }}
                     style={{ ...pickerSelectStyles, placeholder: { color: '#555' } }}
                     onValueChange={(data) => filterStatus(data)}
                     items={[

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
+  Image
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -45,7 +46,7 @@ export default function Login(props: any) {
 
   useEffect(() => {
     if (Object.keys(userInfor).length !== 0) {
-      dispatch(getShopOwner(userInfor.user_id,1));
+      dispatch(getShopOwner(userInfor.user_id, 1));
     }
   }, [userInfor])
 
@@ -127,13 +128,9 @@ export default function Login(props: any) {
     <TouchableWithoutFeedback onPress={() => loginBtn()}>
       <View style={styles.container}>
         <View style={styles.up}>
-          <Ionicons
-            name="ios-speedometer"
-            size={100}
-            color={'rgb(221, 97, 97)'}>
-          </Ionicons>
+          <Image style={{ width: 100, height: 100 }} source={require('../../../assets/icon.png')} />
           <Text style={styles.title}>
-            Nhập thông tin tài khoản Đăng nhập
+            Đăng nhập
           </Text>
         </View>
 
@@ -159,8 +156,6 @@ export default function Login(props: any) {
             >
             </TextInput>
           </View>
-
-
 
           <TouchableOpacity style={styles.loginButton}
             onPress={() => loginBtn()}
@@ -200,7 +195,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: '#33FF99'
+    backgroundColor: '#fff'
   },
   header: {
     flexDirection: 'row',

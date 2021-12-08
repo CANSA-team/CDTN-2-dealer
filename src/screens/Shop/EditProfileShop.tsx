@@ -91,10 +91,10 @@ export default function EditProfileShop(props: any) {
         <View style={styles.container}>
             <View>
                 <View>
-                    <HeaderTitle title={'EDIT PROFILE SHOP'} />
+                    <HeaderTitle title={'Sửa thông tin'} />
                     <View style={styles.header}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <MaterialIcons name="arrow-back" size={35} color="white"/>
+                            <MaterialIcons name="arrow-back" size={35} color="white" />
                         </TouchableOpacity>
                     </View>
                 </View>

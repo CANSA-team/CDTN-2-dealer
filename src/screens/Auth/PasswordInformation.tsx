@@ -12,6 +12,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 export default function PasswordInformation(props: any) {
 
@@ -44,6 +46,11 @@ export default function PasswordInformation(props: any) {
         //Donot dismis Keyboard when click outside of TextInput
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons style={{ color: '#000' }} name="arrow-back" size={35} color="white" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.up}>
                     <Ionicons
                         name="ios-speedometer"
@@ -109,9 +116,17 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
-        backgroundColor: '#33FF99'
-
-
+        backgroundColor: '#fff'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2
     },
     up: {
         flex: 3,

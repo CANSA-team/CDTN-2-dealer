@@ -28,10 +28,10 @@ export default function ProfileShop(props: any) {
 
             <View>
                 <View>
-                    <HeaderTitle title={'PROFILE SHOP'} />
+                    <HeaderTitle title={'Thông tin shop'} />
                     <View style={styles.header}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <MaterialIcons name="arrow-back" size={35} color="white"/>
+                            <MaterialIcons name="arrow-back" size={35} color="white" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={onTapEditProfile}>
                             <Feather name="edit" color="white" size={35} />

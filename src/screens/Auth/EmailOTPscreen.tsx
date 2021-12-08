@@ -13,10 +13,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '../../utils/useNavigation'
 import axios from 'axios'
 import { cansa } from '../../consts/Selector'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function EmailOTPscreen() {
+
+export default function EmailOTPscreen(props: any) {
 
     const { navigate } = useNavigation();
+    const { navigation } = props;
     const [emailValdate, setEmailValdate] = useState(true)
     const [email, setEmail] = useState('')
     const valiDate = (text: any, type: any) => {
@@ -33,10 +36,10 @@ export default function EmailOTPscreen() {
     }
     const continueBtn = () => {
         if (email != '') {
-            axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res)=>{
-                Alert.alert('Thông Báo',res.data.message);
-                navigate('OTPscreen',{email:email})
-            }) 
+            axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res) => {
+                Alert.alert('Thông Báo', res.data.message);
+                navigate('OTPscreen', { email: email })
+            })
         } else {
             Alert.alert('Thông báo', 'Email không được để trống!!')
         }
@@ -45,6 +48,11 @@ export default function EmailOTPscreen() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons style={{ color: '#000' }} name="arrow-back" size={35} color="white" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.up}>
                     <Ionicons
                         name="ios-speedometer"
@@ -52,10 +60,10 @@ export default function EmailOTPscreen() {
                         color={'rgb(221, 97, 97)'}>
                     </Ionicons>
                     <Text style={styles.title}>
-                    Gửi mã OTP qua Email
+                        Gửi mã OTP qua Email
                     </Text>
                     <Text style={{ color: 'rgb(221, 97, 97)', fontSize: 15, marginTop: 10 }}>
-                    Chúng tôi sẽ gửi mã 6 chữ số đến email của bạn để xác minh
+                        Chúng tôi sẽ gửi mã 6 chữ số đến email của bạn
                     </Text>
                 </View>
                 <View style={styles.down}>
@@ -92,7 +100,17 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
-        backgroundColor: '#33FF99'
+        backgroundColor: '#fff'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2,
     },
     up: {
         flex: 4,

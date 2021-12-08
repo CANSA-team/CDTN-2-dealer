@@ -4,6 +4,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 export default function OTPscreen(props: any) {
     const { navigate } = useNavigation();
@@ -109,6 +111,11 @@ export default function OTPscreen(props: any) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons style={{ color: '#000' }} name="arrow-back" size={35} color="white" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.up}>
                     <Ionicons
                         name="ios-speedometer"
@@ -119,7 +126,7 @@ export default function OTPscreen(props: any) {
                         Mã Xác Minh
                     </Text>
                     <Text style={{ color: 'rgb(221, 97, 97)', fontSize: 15, marginTop: 10 }}>
-                    Nhập mã OTP của bạn được gửi qua Email
+                        Nhập mã OTP của bạn được gửi qua Email
                     </Text>
                 </View>
                 <View style={styles.down}>
@@ -194,7 +201,7 @@ export default function OTPscreen(props: any) {
 
                     <TouchableOpacity style={styles.forgotButton1}>
                         <Text style={styles.navButtonText1}>
-                        Gửi lại mã OTP trong: {time}
+                            Gửi lại mã OTP trong: {time}
                         </Text>
                     </TouchableOpacity>
 
@@ -206,7 +213,7 @@ export default function OTPscreen(props: any) {
 
                     <TouchableOpacity style={styles.forgotButton}>
                         <Text style={styles.navButtonText}>
-                        Gửi lại OTP
+                            Gửi lại OTP
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -220,7 +227,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
-        backgroundColor: '#33FF99'
+        backgroundColor: '#fff'
     },
     up: {
         flex: 3,
@@ -228,6 +235,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+
     title: {
         color: 'rgb(255,119,34)',
         textAlign: 'center',
@@ -273,6 +281,16 @@ const styles = StyleSheet.create({
     navButtonText1: {
         fontSize: 15,
 
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2
     },
     containerInput: {
         flex: 0.4,

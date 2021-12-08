@@ -134,7 +134,6 @@ export default function Chat(props: any) {
                 onInputTextChanged={() => keyPress()}
                 onSend={newMessages => onSend(newMessages)}
             />
-
         </SafeAreaView>
     );
 

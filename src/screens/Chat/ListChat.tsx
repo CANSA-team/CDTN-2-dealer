@@ -145,7 +145,7 @@ export default function ListChat(props: any) {
     };
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderTitle title={'List Chat'} />
+            <HeaderTitle title={'Liên hệ'} />
 
             <FlatList
                 data={data}
