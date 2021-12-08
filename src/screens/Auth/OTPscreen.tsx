@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { TextInput, View, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { TextInput, View, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import COLORS from '../../consts/Colors';
 
 
 export default function OTPscreen(props: any) {
@@ -117,15 +118,11 @@ export default function OTPscreen(props: any) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.up}>
-                    <Ionicons
-                        name="ios-speedometer"
-                        size={100}
-                        color={'rgb(221, 97, 97)'}>
-                    </Ionicons>
+                    <Image style={{ width: 150, height: 150 }} source={require('../../../assets/icon.png')} />
                     <Text style={styles.title}>
                         Mã Xác Minh
                     </Text>
-                    <Text style={{ color: 'rgb(221, 97, 97)', fontSize: 15, marginTop: 10 }}>
+                    <Text style={{ color: '#111', fontSize: 15, marginTop: 10 }}>
                         Nhập mã OTP của bạn được gửi qua Email
                     </Text>
                 </View>
@@ -233,7 +230,9 @@ const styles = StyleSheet.create({
         flex: 3,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop:80,
+        marginBottom:30
     },
 
     title: {
@@ -266,7 +265,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(221, 97, 97)',
+        backgroundColor: COLORS.primary,
         marginBottom: 10,
         marginTop: 10
     },

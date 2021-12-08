@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import HeaderTitle from '../../components/HeaderTitle';
@@ -13,7 +13,6 @@ import { cansa } from '../../consts/Selector';
 
 export default function ProfileShop(props: any) {
     const { navigate } = useNavigation();
-    const [isLoadingChangePassword, setIsLoadingChangePassword] = useState<boolean>(true);
     const shopsState: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopsState;
     const { navigation } = props;
@@ -25,8 +24,6 @@ export default function ProfileShop(props: any) {
 
     return (
         <View style={styles.container}>
-
-            <View>
                 <View>
                     <HeaderTitle title={'Thông tin shop'} />
                     <View style={styles.header}>
@@ -38,7 +35,6 @@ export default function ProfileShop(props: any) {
                         </TouchableOpacity>
                     </View>
                 </View>
-
                 <View style={styles.viewAvatar}>
                     <Avatar
                         containerStyle={{ marginBottom: 20 }}
@@ -57,13 +53,9 @@ export default function ProfileShop(props: any) {
                     <View style={styles.txtContainer}>
                         <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
                     </View>
-                </View>
-                <View style={styles.resetPassContainer}>
-                    {
-                        isLoadingChangePassword &&
+                    <View style={styles.resetPassContainer}>
                         <TouchableOpacity style={styles.touchReset}
                             onPress={() => {
-                                setIsLoadingChangePassword(false);
                                 let email = getParam('email');
                                 axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res) => {
                                     Alert.alert('Thông Báo', res.data.message);
@@ -73,10 +65,8 @@ export default function ProfileShop(props: any) {
                             <Text style={{ fontSize: 20, color: '#555' }}>Đổi mật khẩu</Text>
                             <MaterialIcons name="arrow-right-alt" size={35} color="#555" />
                         </TouchableOpacity>
-                    }
-
+                    </View>
                 </View>
-            </View>
         </View>
     )
 }

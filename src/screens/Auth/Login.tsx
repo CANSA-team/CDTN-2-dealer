@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
 import { checkLogin, login, getUserInfo, LoginFacebook } from '../../redux/actions/userActions'
 import { getShopOwner } from '../../redux/actions/shopActions'
+import COLORS from '../../consts/Colors'
 
 
 
@@ -128,10 +129,7 @@ export default function Login(props: any) {
     <TouchableWithoutFeedback onPress={() => loginBtn()}>
       <View style={styles.container}>
         <View style={styles.up}>
-          <Image style={{ width: 100, height: 100 }} source={require('../../../assets/icon.png')} />
-          <Text style={styles.title}>
-            Đăng nhập
-          </Text>
+          <Image style={{ width: 150, height: 150 }} source={require('../../../assets/icon.png')} />
         </View>
 
         <View style={styles.down}>
@@ -216,7 +214,9 @@ const styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop:30,
+    marginBottom:20
   },
   down: {
     flex: 7,
@@ -238,7 +238,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: 280,
-    height: 45
+    height: 50,
+    borderColor:COLORS.primary,
+    borderWidth:1,
+    borderRadius:5,
+    padding: 10
   },
   loginButton: {
     width: 300,
@@ -246,7 +250,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(221, 97, 97)'
+    backgroundColor: COLORS.primary
   },
   loginButtonTitle: {
     fontSize: 18,
