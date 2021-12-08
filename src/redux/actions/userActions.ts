@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserActionType } from "../action-types";
 import { cansa } from "../../consts/Selector";
 import moment from "moment";
+import { Alert } from "react-native";
 
 export interface CheckLogin {
     readonly type: UserActionType.CHECK_LOGIN,
@@ -149,6 +150,9 @@ export const login = (email: string, password: string) => {
                 password: password,
             }
             const response = await axios.post<any>(`${cansa[1]}/api/user/login/e4611a028c71342a5b083d2cbf59c494`, data, { withCredentials: true })
+            if (response.data.status === "Faild" || response.data.status === "") {
+                Alert.alert('Thông báo',"Tài khoản hoặc mật khẩu không đúng!")
+              }
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
