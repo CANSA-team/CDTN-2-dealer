@@ -4,9 +4,10 @@ import { View, StyleSheet, ScrollView, Text, Image, TouchableOpacity, ActivityIn
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderTitle from '../components/HeaderTitle'
-import { SlugStrTitle } from '../consts/Selector'
+import { SlugStrTitle, vnd } from '../consts/Selector'
 import { getShopOder, ShopModel, ShopOrder, ShopState, State } from '../redux';
 import RNPickerSelect from 'react-native-picker-select';
+import COLORS from '../consts/Colors';
 
 
 export default function OrderList(props: any) {
@@ -33,20 +34,20 @@ export default function OrderList(props: any) {
     }, [order])
 
     const __status = [
-        <View style={{ marginRight: 20 }}>
-            <Text>Đã hủy</Text>
+        <View style={styles.statusDes}>
+            <Text style={styles.txtStatus}>Đã hủy</Text>
         </View>,
-        <View style={{ marginRight: 20 }}>
-            <Text>Đã đặt</Text>
+        <View style={styles.statusPending}>
+            <Text style={styles.txtStatus}>Đã đặt</Text>
         </View>,
-        <View style={{ marginRight: 20 }}>
-            <Text>Đang sử lý</Text>
+        <View style={styles.statusPending}>
+            <Text style={styles.txtStatus}>Đang sử lý</Text>
         </View>,
-        <View style={{ marginRight: 20 }}>
-            <Text>Đang sử lý</Text>
+        <View style={styles.statusPending}>
+            <Text style={styles.txtStatus}>Đang sử lý</Text>
         </View>,
-        <View style={{ marginRight: 20 }}>
-            <Text>Đã nhận</Text>
+        <View style={styles.statusAccept}>
+            <Text style={styles.txtStatus}>Đã nhận</Text>
         </View >
     ]
 
@@ -126,32 +127,43 @@ export default function OrderList(props: any) {
                 <>
                     {
                         orderRender &&
-                        orderRender.map((item: any, index: number) =>
-                            <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
-                                <View style={[styles.container, { marginTop: 10 }]}>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
-                                    <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(item.oder_date).format('DD/MM/YYYY')}</Text>
-                                </View>
-                                <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>{item.oder_phone}</Text>
-                                {item.product_oder.length && item.product_oder.map((i: any, index: number) =>
-
-                                    <View key={index} style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
-                                        <Image source={{ uri: i.product_avatar }} style={{ width: 80, height: 80 }}></Image>
-                                        <View style={styles.textView}>
-                                            <View style={{ marginRight: 20 }}>
-                                                <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle(i.product_title, 65)}</Text>
-                                            </View>
-                                            <View style={{ marginRight: 20 }}>
-                                                <Text>{i.product_quantity}</Text>
-                                            </View>
-                                            {
-                                                __status[i.status]
-                                            }
-                                            <Text style={{ marginTop: 5 }}>{i.product_price}</Text>
-                                        </View>
+                        orderRender.map((item: any, index: number) => {
+                            let sub_price: number = 0;
+                            for (const i of item.product_oder) {
+                                if (i.status) {
+                                    sub_price += (i.product_price * (100 - i.product_sale) / 100) * i.product_quantity;
+                                }
+                            }
+                            return (
+                                <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                                    <View style={[styles.container, { marginTop: 10 }]}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.oder_id}</Text>
+                                        <Text style={{ marginLeft: 'auto', fontSize: 10 }}>{moment.utc(item.oder_date).format('DD/MM/YYYY')}</Text>
                                     </View>
-                                )}
-                            </View>)
+                                    <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>Số điện thoại: {item.oder_phone}</Text>
+                                    <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>Địa chỉ: {item.oder_address}</Text>
+                                    <Text style={{ marginHorizontal: 10, fontSize: 11, color: '#ABA9A9' }}>Tổng giá trị đơn hàng: {vnd(sub_price)}đ</Text>
+                                    {item.product_oder.length && item.product_oder.map((i: any, index: number) =>
+
+                                        <View key={index} style={[styles.container, { marginTop: 20, marginBottom: 5 }]}>
+                                            <Image source={{ uri: i.product_avatar }} style={{ width: 80, height: 80 }}></Image>
+                                            <View style={styles.textView}>
+                                                <View style={{ marginRight: 20 }}>
+                                                    <Text style={{ fontWeight: 'bold' }} >{SlugStrTitle(i.product_title, 65)}</Text>
+                                                </View>
+                                                <View style={{ marginRight: 20 }}>
+                                                    <Text>Số lượng: {i.product_quantity}</Text>
+                                                </View>
+                                                <Text style={{ marginTop: 5 }}>Giá tiền: {vnd((i.product_price * (100 - i.product_sale) / 100) * i.product_quantity)}đ</Text>
+                                                {
+                                                    __status[i.status]
+                                                }
+                                            </View>
+                                        </View>
+                                    )}
+                                </View>
+                            )
+                        })
 
                     }
                     {
@@ -195,6 +207,30 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
+    statusPending: {
+        marginTop: 8,
+        backgroundColor: '#007bff',
+        padding: 8,
+        borderRadius: 10,
+    },
+    statusDes: {
+        marginTop: 8,
+        backgroundColor: '#dc3545',
+        padding: 8,
+        borderRadius: 10
+    },
+    statusAccept: {
+        marginTop: 8,
+        backgroundColor: '#28a745',
+        padding: 8,
+        borderRadius: 10
+    },
+    txtStatus: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    }
 
 })
 
@@ -211,6 +247,5 @@ const pickerSelectStyles = StyleSheet.create({
         borderRadius: 30,
         color: 'black',
         padding: 20
-    },
-
+    }
 });

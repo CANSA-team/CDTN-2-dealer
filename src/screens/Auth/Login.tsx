@@ -7,37 +7,35 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
-  Image
+  Image,
 } from 'react-native'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { useNavigation } from '../../utils/useNavigation'
 import * as Facebook from 'expo-facebook';
 import { useDispatch, useSelector } from 'react-redux'
-import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
-import { checkLogin, login, getUserInfo, LoginFacebook } from '../../redux/actions/userActions'
-import { getShopOwner } from '../../redux/actions/shopActions'
-import COLORS from '../../consts/Colors'
-
+import { getShopOwner, ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
+import { checkLogin, login, LoginFacebook, getUserInfo } from '../../redux/actions/userActions'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import COLORS from './../../consts/Colors';
 
 
 export default function Login(props: any) {
   const { navigate } = useNavigation();
   const [email, setEmail] = useState('')
+  const [isSend, setIsSend] = useState<boolean>(false)
   const [emailValdate, setEmailValdate] = useState(true)
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
-  const [isLoading, setisLoading] = useState(true)
   const userState: UserStage = useSelector((state: State) => state.userReducer);
-  const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
-  const { info }: { info: ShopModel } = shopSate;
   const { check, status, userInfor }: { check: boolean, status: string, userInfor: UserModel } = userState;
+  const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
+  const [getData, setData] = useState<boolean>(false);
+  const { info }: { info: ShopModel } = shopSate;
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkLogin());
   }, [status])
-
 
   useEffect(() => {
     if (check) {
@@ -46,51 +44,21 @@ export default function Login(props: any) {
   }, [check])
 
   useEffect(() => {
-    if (Object.keys(userInfor).length !== 0) {
-      dispatch(getShopOwner(userInfor.user_id, 1));
+    if (Object.keys(userInfor).length) {
+      setData(true);
+      dispatch(getShopOwner(userInfor.user_id));
     }
   }, [userInfor])
 
   useEffect(() => {
-    if (check) {
-      if (Object.keys(info).length !== 0) {
-        navigate('homeStack');
-      } else if (Object.keys(info).length === 0) {
-        Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
-          { text: "OK", onPress: () => navigate('registerShopStack') }
-        ])
-      }
+    if (Object.keys(info).length && getData) {
+      navigate('homeStack');
+    } else if (!Object.keys(info).length && getData && check) {
+      Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
+        { text: "OK", onPress: () => { setData(false); navigate('registerShopStack'); } }
+      ])
     }
   }, [info])
-
-  const loginBtn = () => {
-    if (email != '' && password != '') {
-      dispatch(login(email, password));
-    } else {
-      Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
-    }
-  }
-
-  const logInFB = async () => {
-    try {
-      await Facebook.initializeAsync({
-        appId: '994248931143640',
-      });
-      const {
-        type,
-        token,
-      }: any = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ['public_profile', 'email'],
-      });
-      if (type === 'success') {
-        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`);
-        var infomation = await response.json();
-        dispatch(LoginFacebook(infomation.email, token, infomation.id, infomation.name))
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
-    }
-  }
 
   const valiDate = (text: any, type: any) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -117,73 +85,79 @@ export default function Login(props: any) {
     }
   }
 
-  const Divider = (props: any) => {
-    return <View {...props}>
-      <View style={styles.line}></View>
-      <Text style={styles.textOR}>HOẶC</Text>
-      <View style={styles.line}></View>
-    </View>
+  const loginBtn = (e: any) => {
+    e.preventDefault()
+    setIsSend(true);
+    if (email !== '' && password !== '') {
+      setIsSend(false);
+      dispatch(login(email, password));
+    }
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => loginBtn()}>
+
+    //Donot dismis Keyboard when click outside of TextInput
+    <TouchableWithoutFeedback>
       <View style={styles.container}>
-        <View style={styles.up}>
-          <Image style={{ width: 150, height: 150 }} source={require('../../../assets/icon.png')} />
-        </View>
+        {
+          isSend ?
+            <View style={styles.up}>
+              <Image style={{ width: 100, height: 100 }} source={require('../../../assets/icon.png')} />
+              <Text style={styles.title}>
+                Đang Xác Minh
+              </Text>
+            </View>
+            :
+            <>
+              <View style={styles.up}>
+                <Image style={{ width: 150, height: 150 }} source={require('../../../assets/icon.png')} />
+              </View>
+              <View style={styles.down}>
+                <View style={styles.textInputContainer}>
+                  <TextInput
+                    style={[styles.textInput, !emailValdate ? styles.error : null]}
+                    textContentType='emailAddress'
+                    keyboardType='email-address'
+                    placeholder="Nhập E-mail"
+                    onChangeText={(text) => valiDate(text, 'email')}
+                  >
+                  </TextInput>
+                </View>
 
-        <View style={styles.down}>
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={[styles.textInput, !emailValdate ? styles.error : null]}
-              textContentType='emailAddress'
-              keyboardType='email-address'
-              placeholder="Nhập E-mail"
-              onChangeText={(text) => valiDate(text, 'email')}
-            >
-            </TextInput>
-          </View>
+
+                <View style={styles.textInputContainer}>
+                  <TextInput
+                    style={[styles.textInput, !passwordValdate ? styles.error : null]}
+                    placeholder="Nhập mật khẩu"
+                    secureTextEntry={true}
+                    onChangeText={(text) => valiDate(text, 'password')}
+                  >
+                  </TextInput>
+                </View>
 
 
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={[styles.textInput, !passwordValdate ? styles.error : null]}
-              placeholder="Nhập mật khẩu"
-              secureTextEntry={true}
-              onChangeText={(text) => valiDate(text, 'password')}
-            >
-            </TextInput>
-          </View>
 
-          <TouchableOpacity style={styles.loginButton}
-            onPress={() => loginBtn()}
-          >
-            <Text style={styles.loginButtonTitle}>Đăng Nhập</Text>
-          </TouchableOpacity>
+                <TouchableOpacity style={styles.loginButton}
+                  onPress={(e) => loginBtn(e)}
+                >
+                  <Text style={styles.loginButtonTitle}>Đăng Nhập</Text>
+                </TouchableOpacity>
 
-          <TouchableOpacity style={styles.forgotButton}
-            onPress={() => { navigate('EmailOTPscreen') }}
-          >
-            <Text style={styles.navButtonText}>
-              Quên mật khẩu?
-            </Text>
-          </TouchableOpacity>
+                <TouchableOpacity style={styles.forgotButton}
+                  onPress={() => { navigate('EmailOTPscreen') }}
+                >
+                  <Text style={styles.navButtonText}>
+                    Quên mật khẩu?
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+        }
 
-          <Divider style={styles.divider}></Divider>
-          <View style={{ marginBottom: 10 }}>
-            <FontAwesome.Button
-              onPress={() => logInFB()}
-              style={styles.facebookButton}
-              name="facebook"
-              backgroundColor="#3b5998"
-            >
-              <Text style={styles.loginButtonTitle}
-              >Đăng nhập bằng Facebook</Text>
-            </FontAwesome.Button>
-          </View>
-        </View>
       </View>
-    </TouchableWithoutFeedback>)
+    </TouchableWithoutFeedback>
+
+  )
 }
 
 
@@ -206,7 +180,6 @@ const styles = StyleSheet.create({
     zIndex: 2
   },
   headerIcon: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 50,
     padding: 5
   },
@@ -215,8 +188,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:30,
-    marginBottom:20
+    marginTop: 30,
+    marginBottom: 20
   },
   down: {
     flex: 7,
@@ -225,13 +198,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    color: 'rgb(255,119,34)',
+    color: '#111',
     textAlign: 'center',
     width: 400,
     fontSize: 23
   },
   textInputContainer: {
-    paddingHorizontal: 10,
     borderRadius: 6,
     marginBottom: 20,
     backgroundColor: 'rgba(255,255,255,0.2)'
@@ -239,9 +211,9 @@ const styles = StyleSheet.create({
   textInput: {
     width: 280,
     height: 50,
-    borderColor:COLORS.primary,
-    borderWidth:1,
-    borderRadius:5,
+    borderColor: COLORS.primary,
+    borderWidth: 1,
+    borderRadius: 5,
     padding: 10
   },
   loginButton: {
@@ -300,7 +272,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     color: '#3b5998'
-
   },
   error: {
     borderColor: 'red',

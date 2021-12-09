@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { checkLogin, getShopOwner, getUserInfo, ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
@@ -8,50 +8,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAccess } from '../redux/actions/accessActions';
 
 export default function Lauding() {
-    const accessState = useSelector((state: State) => state.accessReducer);
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check, userInfor, timeSampCheckLogin }: { check: boolean, userInfor: UserModel, timeSampCheckLogin:number } = userState;
+    const { check, userInfor, timeSampCheckLogin }: { check: boolean, userInfor: UserModel, timeSampCheckLogin: number } = userState;
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
-    const { message } = accessState;
+    const [getData, setData] = useState<boolean>(false);
     const { navigate } = useNavigation();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(updateAccess());
+        dispatch(checkLogin());
     }, [])
 
     useEffect(() => {
-        if (check && timeSampCheckLogin !== -1) {
-            if (Object.keys(info).length === 0) {
-                navigate('homeStack');
-            } else {
-                Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
-                    { text: "OK", onPress: () => navigate('registerShopStack') }
-                ])
-            }
-        } else if(timeSampCheckLogin !== -1) {
-            navigate('loginStack')
+        if (Object.keys(info).length && getData) {
+            navigate('homeStack');
+        } else if (!Object.keys(info).length && getData) {
+            setData(false);
+            navigate('registerShopStack')
+            Alert.alert('Thông báo', 'Tài khoản chưa đăng ký shop!', [
+                { text: "OK" }
+            ])
         }
-    }, [info, userInfor, timeSampCheckLogin])
+    }, [info])
 
     useEffect(() => {
-        if (!check && message && timeSampCheckLogin !== -1) {
+        if (!check && timeSampCheckLogin != -1) {
             navigate('loginStack')
         }
-        else if (check && message) {
+        else if (check) {
             dispatch(getUserInfo())
         }
-    }, [check, message])
+    }, [check])
 
     useEffect(() => {
-        if (message) {
-            dispatch(checkLogin());
-        }
-    }, [accessState])
-
-    useEffect(() => {
-        if (userInfor) {
+        if (Object.keys(userInfor).length) {
+            setData(true);
             dispatch(getShopOwner(userInfor.user_id));
         }
     }, [userInfor])

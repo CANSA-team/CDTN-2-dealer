@@ -29,6 +29,7 @@ export enum CommentActionType {
 }
 
 export enum ShopActionType {
+    REMOVE_INFO_SHOP = 'REMOVE_INFO_SHOP',
     ON_SHOP_ERROR = 'ON_SHOP_ERROR',
     GET_SHOP_OWNER = 'GET_SHOP_OWNER',
     REGISTER_SHOP = 'REGISTER_SHOP',

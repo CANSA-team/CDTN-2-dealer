@@ -19,6 +19,11 @@ export interface GetShopOder {
     payload?: ShopOrder
 }
 
+export interface RemoveInfoShopAction {
+    readonly type: ShopActionType.REMOVE_INFO_SHOP,
+    payload?: ShopModel
+}
+
 export interface GetShopRevenue {
     readonly type: ShopActionType.GET_SHOP_REVENUE,
     payload?: ShopRevenue
@@ -37,7 +42,7 @@ export interface EditProfileShopAction {
     payload: any
 }
 
-export type ShopActions = ShopErrorAction | GetShopOwner | RegisterShopAction | EditProfileShopAction | GetShopOder | GetShopRevenue;
+export type ShopActions = ShopErrorAction | GetShopOwner | RegisterShopAction | EditProfileShopAction | GetShopOder | GetShopRevenue | RemoveInfoShopAction;
 
 export const getShopOwner = (user_id: number, option: number = 0) => {
     return async (dispatch: Dispatch<ShopActions>) => {
@@ -63,6 +68,16 @@ export const getShopOwner = (user_id: number, option: number = 0) => {
         }
 
     }
+}
+
+export const removeInfoShop = () => {
+    return async (dispatch: Dispatch<ShopActions>) => {
+        dispatch({
+            type: ShopActionType.REMOVE_INFO_SHOP,
+            payload: {} as ShopModel
+        })
+    }
+
 }
 
 export const getShopOder = (user_id: number, page: number = 1) => {

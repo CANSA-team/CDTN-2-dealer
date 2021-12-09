@@ -71,7 +71,7 @@ export const checkLogin = () => {
                     payload: 'Product list error'
                 })
             } else {
-                var time = Math.floor(Date.now()/1000)
+                var time = Math.floor(Date.now() / 1000)
                 dispatch({
                     type: UserActionType.CHECK_LOGIN,
                     payload: response.data.data
@@ -161,8 +161,8 @@ export const login = (email: string, password: string) => {
             }
             const response = await axios.post<any>(`${cansa[1]}/api/user/login/e4611a028c71342a5b083d2cbf59c494`, data, { withCredentials: true })
             if (response.data.status === "Faild" || response.data.status === "") {
-                Alert.alert('Thông báo',"Tài khoản hoặc mật khẩu không đúng!")
-              }
+                Alert.alert('Thông báo', "Tài khoản hoặc mật khẩu không đúng!")
+            }
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,

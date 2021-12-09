@@ -30,7 +30,7 @@ export default function AddProduct(props: any) {
     const productState: ProductState = useSelector((state: State) => state.productReducer);
     const dispatch = useDispatch();
     const { info }: { info: ShopModel } = shopState;
-    
+
     const { productShop }: { productShop: ProductModel[] } = productState;
     const { categories }: { categories: CategoryModel[] } = categoryState;
 
@@ -90,7 +90,7 @@ export default function AddProduct(props: any) {
             if (!result.cancelled) {
                 let img = (
                     <Avatar
-                        avatarStyle={{width:160,height:120}}
+                        avatarStyle={{ width: 160, height: 120 }}
                         size="xlarge"
                         title="CR"
                         activeOpacity={0.7}
@@ -107,7 +107,7 @@ export default function AddProduct(props: any) {
         setIsInsert(true);
         if (selectedItems.length !== 0) {
             setCatError(false)
-            if (avatar !== 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
+            if (avatar !== 'https://103.207.38.200:333/api/image/photo/373/e4611a028c71342a5b083d2cbf59c494') {
                 setAvatarError(false)
                 if (images.length !== 0) {
                     setImgSubError(false)
@@ -145,7 +145,7 @@ export default function AddProduct(props: any) {
                         dispatch(insertProduct(data, info.shop_id));
                         setIsInsert(true);
                     })
-                }else{
+                } else {
                     setImgSubError(true);
                     setIsInsert(false);
                 }
@@ -162,14 +162,14 @@ export default function AddProduct(props: any) {
 
     return (
         isInsert ?
-            (<View style={[styles.container,{justifyContent:'center',alignItems:'center'}]}>
+            (<View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
                 <Image source={require('../../images/loader.gif')} />
             </View>) :
             <View style={styles.container}>
                 <HeaderTitle title="Thêm sản phẩm" />
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <MaterialIcons name="arrow-back" size={35} color="white"/>
+                        <MaterialIcons name="arrow-back" size={35} color="white" />
                     </TouchableOpacity>
                 </View>
 
@@ -238,14 +238,14 @@ export default function AddProduct(props: any) {
 
                         <View style={styles.viewTotal}>
                             <Text style={styles.txtTitle}>Hình ảnh chính :</Text>
-                            <View style={[styles.imgPrimary,{alignItems:'center'}]} >
+                            <View style={[styles.imgPrimary, { alignItems: 'center' }]} >
                                 <Avatar
                                     size="xlarge"
                                     title="CR"
                                     onPress={getImg}
                                     activeOpacity={0.7}
                                     source={{ uri: avatar }}
-                                    avatarStyle={{borderWidth: 3,borderColor:'gray',borderRadius:10}}
+                                    avatarStyle={{ borderWidth: 3, borderColor: 'gray', borderRadius: 10 }}
                                 />
                             </View>
                             {avatarError && <Text style={styles.txtError}>* Bạn chưa chọn ảnh đại diện sản phẩm</Text>}
@@ -265,7 +265,7 @@ export default function AddProduct(props: any) {
                                             {
                                                 item
                                             }
-                                            <Button buttonStyle={{backgroundColor:'#f82d2d'}} title="Xóa hình" onPress={() => deleteImages(index)} />
+                                            <Button buttonStyle={{ backgroundColor: '#f82d2d' }} title="Xóa hình" onPress={() => deleteImages(index)} />
                                         </View>
                                     )
                                 })
@@ -378,18 +378,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    imgPrimary:{
+    imgPrimary: {
         borderRadius: 6,
         backgroundColor: '#fff',
         padding: 2
     },
-    imgSub:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-around',
-        borderBottomColor:'gray',
-        borderBottomWidth:1,
-        paddingVertical:10
+    imgSub: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        paddingVertical: 10
     },
     header: {
         flexDirection: 'row',

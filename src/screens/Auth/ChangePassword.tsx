@@ -8,20 +8,28 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Alert,
+    Image,
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
+import COLORS from '../../consts/Colors'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/actions/userActions'
+import { State, UserStage } from '../../redux'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 
 export default function ChangePassword(props: any) {
     const { navigate } = useNavigation();
     const [password, setPassword] = useState('')
     const [passwordValdate, setPasswordValdate] = useState(true)
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { check }: { check: boolean } = userState;
     const { navigation } = props;
     const { getParam } = navigation;
+    const dispatch = useDispatch();
+
     const valiDate = (text: any, type: any) => {
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
         if (type == 'password') {
@@ -34,13 +42,17 @@ export default function ChangePassword(props: any) {
             }
         }
     }
+
     const changePasswordBtn = () => {
         let email = getParam('email')
         if (password) {
             axios.get(`${cansa[1]}/api/user/forgot/password/center/${email}/${password}`).then((res) => {
                 if (res.data.data) {
                     Alert.alert('Thông Báo', res.data.message);
-                    navigate('Login')
+                    if (check) {
+                        dispatch(logout());
+                    }
+                    navigate('Login');
                 } else {
                     Alert.alert('Thông Báo', res.data.message);
                 }
@@ -51,6 +63,7 @@ export default function ChangePassword(props: any) {
         }
 
     }
+
     const Divider = (props: any) => {
         return <View {...props}>
             <View style={styles.line}></View>
@@ -58,22 +71,19 @@ export default function ChangePassword(props: any) {
             <View style={styles.line}></View>
         </View>
     }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <MaterialIcons style={{ color: '#000' }} name="arrow-back" size={35} color="white" />
+                        <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="black" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.up}>
-                    <Ionicons
-                        name="ios-speedometer"
-                        size={100}
-                        color={'rgb(221, 97, 97)'}>
-                    </Ionicons>
+                    <Image style={{ width: 150, height: 150 }} source={require('../../../assets/icon.png')} />
                     <Text style={styles.title}>
-                        Lấy Lại Mật Khẩu
+                        Đổi Mật Khẩu
                     </Text>
                 </View>
                 <View style={styles.down}>
@@ -81,7 +91,7 @@ export default function ChangePassword(props: any) {
                         <TextInput
                             style={[styles.textInput, !passwordValdate ? styles.error : null]}
                             onChangeText={(text) => valiDate(text, 'password')}
-                            placeholder="Nhập mật khẩu mới"
+                            placeholder="Nhập mật khẩu"
                             secureTextEntry={true}
                         >
                         </TextInput>
@@ -102,14 +112,6 @@ export default function ChangePassword(props: any) {
                         <Text style={styles.retrievalButtonTitle}>Xác nhận</Text>
                     </TouchableOpacity>
 
-                    <Divider style={styles.divider}></Divider>
-
-                    <TouchableOpacity style={styles.forgotButton}>
-                        <Text style={styles.navButtonText}>
-                            Bạn đã có tài khoản? Đăng Nhập
-                        </Text>
-                    </TouchableOpacity>
-
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -124,18 +126,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'stretch',
         backgroundColor: '#fff'
-
-
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 5,
-        position: 'absolute',
-        top: 34,
-        left: 5,
-        right: 0,
-        zIndex: 2
     },
     up: {
         flex: 3,
@@ -161,9 +151,28 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'rgba(255,255,255,0.2)'
     },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 33,
+        left: 5,
+        right: 0,
+        zIndex: 2
+    },
+    headerIcon: {
+
+        borderRadius: 50,
+        padding: 5
+    },
     textInput: {
         width: 280,
-        height: 45
+        height: 50,
+        borderColor: COLORS.primary,
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10
     },
     retrievalButton: {
         width: 300,

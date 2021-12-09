@@ -5,7 +5,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '../utils/useNavigation';
 import HeaderTitle from '../components/HeaderTitle';
-import { State, UserStage, checkLogin, logout, getUserInfo, UserModel, ShopModel, ShopState } from '../redux';
+import { State, UserStage, checkLogin, logout, getUserInfo, UserModel, ShopModel, ShopState, removeInfoShop } from '../redux';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Account() {
@@ -18,25 +18,23 @@ export default function Account() {
     const dispatch = useDispatch();
 
     const onTapProfile = () => {
-        navigate('ProfileShop',{email:userInfor.user_email})
-
+        navigate('ProfileShop', { email: userInfor.user_email })
     }
 
     useEffect(() => {
-        if (status === "Faild" || status === "") {
-            dispatch(checkLogin())
-        }
+        dispatch(checkLogin())
     }, [status])
 
     useEffect(() => {
         if (check) {
             dispatch(getUserInfo());
-        } else {
+        } else if (!check && !Object.keys(info).length) {
             navigate('loginStack')
         }
-    }, [check])
+    }, [check, info])
 
     const _logout = () => {
+        dispatch(removeInfoShop());
         dispatch(logout());
     }
 

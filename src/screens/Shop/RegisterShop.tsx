@@ -10,7 +10,7 @@ import {
     imgValidator,
     tempValidator,
 } from '../../core/utils';
-import { State, UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop, ShopState, ShopModel, RegisterShopModel, getShopOwner } from '../../redux';
+import { State, UserStage, checkLogin, logout, login, ImageId, UserModel, registerShop, ShopState, ShopModel, RegisterShopModel, getShopOwner, removeInfoShop } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '../../utils/useNavigation';
 import { saveImage } from '../../consts/Selector';
@@ -69,6 +69,7 @@ export default function RegisterShop() {
     }, [check])
 
     const _logout = () => {
+        dispatch(removeInfoShop());
         dispatch(logout());
     }
 

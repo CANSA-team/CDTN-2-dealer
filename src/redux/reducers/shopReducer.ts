@@ -15,6 +15,7 @@ const initialState: ShopState = {
 const shopReducer = (state: ShopState = initialState, action: ShopActions) => {
     switch (action.type) {
         case ShopActionType.GET_SHOP_OWNER:
+        case ShopActionType.REMOVE_INFO_SHOP:
             return {
                 ...state,
                 info: action.payload

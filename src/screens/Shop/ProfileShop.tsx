@@ -24,49 +24,46 @@ export default function ProfileShop(props: any) {
 
     return (
         <View style={styles.container}>
-                <View>
-                    <HeaderTitle title={'Thông tin shop'} />
-                    <View style={styles.header}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <MaterialIcons name="arrow-back" size={35} color="white" />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={onTapEditProfile}>
-                            <Feather name="edit" color="white" size={35} />
-                        </TouchableOpacity>
-                    </View>
+            <View>
+                <HeaderTitle title={'Thông tin shop'} />
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons name="arrow-back" size={35} color="white" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onTapEditProfile}>
+                        <Feather name="edit" color="white" size={35} />
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.viewAvatar}>
-                    <Avatar
-                        containerStyle={{ marginBottom: 20 }}
-                        rounded
-                        size={150}
-                        source={{
-                            uri: info.shop_avatar,
-                        }} >
-                    </Avatar>
+            </View>
+            <View style={styles.viewAvatar}>
+                <Avatar
+                    containerStyle={{ marginBottom: 20 }}
+                    rounded
+                    size={150}
+                    source={{
+                        uri: info.shop_avatar,
+                    }} >
+                </Avatar>
+            </View>
+            <View style={styles.viewTxt}>
+                <View style={styles.txtContainer}>
+                    <Text style={styles.txtTitle}>Tên Shop: {info.shop_name}</Text>
                 </View>
-                <View style={styles.viewTxt}>
-                    <View style={styles.txtContainer}>
-                        <Text style={styles.txtTitle}>Tên Shop: {info.shop_name}</Text>
-                    </View>
 
-                    <View style={styles.txtContainer}>
-                        <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
-                    </View>
-                    <View style={styles.resetPassContainer}>
-                        <TouchableOpacity style={styles.touchReset}
-                            onPress={() => {
-                                let email = getParam('email');
-                                axios.get(`${cansa[1]}/api/user/forgot/password/${email}`).then((res) => {
-                                    Alert.alert('Thông Báo', res.data.message);
-                                    navigate('OTPscreen', { email: email })
-                                })
-                            }}>
-                            <Text style={{ fontSize: 20, color: '#555' }}>Đổi mật khẩu</Text>
-                            <MaterialIcons name="arrow-right-alt" size={35} color="#555" />
-                        </TouchableOpacity>
-                    </View>
+                <View style={styles.txtContainer}>
+                    <Text style={styles.txtTitle}>Mô tả: {info.shop_description}</Text>
                 </View>
+                <View style={styles.resetPassContainer}>
+                    <TouchableOpacity style={styles.touchReset}
+                        onPress={() => {
+                            let email = getParam('email');
+                            navigate('ChangePassword', { email: email });
+                        }}>
+                        <Text style={{ fontSize: 20, color: '#555' }}>Đổi mật khẩu</Text>
+                        <MaterialIcons name="arrow-right-alt" size={35} color="#555" />
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     )
 }
