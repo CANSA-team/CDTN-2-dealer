@@ -39,7 +39,7 @@ export default function Lauding() {
         else if (check) {
             dispatch(getUserInfo())
         }
-    }, [check])
+    }, [timeSampCheckLogin])
 
     useEffect(() => {
         if (Object.keys(userInfor).length) {
