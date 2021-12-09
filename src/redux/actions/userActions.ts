@@ -65,7 +65,6 @@ export const checkLogin = () => {
     return async (dispatch: Dispatch<UserActions>) => {
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/check/login`, { withCredentials: true })
-            console.log(response.data);
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
