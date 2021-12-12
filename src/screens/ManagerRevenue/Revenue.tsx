@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import { LineChart } from "react-native-gifted-charts";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -33,13 +33,15 @@ export default function Revenue(props: any) {
         const result = arr.sort((a: ShopRevenue, b: ShopRevenue) => a.revenue_year - b.revenue_year == 0 ? a.revenue_month - b.revenue_month : a.revenue_year - b.revenue_year);
         return result;
     }
+    const [isend, setIsend] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(getShopRevenue(info.shop_id))
+        setIsend(true)
     }, [])
 
     useEffect(() => {
-        if (revenue.length) {
+        if (revenue?.length) {
             const sortM = month(revenue);
             let dataLine: DataChar[] = [];
             for (const key in sortM) {
@@ -70,7 +72,12 @@ export default function Revenue(props: any) {
             setLineData(dataLine)
             setRevenueYear(tempArr);
         }
-    }, [revenue])
+        else if (!revenue && isend) {
+            Alert.alert('Thông báo', 'Shop của bạn chưa có doanh thu!', [
+                { text: "OK", onPress: () => { setIsend(false); navigation.goBack(); } }
+            ])
+        }
+    }, [revenue, isend])
 
     const checkYear = (tempArr: Array<any>, item: number, sortM: Array<any>) => {
         for (const i of tempArr) {

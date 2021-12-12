@@ -59,10 +59,10 @@ export default function ManagerProduct(props: any) {
 
     return (
         <View style={styles.container}>
-            <HeaderTitle title="Quản lí sản phẩm" />
+            <HeaderTitle title="Quản lý sản phẩm" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigate('AddProduct')}>
                     <Ionicons name="ios-add" size={35} color="white" />
@@ -91,7 +91,7 @@ export default function ManagerProduct(props: any) {
                                     <Product onDelete={() => onDelete(product.product_id)} onTapEidt={() => onTapEidt(product)} onDetail={() => onTapDetail(product)} key={product.product_id} productInfo={product} />
                                 )
                             }
-                            
+
                             {
                                 isLoadMore &&
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>

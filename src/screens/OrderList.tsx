@@ -107,7 +107,7 @@ export default function OrderList(props: any) {
                     style={{ ...pickerSelectStyles, placeholder: { color: '#555' } }}
                     onValueChange={(data) => filterStatus(data)}
                     items={[
-                        { label: 'Đang sử lý', value: 2 },
+                        { label: 'Đang xử lý', value: 2 },
                         { label: 'Đã đặt hàng', value: 1 },
                         { label: 'Đã hủy', value: 0 },
                         { label: 'Đã giao', value: 3 },
