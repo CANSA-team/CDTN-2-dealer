@@ -292,7 +292,7 @@ export default function EditProduct(props: any) {
                                     onPress={getImg}
                                     activeOpacity={0.7}
                                     source={{ uri: avatar }}
-                                    avatarStyle={{borderWidth: 3,borderColor:'gray',borderRadius:10}}
+                                    avatarStyle={{borderWidth: 1,borderColor:'#ccc',borderRadius:10}}
                                     
                                 />
                             </View>
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-around',
-        borderBottomColor:'gray',
+        borderBottomColor:'#ddd',
         borderBottomWidth:1,
         paddingVertical:10
     },
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     textArea: {
-        height: 60,
+        height: 70,
         justifyContent: "flex-start",
         alignItems: 'flex-start',
         lineHeight: 30,
