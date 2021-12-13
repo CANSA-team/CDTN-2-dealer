@@ -192,17 +192,22 @@ export default function ListChat(props: any) {
         <SafeAreaView style={styles.container}>
             <HeaderTitle title={'Liên hệ'} />
 
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item: any) => item.id}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={isLoadingChat}
-                        onRefresh={() => { onRefeshing() }}
-                    />
-                }
-            />
+            {
+                data.length ?
+                <FlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={(item: any) => item.id}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isLoadingChat}
+                            onRefresh={() => { onRefeshing() }}
+                        />
+                    }
+                />
+                :
+                <View></View>
+            }
         </SafeAreaView>
     );
 
