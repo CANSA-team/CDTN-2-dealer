@@ -77,7 +77,6 @@ export default function EditProfileShop(props: any) {
             return;
         } else {
 
-
             Alert.alert('Thông báo', 'Xác nhận thay đổi', [
                 { text: "Huỷ", onPress: () => navigation.goBack() },
                 { text: "Xác nhận", onPress: () => xacMinh() }
