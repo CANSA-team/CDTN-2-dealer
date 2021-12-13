@@ -92,6 +92,15 @@ export default function Login(props: any) {
       setIsSend(false);
       dispatch(login(email, password));
     }
+    else {
+      Alert.alert(
+        "Thông báo!",
+        'Email hoặc password không hợp lệ!!',
+        [
+          { text: "OK", onPress: () => setIsSend(false) }
+        ]
+      );
+    }
   }
 
   return (
