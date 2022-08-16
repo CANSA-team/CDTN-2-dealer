@@ -32,5 +32,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
+  },
+  "packagerOpts": {
+    "config": "metro.config.js"
   }
+
 }
